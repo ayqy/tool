@@ -1,0 +1,38 @@
+常用插件及其用法
+
+##Sublime Package Control
+
+插件管理器
+
+##emmet
+
+zenCoding升级版
+
+保护手指的神器，类似于Markdown一样的东西，[具体语法](http://docs.emmet.io/abbreviations/syntax/)
+
+使用方法：快捷键 ctrl+e
+
+##BracketHighlighter
+
+匹配的括号高亮显示
+
+使用方法：自动
+
+##DocBlockr
+
+注释模版生成工具（因为这个才抛弃了NPP）
+
+使用方法：输入 “/**” + enter调出 (在function的上面一行才有效果)
+
+##js Format
+
+看别人的代码得用这个
+
+使用方法：快捷键 ctrl+alt+F
+
+##CSScomb
+
+梳理css属性顺序
+
+使用方法：ctrl+shift+c
+

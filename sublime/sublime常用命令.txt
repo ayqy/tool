@@ -1,0 +1,104 @@
+常用命令
+
+http://www.dbpoo.com/sulbime-text2-install/
+
+##万能命令
+
+-  Ctrl+P，万能命令面板，直接键入字母搜索项目文件，速度很快。
+
+-  Ctrl+P+输入@，js列出本文件的所有函数名\html列出所有id。
+
+-  Ctrl+P+输入:N（N为数字），直接跳到第N行。
+
+##查询
+
+-  Ctrl+Shift+F，快速在项目中查找关键词，类似于ack-grep的功能。
+
+##注释代码
+
+-  Ctrl+/ 注释整行（如已选择内容，同“Ctrl+Shift+/”效果）
+
+-  Ctrl+Shift+/ 注释已选择内容
+
+##折叠代码
+
+-  Ctrl+Shift+[ 折叠代码
+
+-  Ctrl+Shift+] 展开代码
+
+-  Ctrl+KT 折叠属性
+
+-  Ctrl+K0 展开所有
+
+##分栏
+
+-  Alt+Shift+1 一栏浏览模式
+
+-  Alt+Shift+2 垂直两栏浏览模式
+
+-  Alt+Shift+8 水平两栏浏览模式
+
+##书签
+
+-  Ctrl+F2 设置书签
+
+-  F2 下一个书签
+
+-  Shift+F2 上一个书签
+
+##选择
+
+-  Ctrl+L 选择整行（按住-继续选择下行）
+
+-  Ctrl+KK 从光标处删除至行尾
+
+-  Ctrl+Shift+K 删除整行
+
+-  Ctrl+Shift+D 复制光标所在整行，插入在该行之前
+
+-  Ctrl+J 合并行（已选择需要合并的多行时）
+
+-  Ctrl+KU 改为大写
+
+-  Ctrl+KL 改为小写
+
+-  Ctrl+D 选词 （按住-继续选择下个相同的字符串）
+
+-  Alt+F3 一次性选择全部的相同文本进行同时编辑
+
+-  Shift+鼠标右键 一次性选择全部的相同文本进行同时编辑
+
+-  Ctrl+鼠标左键 可以手动选择同时要编辑的多处文本
+
+-  Ctrl+M 光标移动至括号内开始或结束的位置
+
+-  Ctrl+Shift+M 选择括号内的内容（按住-继续选择父括号）
+
+-  Ctrl+Z 撤销
+
+-  Ctrl+Y 恢复撤销
+
+-  Ctrl+M 光标跳至对应的括号
+
+-  Alt+. 闭合当前标签
+
+-  Ctrl+Shift+A 选择光标位置父标签对儿
+
+-  Ctrl+U 软撤销
+
+-  Ctrl+T 词互换
+
+-  Tab 缩进 自动完成
+
+-  Shift+Tab 去除缩进
+
+-  Ctrl+Shift+↑ 与上行互换
+
+-  Ctrl+Shift+↓ 与下行互换
+
+-  Ctrl+K Backspace 从光标处删除至行首
+
+-  Ctrl+Enter 光标后插入行
+
+-  Ctrl+Shift+Enter 光标前插入行
+
