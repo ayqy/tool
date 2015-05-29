@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)http://docs.emmet.io/abbreviations/syntax/ -->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>缩略式语法</title>
+    <link rel="shortcut icon" href="http://docs.emmet.io/-/3755353140/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://docs.emmet.io/-/1149586617/css/main.css">
+    <style type="text/css"></style>
+    <script type="text/javascript" async="" src="http://engine.carbonads.com/z/50357/azcarbon_2_1_0_HORIZ"></script>
+    <script type="text/javascript" async="" src="./Abbreviations Syntax_files/embed.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="page-header">
+            <h1 class="site-title">
+				
+				<a href="http://docs.emmet.io/">Emmet文档</a>
+			
+			</h1>
+            <p class="back-to-main"><a href="http://emmet.io/">Back to main website</a></p>
+            <p style="color: red;">
+                鼠标悬停下列各链接查看Windows Sublime2.0.2快捷键
+            </p>
+            <nav>
+                <ul class="nav">
+                    <li class="nav__item nav__item_selected">
+                        <a href="http://docs.emmet.io/abbreviations/">缩略式</a>
+                        <ul class="nav">
+                            <li class="nav__item nav__item_selected">
+                                <strong>语法</strong>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/abbreviations/types/" title="快捷键：Ctrl + e">元素类型</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/abbreviations/implicit-names/" title="快捷键：Ctrl + e">隐式标签名</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/abbreviations/lorem-ipsum/" title="快捷键：Ctrl + e">“Lorem Ipsum”生成器</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav__item">
+                        <a href="http://docs.emmet.io/css-abbreviations/">CSS缩略式</a>
+                        <ul class="nav">
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/css-abbreviations/vendor-prefixes/" title="快捷键：Ctrl + e">（浏览器）供应商前缀</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/css-abbreviations/gradients/" title="快捷键：Ctrl + e">渐变</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/css-abbreviations/fuzzy-search/" title="快捷键：Ctrl + e">模糊搜索</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav__item">
+                        <a href="http://docs.emmet.io/actions/">动作</a>
+                        <ul class="nav">
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/expand-abbreviation/" title="快捷键：Ctrl + e">展开缩略式</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/match-pair/" title="快捷键：Ctrl + Shift + a">选中标签内容</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/go-to-pair/" title="快捷键：Ctrl + Alt + j">跳转到匹配的结束/开始标签</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/wrap-with-abbreviation/" title="快捷键：Ctrl + Shift + g">用缩略式生成的内容包裹光标所在元素/文本</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/go-to-edit-point/" title="快捷键：Ctrl + Alt + left/right，建议改为Ctrl + left/right">跳转到输入点</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/select-item/" title="快捷键：Ctrl + Shift + ./j">选中项（HTML属性值）/a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/toggle-comment/" title="快捷键：Ctrl + Shift + /">切换注释</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/split-join-tag/" title="快捷键：Ctrl + Shift + `">切换标签对/自闭合标签</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/remove-tag/" title="快捷键：Ctrl + Shift + ;">删除标签（会保留标签内的东西）</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/merge-lines/" title="快捷键：Ctrl + j">合并行，需要自行配置，功能默认不开启</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/update-image-size/" title="快捷键：无（好像不支持）">更新图像尺寸</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/evaluate-math/" title="快捷键：Ctrl + Shift + y">对算术表达式求值</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/inc-dec-number/" title="快捷键：Ctrl + up/down">数值递增/递减</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/reflect-css-value/" title="快捷键：Ctrl + Shift + r">关联修改CSS值（不同前缀的同一属性）</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/actions/base64/" title="快捷键：Ctrl + '（好像不支持）">对图片做Base64编码/解码</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav__item">
+                        <a href="http://docs.emmet.io/filters/">Filters</a>
+                        <ul class="nav">
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/filters/bem/">支持Yandex BEM/OOCSS</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav__item">
+                        <a href="http://docs.emmet.io/customization/">自定义</a>
+                        <ul class="nav">
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/customization/snippets/">snippets.json</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/customization/preferences/">preferences.json</a>
+                            </li>
+                            <li class="nav__item">
+                                <a href="http://docs.emmet.io/customization/syntax-profiles/">syntaxProfiles.json</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav__item">
+                        <a href="http://docs.emmet.io/cheat-sheet/">速查表</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <section class="page-content">
+            <h1><a name="abbreviations-syntax" href="http://docs.emmet.io/abbreviations/syntax/#abbreviations-syntax" class="anchor"></a>缩略语法</h1>
+            <p>Emmet用了类似于CSS选择器的方式来表示元素在树状结构中的的位置以及元素的属性。</p>
+            <h2 id="elements"><a name="elements" href="http://docs.emmet.io/abbreviations/syntax/#elements" class="anchor"></a>元素</h2>
+            <p>可以用元素名生成HTML标签，例如<code>div</code>或者<code>p</code>。Emmet没有预定义的可用标签集合，你可以把任意单词转化成标签，例如<code>div</code> → <code>&lt;div&gt;&lt;/div&gt;</code>, <code>foo</code> → <code>&lt;foo&gt;&lt;/foo&gt;</code>等等。
+            </p>
+            <h2 id="nesting-operators"><a name="nesting-operators" href="http://docs.emmet.io/abbreviations/syntax/#nesting-operators" class="anchor"></a>嵌套操作符</h2>
+            <p>
+                嵌套操作符可以用来表明缩略元素在树中的位置，无论应该把它放在参照元素里面还是旁边。
+            </p>
+            <h3 id="child-"><a name="child-gt" href="http://docs.emmet.io/abbreviations/syntax/#child-gt" class="anchor"></a>子选择器: <code>&gt;</code></h3>
+            <p>
+                嵌套元素用<code>&gt;</code>操作符：<code>&gt;</code>
+            </p>
+            <pre><code><span class="erlang"><span class="keyword">div</span>&gt;ul&gt;li</span>
+</code></pre>
+            <p>...会生成</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span></span>
+</code></pre>
+            <h3 id="sibling-"><a name="sibling" href="http://docs.emmet.io/abbreviations/syntax/#sibling" class="anchor"></a>相邻兄弟选择器: <code>+</code></h3>
+            <p>同级相邻元素用<code>+</code>操作符：</p>
+            <pre><code><span class="erlang"><span class="keyword">div</span>+p+bq</span>
+</code></pre>
+            <p>...会输出</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;<span class="title">blockquote</span>&gt;</span><span class="tag">&lt;/<span class="title">blockquote</span>&gt;</span></span>
+</code></pre>
+            <h3 id="climb-up-"><a name="climb-up" href="http://docs.emmet.io/abbreviations/syntax/#climb-up" class="anchor"></a>回到上级: <code>^</code></h3>
+            <p><code>&gt;</code>操作符可以沿着树向下，到最深一级的元素都能表示出来：</p>
+            <pre><code><span class="erlang"><span class="keyword">div</span>+<span class="keyword">div</span>&gt;p&gt;span+em </span>
+</code></pre>
+            <p>...会被展开成</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">span</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span><span class="tag">&lt;<span class="title">em</span>&gt;</span><span class="tag">&lt;/<span class="title">em</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span></span>
+</code></pre>
+            <p>而<code>^</code>操作符可以沿着树向上，比如可以这样写：</p>
+            <pre><code><span class="erlang"><span class="keyword">div</span>+<span class="keyword">div</span>&gt;p&gt;span+em^bq</span>
+</code></pre>
+            <p>...会输出</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">span</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span><span class="tag">&lt;<span class="title">em</span>&gt;</span><span class="tag">&lt;/<span class="title">em</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">blockquote</span>&gt;</span><span class="tag">&lt;/<span class="title">blockquote</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span></span>
+</code></pre>
+            <p>可以用多个<code>^</code>操作符，每遇到一个就向上一级：</p>
+            <pre><code><span class="erlang"><span class="keyword">div</span>+<span class="keyword">div</span>&gt;p&gt;span+em^^^bq</span>
+</code></pre>
+            <p>...会输出</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">span</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span><span class="tag">&lt;<span class="title">em</span>&gt;</span><span class="tag">&lt;/<span class="title">em</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">blockquote</span>&gt;</span><span class="tag">&lt;/<span class="title">blockquote</span>&gt;</span></span>
+</code></pre>
+            <h3 id="multiplication-"><a name="multiplication" href="http://docs.emmet.io/abbreviations/syntax/#multiplication" class="anchor"></a>乘法操作符: <code>*</code></h3>
+            <p><code>*</code>操作符可以定义元素输出的次数：</p>
+            <pre><code><span class="http"><span class="attribute">ul&gt;li*5</span>
+</span></code></pre>
+            <p>...会输出</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span></span>
+</code></pre>
+            <h3 id="grouping-"><a name="grouping" href="http://docs.emmet.io/abbreviations/syntax/#grouping" class="anchor"></a>分组操作符: <code>()</code></h3>
+            <p>圆括号用来构造复杂缩略语：</p>
+            <pre><code><span class="erlang"><span class="keyword">div</span>&gt;(header&gt;ul&gt;li*<span class="number">2</span>&gt;a)+footer&gt;p</span>
+</code></pre>
+            <p>...会展开成</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">header</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">li</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">header</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">footer</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">footer</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span></span>
+</code></pre>
+            <p>分组类似于DOM的Document Fragments：每组包含一个缩略子树，分组中的所有元素都会被插入与分组内第一个元素同级的位置。</p>
+            <p>可以嵌套分组，也可以配合乘法操作符使用：</p>
+            <pre><code><span class="lisp"><span class="list">(<span class="title">div&gt;dl&gt;</span><span class="body"><span class="list">(<span class="title">dt+dd</span><span class="body"></span>)</span><span class="variable">*3)+footer&gt;p</span>
+</span></span></span></code></pre>
+            <p>...生成</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">dl</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">dt</span>&gt;</span><span class="tag">&lt;/<span class="title">dt</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">dd</span>&gt;</span><span class="tag">&lt;/<span class="title">dd</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">dt</span>&gt;</span><span class="tag">&lt;/<span class="title">dt</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">dd</span>&gt;</span><span class="tag">&lt;/<span class="title">dd</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">dt</span>&gt;</span><span class="tag">&lt;/<span class="title">dt</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">dd</span>&gt;</span><span class="tag">&lt;/<span class="title">dd</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">dl</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">footer</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">footer</span>&gt;</span></span>
+</code></pre>
+            <p>用分组可以把整个页面的标记简写成单一缩略式，但最好不要这么做。</p>
+            <h2 id="attribute-operators"><a name="attribute-operators" href="http://docs.emmet.io/abbreviations/syntax/#attribute-operators" class="anchor"></a>属性操作符</h2>
+            <p>属性操作符用来修改元素属性，例如HTML和XML中可以给要生成的元素添加<code>class</code>属性。</p>
+            <h3 id="id-and-class"><a name="id-and-class" href="http://docs.emmet.io/abbreviations/syntax/#id-and-class" class="anchor"></a>ID和CLASS</h3>
+            <p>CSS中，可以用<code>elem#id</code>和<code>elem.class</code>获取有指定<code>id</code>或者<code>class</code>属性的元素。Emmet中，可以用完全相同符语法来给指定元素<em>添加</em>这些属性：</p>
+            <pre><code><span class="delphi"><span class="keyword">div</span>#header+<span class="keyword">div</span>.page+<span class="keyword">div</span>#footer.class1.class2.class3</span>
+</code></pre>
+            <p>...会输出</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"header"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"page"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"footer"</span> <span class="attribute">class</span>=<span class="value">"class1 class2 class3"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span>
+</code></pre>
+            <h3 id="custom-attributes"><a name="custom-attributes" href="http://docs.emmet.io/abbreviations/syntax/#custom-attributes" class="anchor"></a>自定义属性</h3>
+            <p>可以用<code>[attr]</code>表示法来给元素添加自定义属性(CSS中也一样)：</p>
+            <pre><code><span class="ini"><span class="setting">td[title=<span class="value"><span class="string">"Hello world!"</span> colspan=<span class="number">3</span>]</span></span></span>
+</code></pre>
+            <p>...输出</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">td</span> <span class="attribute">title</span>=<span class="value">"Hello world!"</span> <span class="attribute">colspan</span>=<span class="value">"3"</span>&gt;</span><span class="tag">&lt;/<span class="title">td</span>&gt;</span></span>
+</code></pre>
+            <ul>
+                <li>可以在方括号里设置任意多个属性</li>
+                <li>不必给定属性值<code>td[colspan title]</code>会生成<code>&lt;td colspan="" title=""&gt;</code>，如果编辑器支持的话，每个空属性里面都会有Tab热点（tabstop）</li>
+                <li>属性值可以用单引号也可以用双引号包裹</li>
+                <li>不必带上引号，除非属性值含有空格，<code>td[title=hello colspan=3]</code>这样的代码完全可以</li>
+            </ul>
+            <h3 id="item-numbering-"><a name="item-numbering" href="http://docs.emmet.io/abbreviations/syntax/#item-numbering" class="anchor"></a>计数: <code>$</code></h3>
+            <p>用乘法操作符<code>*</code>可以生成重复元素，而用<code>$</code>可以<em>计数</em>。把<code>$</code>操作符放在元素名、属性名或者属性值里面可以输出当前重复元素的序号：</p>
+            <pre><code><span class="ruby">ul&gt;li.item<span class="variable">$*</span><span class="number">5</span></span>
+</code></pre>
+            <p>...输出</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item1"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item2"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item3"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item4"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item5"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span></span>
+</code></pre>
+            <p>可以在一行内使用多个<code>$</code>来补零：</p>
+            <pre><code><span class="ruby">ul&gt;li.item<span class="variable">$$</span><span class="variable">$*</span><span class="number">5</span></span>
+</code></pre>
+            <p>...输出</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item001"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item002"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item003"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item004"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item005"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span></span>
+</code></pre>
+            <h4 id="changing-numbering-base-and-direction"><a name="changing-numbering-base-and-direction" href="http://docs.emmet.io/abbreviations/syntax/#changing-numbering-base-and-direction" class="anchor"></a>可以改变计数开始的基数和方向</h4>
+            <p>用<code>@</code>修饰符可以改变计数方向(升序或者降序)和基数(e.g. 开始值)。</p>
+            <p>例如在<code>$</code>后面添上<code>@-</code>即可改变计数方向：</p>
+            <pre><code><span class="perl">ul&gt;li.item<span class="variable">$@</span>-<span class="variable">*5</span></span>
+</code></pre>
+            <p>…输出</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item5"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item4"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item3"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item2"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item1"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span></span>
+</code></pre>
+            <p>要改变计数基数的话可以给<code>$</code>添上<code>@N</code>修饰符：</p>
+            <pre><code><span class="perl">ul&gt;li.item<span class="variable">$@</span><span class="number">3</span><span class="variable">*5</span></span>
+</code></pre>
+            <p>…转换成</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item3"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item4"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item5"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item6"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item7"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span></span>
+</code></pre>
+            <p>这两个修饰符可以组合起来用：</p <pre><code><span class="perl">ul&gt;li.item<span class="variable">$@</span>-<span class="number">3</span><span class="variable">*5</span></span>
+</code></pre>
+            <p>…被转换成</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">ul</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item7"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item6"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item5"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item4"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">li</span> <span class="attribute">class</span>=<span class="value">"item3"</span>&gt;</span><span class="tag">&lt;/<span class="title">li</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">ul</span>&gt;</span></span>
+</code></pre>
+            <h2 id="text-"><a name="text" href="http://docs.emmet.io/abbreviations/syntax/#text" class="anchor"></a>文本: <code>{}</code></h2>
+            <p>可以用花括号给元素添加文本：</p>
+            <pre><code><span class="http"><span class="attribute">a{Click me}</span>
+</span></code></pre>
+            <p>...会生成</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span>Click me<span class="tag">&lt;/<span class="title">a</span>&gt;</span></span>
+</code></pre>
+            <p>注意<code>{text}</code>只能用于单个元素(比如<code>div</code>, <code>p</code>等等)，写在元素右边时才有特殊含义（作为左边元素内部的文本节点，且不会改变context）。例如<code>a{click}</code>和<code>a&gt;{click}</code>将会生成相同的东西，而<code>a{click}+b{here}</code>和<code>a&gt;{click}+b{here}</code>就不会：</p>
+            <pre><code><span class="xml"><span class="comment">&lt;!-- a{click}+b{here} --&gt;</span>
+<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span>click<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;<span class="title">b</span>&gt;</span>here<span class="tag">&lt;/<span class="title">b</span>&gt;</span>
+
+<span class="comment">&lt;!-- a&gt;{click}+b{here} --&gt;</span>
+<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span>click<span class="tag">&lt;<span class="title">b</span>&gt;</span>here<span class="tag">&lt;/<span class="title">b</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span></span>
+</code></pre>
+            <p>第二个例子中<code>&lt;b&gt;</code>元素被放在了<code>&lt;a&gt;</code>元素<em>里面</em>。区别是：当<code>{text}</code>被写在元素右边时，不会改变父元素上下文环境，下面这些复杂的例子解释了这一点的重要性：</p>
+            <pre><code><span class="bash">p&gt;{Click }+a{here}+{ to <span class="keyword">continue</span>}</span>
+</code></pre>
+            <p>...生成</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">p</span>&gt;</span>Click <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span>here<span class="tag">&lt;/<span class="title">a</span>&gt;</span> to continue<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span>
+</code></pre>
+            <p>本例中，要在<code>&lt;p&gt;</code>元素里面添上<code>Click here to continue</code>，我们可以显式地在<code>p</code>后面添上<code>&gt;</code>操作符来沿树向下，但如果是<code>a</code>元素的话就没有必要，因为<code>&lt;a&gt;</code>元素只有<code>here</code>内容，不需要改变父元素上下文环境。</p>
+            <p>作为对比，给出不用子选择器<code>&gt;</code>操作符实现的缩略式：</p>
+            <pre><code><span class="bash">p{Click }+a{here}+{ to <span class="keyword">continue</span>}</span>
+</code></pre>
+            <p>...生成</p>
+            <pre><code><span class="xml"><span class="tag">&lt;<span class="title">p</span>&gt;</span>Click <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">""</span>&gt;</span>here<span class="tag">&lt;/<span class="title">a</span>&gt;</span> to continue</span>
+</code></pre>
+            <h2 id="notes-on-abbreviation-formatting"><a name="notes-on-abbreviation-formatting" href="http://docs.emmet.io/abbreviations/syntax/#notes-on-abbreviation-formatting" class="anchor"></a>注意缩略式的格式</h2>
+            <p>熟悉了Emmet的缩略语法后，你可能想用一些格式化来增强缩略式的可读性，例如，用空格隔开元素和操作符：</p>
+            <pre><code><span class="lisp"><span class="list">(<span class="title">header</span><span class="body"> &gt; ul.nav &gt; li<span class="variable">*5) + footer</span>
+</span></span></span></code></pre>
+            <p>但这么做就不行了，因为空格是<em>结束符（stop symbol）</em>，Emmet遇到空格就会停止对缩略式的解析。</p>
+            <p>很多用户误以为每个缩略式都应该另起一行，但他们也错了：可以在任意位置输入并展开缩略式：</p>
+            <textarea class="movie-def" style="display: none;">&lt;body&gt; | &lt;/body&gt; ~~~ type: ul#nav&gt;li*4 wait: 1000 run: emmet.expand_abbreviation wait: 1000 type: Hello world span.info wait: 1000 tooltip: You don’t need new line to expand abbreviation wait: 600 run: emmet.expand_abbreviation wait: 1000 moveTo: 87 wait: 1500 type: span.info wait: 1000 tooltip:{text: "Emmet is smart enough to understand that you’re trying to expand &lt;strong&gt;span.info&lt;/strong&gt; abbreviation, not the &lt;strong&gt;li&gt;span.info&lt;/strong&gt; one", wait: 5000} run: emmet.expand_abbreviation
+            </textarea>
+            <p>所以Emmet需要一些指示符（比如空格），它会在任何不需要解析的地方停止解析，如果还是觉得复杂缩略式需要通过格式化来增强其可读性：</p>
+            <ul>
+                <li>缩略式不是模版语言，不需要非常好的可读性，只要能快速展开和移除就好。</li>
+                <li>不需要写非常复杂的缩略式，不要觉得“键入”是Web开发中最慢的环节。你很快就会发现构造一条复杂缩略式要比键入几条更短的缩略式更慢更容易出错。</li>
+            </ul>
+        </section>
+        <div class="clear"></div>
+        <script src="./Abbreviations Syntax_files/main.js"></script>
+</body>
+
+</html>

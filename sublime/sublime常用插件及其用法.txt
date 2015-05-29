@@ -1,10 +1,12 @@
 常用插件及其用法
 
-##Sublime Package Control
+http://dengo.org/archives/923
+
+##Sublime Package Control（力荐）
 
 插件管理器
 
-##emmet
+##Emmet（力荐）
 
 zenCoding升级版
 
@@ -12,13 +14,13 @@ zenCoding升级版
 
 使用方法：快捷键 ctrl+e
 
-##BracketHighlighter
+##BracketHighlighter（力荐）
 
 匹配的括号高亮显示
 
 使用方法：自动
 
-##DocBlockr
+##DocBlockr（力荐）
 
 注释模版生成工具（因为这个才抛弃了NPP）
 
@@ -36,3 +38,16 @@ zenCoding升级版
 
 使用方法：ctrl+shift+c
 
+##Better Completion（力荐）
+
+提供很多语言的代码提示，JS, JQ, HTML, CSS等等10多个
+
+使用方法：自动
+
+##ColorCoder（可选）
+
+提供颜色区分更明显的代码显示风格，避免眼花
+
+##Git（可选）
+
+Git管理插件
