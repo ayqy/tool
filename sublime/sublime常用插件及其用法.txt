@@ -4,6 +4,10 @@
 
 插件管理器
 
+##GBK Encoding Support
+
+如果打开某txt文件发现中文乱码，那么你可能需要这个
+
 ##emmet
 
 zenCoding升级版
