@@ -60,6 +60,6 @@ zenCoding升级版
 
 Git管理插件
 
-##HTML Pretty（可选）
+##HTML-CSS-JS Prettify（可选）
 
 格式化HTML代码
