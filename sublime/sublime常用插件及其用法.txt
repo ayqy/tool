@@ -48,6 +48,10 @@ zenCoding升级版
 
 使用方法：自动
 
+##View In Browser（推荐）
+
+用默认浏览器浏览器中打开当前文件，需要自行配置路径，详细见<http://www.zhugexiaojue.com/note/view-336.html>，建议快捷键设置为Alt + x
+
 ##ColorCoder（可选）
 
 提供颜色区分更明显的代码显示风格，避免眼花
