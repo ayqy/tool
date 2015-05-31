@@ -59,3 +59,7 @@ zenCoding升级版
 ##Git（可选）
 
 Git管理插件
+
+##HTML Pretty（可选）
+
+格式化HTML代码
