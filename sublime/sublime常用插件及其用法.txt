@@ -63,3 +63,5 @@ Git管理插件
 ##HTML-CSS-JS Prettify（可选）
 
 格式化HTML代码
+
+【注意：文件完整路径包括文件名中不能有中文，否则报错node path不对】
