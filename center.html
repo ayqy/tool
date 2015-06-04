@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS居中</title>
+</head>
+<body>
+    <h2>一.水平居中</h2>
+    <h3>文本、图片等行内元素的水平居中</h3>
+    <p>给父元素设置text-align: center;例如：</p>
+    <div style="width: 200px; border: 1px solid red;">
+        <a href="">链接</a><span>span<img src="" alt="" style="width: 50px; height: 20px; background-color: black;">
+    </div>
+    <div style="width: 200px; border: 1px solid red; text-align: center;">
+        <a href="">链接</a><span>span<img src="" alt="" style="width: 50px; height: 20px; background-color: black;">
+    </div>
+    <h3>确定宽度的块级元素的水平居中</h3>
+    <p>设置margin-left: auto; margin-right: auto;例如：</p>
+    <div style="width: 200px; border: 1px solid red;">
+        <div style="width: 120px; height: 20px; background-color: black;"></div>
+    </div>
+    <div style="width: 200px; border: 1px solid red;">
+        <div style="width: 120px; height: 20px; background-color: black; margin-left: auto; margin-right: auto;"></div>
+    </div>
+    <h3>不确定宽度的块级元素的水平居中</h3>
+    <h4>方法1</h4>
+    <h4>利用table元素自动计算宽度的特性 + margin-left: auto; margin-right: auto;实现，例如：</h4>
+    <div style="width: 200px; border: 1px solid red;">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="background-color: black;">。</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="width: 200px; border: 1px solid red;">
+        <table style="margin-left: auto; margin-right: auto;">
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="varWidth" style="background-color: black;">。</div>
+                        <script>
+                            /* js代码只为演示变宽内容，布局不需要js辅助实现 */
+                            (function() {
+                                var div = document.getElementById("varWidth");
+                                var w = 120;
+                                var flag = true;
+
+                                setTimeout(function() {
+                                    if (w > 180 || w < 10) {
+                                        flag = !flag;
+                                    }
+                                    if (flag) {
+                                        w += 5;
+                                    }
+                                    else {
+                                        w -= 5;
+                                    }
+                                    div.style.width = w + "px";
+
+                                    setTimeout(arguments.callee, 100);
+                                }, 100);
+                            })();
+                        </script>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h4>方法2</h4>
+    <p>把块级元素设置为display: inline;再按照行内元素处理（给容器设置text-align: center;），例如</p>
+    <div style="width: 200px; border: 1px solid red;">
+        <p>段落</p>
+    </div>
+    <div style="width: 200px; border: 1px solid red; text-align: center;">
+        <!-- 设置成inline-block会存在IE6/7兼容性问题 -->
+        <p style="display: inline;">段落</p>
+    </div>
+    <h4>方法3</h4>
+    <p>给容器设置float: left;和position: relative;和left: 50%;子元素设置position: relative;和left: -50%;（可选是否添加float: left;横向排列）</p>
+    <div style="width: 200px; overflow: hidden; border: 1px solid red;">
+        <div style="">
+            <p style="float: left; padding: 10px; border: 1px solid #ccc;">段落1</p>
+            <p style="float: left; padding: 10px; border: 1px solid #ccc;">段落2</p>
+            <p style="float: left; padding: 10px; border: 1px solid #ccc;">段落3</p>
+        </div>
+    </div>
+    <div style="width: 200px; overflow: hidden; border: 1px solid red;">
+        <div style="float: left; position: relative; left: 50%;">
+            <p style="float: left; position: relative; right: 50%; padding: 10px; border: 1px solid #ccc;">段落1</p>
+            <p style="float: left; position: relative; right: 50%; padding: 10px; border: 1px solid #ccc;">段落2</p>
+            <p style="float: left; position: relative; right: 50%; padding: 10px; border: 1px solid #ccc;">段落3</p>
+        </div>
+    </div>
+    <h2>竖直居中</h2>
+    <h3>父元素高度不确定的文本、图片、块级元素的竖直居中</h3>
+    <p>给容器设置padding-top = padding-bottom即可，例如：</p>
+    <div style="width: 200px; border: 1px solid red;">
+        <span>图文混排</span>
+        <img src="" alt="" style="width: 100px; height: 30px;">
+    </div>
+    <div style="width: 200px; padding-top: 20px; padding-bottom: 20px; border: 1px solid red;">
+        <!-- 图文混排的竖直居中元素都要设置vertical-align: middle; -->
+        <span style="vertical-align: middle;">图文混排</span>
+        <img src="" alt="" style="width: 100px; height: 30px; vertical-align: middle;">
+    </div>
+    <h3>父元素高度确定的单行文本的竖直居中</h3>
+    <p>设置line-height等于容器高度可以实现，例如：</p>
+    <div style="width: 200px; height: 50px; border: 1px solid red;">
+        <span>图文混排</span>
+        <img src="" alt="" style="width: 100px; height: 30px;">
+    </div>
+    <div style="width: 200px; height: 50px; border: 1px solid red;">
+        <!-- 图文混排的竖直居中元素都要设置vertical-align: middle; -->
+       <span style="vertical-align: middle; line-height: 50px;">图文混排</span>
+        <img src="" alt="" style="width: 100px; height: 30px; vertical-align: middle; line-height: 50px;">
+    </div>
+    <h3>父元素高度确定的多行文本、图片、块级元素的竖直居中</h3>
+    <h4>方法1</h4>
+    <p>利用table子元素th/td的默认vertical-align: middle;（要给table设置height: 100%;）实现，例如：</p>
+    <div style="width: 200px; height: 150px; border: 1px solid red;">
+        <p>一行<br>第二行<br>第十一行</p>
+    </div>
+    <div style="width: 200px; height: 150px; border: 1px solid red;">
+        <table style="height: 100%;">
+            <tbody>
+                <tr>
+                    <td><p>一行<br>第二行<br>第十一行</p></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h4>方法2</h4>
+    <p>用display: table-cell;加上vertical-align: middle;再加css hack实现，例如：</p>
+    <div style="width: 200px; height: 150px; border: 1px solid red;">
+        <p>一行<br>第二行<br>第十一行</p>
+    </div>
+    <div style="width: 200px; height: 150px; border: 1px solid red; display: table-cell; vertical-align: middle;">
+        <p>一行<br>第二行<br>第十一行</p>
+    </div>
+    <p>css hack for ie6/7 有效性未经测试</p>
+    <div style="width: 200px; height: 150px; border: 1px solid red; display:table-cell; *display: block; *position: relative; vertical-align:middle;">
+        <div style="*position: absolute; *top: 50%;">
+            <p style="*position: relative; *top: -50%; vertical-align:middle;">一行<br>第二行<br>第十一行</p>
+        </div>
+    </div>
+
+</body>
+</html>
