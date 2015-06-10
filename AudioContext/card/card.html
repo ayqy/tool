@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <script src="soundjs.min.js"></script>
+</head>
+<body>
+    <audio id="a" preload="preload" src="short.mp3"></audio>
+    <audio id="a2" preload="preload" src="long.mp3"></audio>
+    <select id="soundType" name="soundType">
+        <option value="1">短音效</option>
+        <option value="2">长音效</option>
+    </select>
+    <hr>
+    <fieldset>
+        <legend>Audio原生支持</legend>
+        <button id="btnPlay">播放</button>
+        <button id="btnReplay">重新加载并播放</button>
+        <button id="btnPlayAtStart">从头播放</button>
+        <button id="btnPlayNow">添加audio元素并立即播放</button>
+    </fieldset>
+    <fieldset>
+        <legend>SoundJS支持</legend>
+        <button id="btnJsPlay" disabled="disabled">播放</button>
+        音频预加载完成后播放按钮会变成可用状态
+    </fieldset>
+
+    <!-- SoundJS控制 -->
+    <script>
+        var btnJsPlay = document.getElementById("btnJsPlay");
+
+        // 用SoundJS预加载音频
+        createjs.Sound.alternateExtensions = ["mp3"];
+        createjs.Sound.on("fileload", createjs.proxy(this.loadHandler, (this)));
+        createjs.Sound.registerSound({ src: "short.mp3", id: "short" });
+        createjs.Sound.registerSound({ src: "long.mp3", id: "long" });
+        function loadHandler(event) {
+            // This is fired for each sound that is registered.
+            // var instance = createjs.Sound.play("sound");
+            btnJsPlay.removeAttribute("disabled");
+        }
+
+        // 添加事件处理器
+        var eventAttr = "onclick";
+        if ("ontouchend" in document) {
+            eventAttr = "ontouchend";
+        }
+        btnJsPlay[eventAttr] = function() {
+            var type = soundType.value;
+            if (type === '1') {
+                createjs.Sound.play("short");
+            }
+            else if (type === '2') {
+                createjs.Sound.play("long");
+            }
+        }
+
+        // createjs.Sound.registerSound({ src: "card.mp3", id: "card" });
+        // createjs.Sound.registerSound({ src: "cut.mp3", id: "cut" });
+        // createjs.Sound.registerSound({ src: "burst.mp3", id: "burst" });
+        // function initSound()
+        // {
+        //     // createjs.Sound.play('card');
+        //     // createjs.Sound.play('cut');
+        //     // 不是飞卡的音效
+        //     // createjs.Sound.play('burst');
+        //     // createjs.Sound.stop('card');
+        //     // createjs.Sound.stop('cut');
+        //     // createjs.Sound.stop('burst');
+        // }
+    </script>
+    <!-- Audio原生控制 -->
+    <script>
+    var a = document.getElementById("a");
+    var a2 = document.getElementById("a2");
+
+    var soundType = document.getElementById("soundType");
+
+    var btnPlay = document.getElementById("btnPlay");
+    var btnReplay = document.getElementById("btnReplay");
+    var btnPlayAtStart = document.getElementById("btnPlayAtStart");
+    var btnPlayNow = document.getElementById("btnPlayNow");
+    
+    /**
+     * 添加audio元素并立即播放
+     * @param {String} path 音频文件路径
+     */
+    function addAudio(path) {
+        var audio = document.createElement("audio");
+        audio.src = path;
+        // 移动浏览器忽略autoplay
+        // audio.autoplay = true;
+        audio.play();
+        // 要不要插入DOM
+        // document.body.append(audio);
+    }
+
+    btnPlay[eventAttr] = function() {
+        var type = soundType.value;
+        if (type === '1') {
+            a.play();
+        }
+        else if (type === '2') {
+            a2.play();
+        }
+    }
+    btnReplay[eventAttr] = function() {
+        var type = soundType.value;
+        if (type === '1') {
+            a.load();
+            a.play();
+        }
+        else if (type === '2') {
+            a2.load();
+            a2.play();
+        }
+    }
+    btnPlayAtStart[eventAttr] = function() {
+        var type = soundType.value;
+        if (type === '1') {
+            a.currentTime = 0;
+            a.play();
+        }
+        else if (type === '2') {
+            a2.currentTime = 0;
+            a2.play();
+        }
+    }
+    btnPlayNow[eventAttr] = function() {
+        var type = soundType.value;
+        if (type === '1') {
+            addAudio("short.mp3");
+        }
+        else if (type === '2') {
+           addAudio("long.mp3");
+        }
+    }
+    </script>
+</body>
+</html>

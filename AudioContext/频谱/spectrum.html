@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>星星频谱</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <style type="text/css">
+            body {
+                background-color: #000
+            }
+
+            input {
+                color: #ffffff
+            }
+
+            #wrapper {
+                margin-top: 30px;
+                margin-left: 30px;
+            }
+
+            #tip {
+                color: #fff;
+                opacity: 0;
+                transition: opacity 1s;
+                -moz-transition: opacity 1s;
+                -webkit-transition: opacity 1s;
+                -o-transition: opacity 1s;
+            }
+
+            #tip.show {
+                opacity: 1
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <div id="wrapper-inner">
+                <p id="tip">Decoding...</p>
+                <input id="fileChooser" type="file" />
+                <br>
+                <canvas id="visualizer" style="border: 1px solid #444;" width="800px" height="402px">Your browser does not support Canvas tag.</canvas>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript" src="easeljs-NEXT.min.js"></script>
+        <script>
+        //-----------------------easeljs部分
+        var canvas, stage;              // the canvas and stage we draw to
+        var sparklePool = [];           // Sparkle object pool
+        var h, w;                       // variables to store the width and height of the canvas
+        var messageField;               // Message display field
+        var sparkleShape;               // cached vector graphic instance
+        var sparksPerClick = 100;       // Number of sparklers made per click.  This is a variable so we can adjust to lower performance mobile devices
+
+        // create a new stage and point it at our canvas:
+        canvas = document.getElementById("visualizer");
+        stage = new createjs.Stage(canvas);
+
+        // set the width and height we use in tick, so we only have to access this data once (quicker)
+        h = canvas.height;
+        w = canvas.width;
+
+        // enable touch interactions if supported on the current device:
+        createjs.Touch.enable(stage);
+
+        // create a semi-opaque black rectangle that covers the full stage.
+        // drawing this to stage each tick will cause the canvas to fade to black.
+        var shape = new createjs.Shape(new createjs.Graphics().beginFill('#000').drawRect(0, 0, canvas.width + 1, canvas.height));
+        shape.alpha = 0.35;
+        shape.cache(0, 0, canvas.width + 1, canvas.height);
+        stage.addChild(shape);
+
+        // create the cached shape we are building our sparkles out of, which makes rendering much quicker
+        makeSparkle();
+
+        // this prevents the stage from automatically clearing itself each tick.
+        // in this demo, it results in the star trails, as the previous draws remain on screen.
+        stage.autoClear = false;
+
+        // start the tick and point it at the window so we can do some work before updating the stage:
+        createjs.Ticker.addEventListener("tick", tick);
+
+
+        function tick() {
+            // loop through all of the active sparkles on stage:
+            var l = stage.getNumChildren();
+            for (var i = l - 1; i > 0; i--) {
+                var sparkle = stage.getChildAt(i);
+
+                // apply gravity and friction
+                sparkle.vY += 2;
+                sparkle.vX *= 0.98;
+
+                // update position, scale, and alpha:
+                sparkle.x += sparkle.vX;
+                sparkle.y += sparkle.vY;
+                sparkle.alpha += sparkle.vA;
+
+                // remove sparkles that are no longer visible or are stalled:
+                if (sparkle.alpha <= 0 || sparkle.y >= h && sparkle.vY < 10) {
+                    stage.removeChildAt(i);
+                    sparklePool.push(sparkle);
+                    continue;
+                }
+
+                // //bounce sparkles off the bottom
+                // if (sparkle.y > h) {
+                //     // sparkle.bounceSound.play();
+                //     sparkle.vY *= -(Math.random() * 0.4 + 0.4);
+                //     sparkle.y -= sparkle.y % h;
+                // }
+                if (sparkle.x >= w || sparkle.x <= 0) {
+                    sparkle.vX *= -1;
+                }
+            }
+
+            // draw the updates to stage
+            stage.update();
+        }
+
+
+        function addSparkles(count, x, y, speed, velX) {
+            //create the specified number of sparkles
+            for (var i = 0; i < count; i++) {
+                // clone the original sparkle, so we don't need to set shared properties:
+                var sparkle = getSparkle();
+
+                // set display properties:
+                sparkle.x = x;
+                sparkle.y = y;
+                sparkle.alpha = Math.random() * 0.5 + 0.5;
+                sparkle.scaleX = sparkle.scaleY = Math.random() + 0.3;
+                sparkle.rotation = Math.random() * 360;
+
+                // set up velocities:
+                var a = Math.PI * 2 * Math.random();
+                var v = (Math.random() - 0.5) * 30 * speed;
+                sparkle.vX = Math.cos(a) * v + velX;
+                sparkle.vY = Math.sin(a) * v;
+                sparkle.vA = -Math.random() * 0.05 - 0.01; // alpha
+
+                // add to the display list:
+                stage.addChild(sparkle);
+            }
+        }
+
+        // object pool access function, this will either give us an existing object or create a new one
+        // object pools are used to avoid the runtime cost of creating objects repeatedly, and the associated garbage collection cost (quicker)
+        function getSparkle() {
+            var s;
+            if (this.sparklePool.length > 0) {
+                // we have one in our pool, so lets remove it from the pool and return it
+                s = this.sparklePool.pop();
+            } else {
+                // none in our pool, so we create the shape using our cached image (very fast)
+                s = new createjs.Bitmap(sparkleShape.cacheCanvas);
+            }
+            return s;
+        }
+
+        // set up our cached instance that we use to draw new sparkles (quicker)
+        function makeSparkle() {
+            sparkleShape = new createjs.Shape();
+            var g = sparkleShape.graphics;
+
+            g.beginFill("#fff");
+            g.drawPolyStar(0, 0, 5, 5, 0.7, -90);
+            g.endFill();
+
+            // cache for faster redraws
+            sparkleShape.cache(-3, -3, 10, 10);
+        }
+        //-----------------------easeljs部分结束
+
+        //-----------------------AudioContext部分
+        var AudioContext = window.AudioContext || window.webkitAudioContext; //Cross browser variant.
+
+        var canvas;
+        var audioContext;
+        var file;
+        var fileContent;
+        var audioBufferSourceNode;
+        var analyser;
+
+        var interval = 40;  // 24fps
+
+        // 移动设备
+        var isMobileDev = navigator.userAgent.match(/Mobile/i)!==null ? true : false;
+
+        var loadFile = function() {
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                fileContent = e.target.result;
+                decodecFile();
+            }
+            fileReader.readAsArrayBuffer(file);
+        }
+
+        var decodecFile = function() {
+            audioContext.decodeAudioData(fileContent, function(buffer) {
+                start(buffer);
+            });
+        }
+
+        var start = function(buffer) {
+            if(audioBufferSourceNode) {
+                audioBufferSourceNode.stop();
+            }
+
+            audioBufferSourceNode = audioContext.createBufferSource();
+            audioBufferSourceNode.connect(analyser);
+            analyser.connect(audioContext.destination);
+            audioBufferSourceNode.buffer = buffer;
+            audioBufferSourceNode.start(0);
+            showTip(false);
+            setTimeout(render, interval);
+        }
+
+        var showTip = function(show) {
+            var tip = document.getElementById('tip');
+            if (show) {
+                tip.className = "show";
+            } else {
+                tip.className = "";
+            }
+        }
+
+        var render = function() {
+            var dataArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(dataArray);
+            var step = Math.round(dataArray.length / 60);
+
+            for (var i = 0; i < 40; i++) {
+                var energy = (dataArray[step * i] / 256.0) * 100;
+                // 在巅峰蹦星星
+                if (isMobileDev) {
+                    addSparkles(1, 20 * i, 400 - 4 * energy, 0.5, 0.5);
+                }
+                else {
+                    for (var j = 0; j < energy; j += 8) {
+                        addSparkles(1, 20 * i, 400 - 4 * j, 0.5, 0.5);
+                    }
+                }
+                
+            }
+            setTimeout(arguments.callee, interval);
+        }
+
+        window.onload = function() {
+            audioContext = new AudioContext();
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 256;
+
+            var fileChooser = document.getElementById('fileChooser');
+            fileChooser.onchange = function() {
+                if (fileChooser.files[0]) {
+                    file = fileChooser.files[0];
+                    showTip(true);
+                    loadFile();
+                }
+            }
+
+            canvas = document.getElementById('visualizer');
+        }
+        //-----------------------AudioContext部分结束
+        </script>
+    </body>
+</html>

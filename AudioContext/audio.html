@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio</title>
+</head>
+<body>
+    <h1>Audio</h1>
+    <audio id="a" preload="preload" src="mp3.mp3"></audio>
+    <button id="btnPlay">播放</button>
+    <button id="btnReplay">重新加载并播放</button>
+    
+    <script>
+    var a = document.getElementById("a");
+    var btnPlay = document.getElementById("btnPlay");
+    var btnReplay = document.getElementById("btnReplay");
+
+    btnPlay.onclick = function() {
+        a.play();
+    }
+    btnReplay.onclick = function() {
+        // a.fastSeek(0); // FF支持
+        // a.play();
+        a.load();
+        a.play();
+    }
+    
+    </script>
+</body>
+</html>

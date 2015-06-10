@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Context</title>
+</head>
+<body>
+    <h1>Audio Context</h1>
+    <p>混响：声波在室内传播时，要被墙壁、天花板、地板等障碍物反射，每反射一次都要被障碍物吸收一些。这样，当声源停止发声后，声波在室内要经过多次反射和吸收，最后才消失，我们就感觉到声源停止发声后声音还继续一段时间。这种现象叫做混响</p>
+    
+    <button id="btnPlay1">播放1</button><span>多个源直接连接到输出设备</span>
+    <hr>
+    <button id="btnPlay2">播放2</button><span>多个源先连接到GainNode（增益节点）再连接到输出设备</span>
+    <script>
+    window.msc = [];
+
+    var btnPlay1 = document.getElementById("btnPlay1");
+    var btnPlay2 = document.getElementById("btnPlay2");
+    btnPlay1.onclick = function() {
+        play(1);
+    }
+    btnPlay2.onclick = function() {
+        play(2);
+    }
+
+    /**
+     * 获取AudioContext
+     * @return {AudioContext} andio元素相关的环境对象
+     */
+    function getAudioCtx() {
+        window.AudioContext = (window.AudioContext || window.webkitAudioContext);
+        if(window.AudioContext) {
+            return new window.AudioContext();
+        } else {
+            console.log('not support web audio api');
+        }
+    }
+
+    /**
+     * 播放
+     * @param {Integer} 1: 多个source直接连接输出设备 2: 多个source通过GainNode再连接输出设备
+     * @return nth
+     */
+    function play(type) {
+        var ctx = getAudioCtx();
+        var audioURL = 'mp1.mp3'; // 这里替换为音频文件URL
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open('GET', audioURL, true);
+        xhr1.responseType = 'arraybuffer'; // XMLHttpRequest 2的新东西
+        xhr1.onload = function() {
+            // 音频数据在xhr.response中，而不是xhr.requestText
+            msc.push(xhr1.response);
+            var audioURL = 'mp2.mp3'; // 这里替换为音频文件URL
+            var xhr2 = new XMLHttpRequest();
+            xhr2.open('GET', audioURL, true);
+            xhr2.responseType = 'arraybuffer'; // XMLHttpRequest 2的新东西
+            xhr2.onload = function() {
+                msc.push(xhr2.response);
+                var audioURL = 'mp3.mp3'; // 这里替换为音频文件URL
+                var xhr3 = new XMLHttpRequest();
+                xhr3.open('GET', audioURL, true);
+                xhr3.responseType = 'arraybuffer'; // XMLHttpRequest 2的新东西
+                xhr3.onload = function() {
+                    msc.push(xhr3.response);
+
+                    for(var i = 0; i < msc.length; i++) {
+                        ctx.decodeAudioData(msc[i], function (buffer) {
+                            if (type === 1) {
+                                source = ctx.createBufferSource();
+                                source.buffer = buffer;
+                                source.connect(ctx.destination);
+                                source.start(0);
+                            }
+                            else if (type === 2) {
+                                createSource(buffer, ctx).source.start(0);
+                            }
+                            else if (type === 3) {
+                                // ...
+                            }
+                            
+                        });
+                    }
+                }
+                xhr3.send();
+            }
+            xhr2.send();
+        }
+        xhr1.send();
+    }
+
+    /**
+     * 创建 源 - GainNode - 输出设备 的连接
+     * @param  {buffer} buffer  decodeAudioData的回调函数的参数
+     * @param  {AudioContext} context
+     * @return nth
+     */
+    function createSource(buffer, context) {
+        var source = context.createBufferSource();
+        // 创建一个 gain node.
+        var gainNode = context.createGain();
+        source.buffer = buffer;
+        // 将源与gain相连接
+        source.connect(gainNode);
+        // 将gain与目标相连接
+        gainNode.connect(context.destination);
+        return {
+            source: source,
+            gainNode: gainNode
+        };
+    }
+
+
+
+    function onSuccess(stream) {
+
+        //创建一个音频环境对像
+        audioContext = window.AudioContext || window.webkitAudioContext;
+        context = new audioContext();
+
+        //将声音输入这个对像
+        audioInput = context.createMediaStreamSources(stream);
+        
+        //设置音量节点
+        volume = context.createGain();
+        audioInput.connect(volume);
+
+        //创建缓存，用来缓存声音
+        var bufferSize = 2048;
+
+        // 创建声音的缓存节点，createJavaScriptNode方法的
+        // 第二个和第三个参数指的是输入和输出都是双声道。
+        recorder = context.createJavaScriptNode(bufferSize, 2, 2);
+
+        // 录音过程的回调函数，基本上是将左右两声道的声音
+        // 分别放入缓存。
+        recorder.onaudioprocess = function(e){
+            console.log('recording');
+            var left = e.inputBuffer.getChannelData(0);
+            var right = e.inputBuffer.getChannelData(1);
+            // we clone the samples
+            leftchannel.push(new Float32Array(left));
+            rightchannel.push(new Float32Array(right));
+            recordingLength += bufferSize;
+        }
+
+        // 将音量节点连上缓存节点，换言之，音量节点是输入
+        // 和输出的中间环节。
+        volume.connect(recorder);
+
+        // 将缓存节点连上输出的目的地，可以是扩音器，也可以
+        // 是音频文件。
+        recorder.connect(context.destination); 
+
+    }
+    </script>
+</body>
+</html>
