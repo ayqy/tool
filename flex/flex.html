@@ -14,6 +14,9 @@
     div.flex-h:after, div.flex-v:after {
         content: "after";
     }
+    .w50 {
+        width: 50px;
+    }
     .w60 {
         width: 60px;
     }
@@ -156,6 +159,8 @@
     </style>
 </head>
 <body>
+    <h3>Chrome43与Firefox表现一致</h3>
+    <h3>IOS Safari7.1.2的表现与Chrome43、FireFox38一致</h3>
     <p>平均水平分3栏</p>
     <div class="flex-h w150 h50">
         <div class="flex1">文字文字文字文字文字文字文字</div>
@@ -186,18 +191,18 @@
     <h6>Android4.2.2不支持换行</h6>
     <p>竖直居中</p>
     <div class="flex-h flex-vc w200 h50">
-        <div class="w60 h30">文字文字文字文字文字文字文字</div>
-        <div class="w60 h30">text text text text text text text text</div>
+        <div class="w50 h30">文字文字文字文字文字文字文字</div>
+        <div class="w50 h30">text text text text text text text text</div>
     </div>
     <p>水平居中</p>
     <div class="flex-h flex-hc w200 h50">
-        <div class="w60 h30">文字文字文字文字文字文字文字</div>
-        <div class="w60 h30">text text text text text text text text</div>
+        <div class="w50 h30">文字文字文字文字文字文字文字</div>
+        <div class="w50 h30">text text text text text text text text</div>
     </div>
     <p>居中</p>
     <div class="flex-h flex-hc flex-vc w200 h50">
-        <div class="w60 h30">文字文字文字文字文字文字文字</div>
-        <div class="w60 h30">text text text text text text text text</div>
+        <div class="w50 h30">文字文字文字文字文字文字文字</div>
+        <div class="w50 h30">text text text text text text text text</div>
     </div>
     <p>改变顺序（栅格布局，最终效果英文应该在左边）</p>
     <div class="flex-h w200 h50">
