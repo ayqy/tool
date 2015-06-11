@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>曲线渐变频谱</title>
+        <title>拟合曲线渐变频谱</title>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <style type="text/css">
             body {
@@ -45,6 +45,8 @@
 
 
         <script type="text/javascript" src="easeljs-NEXT.min.js"></script>
+        <script type="text/javascript" src="PolyFitForcast.js"></script>
+
         <script>
         //-----------------------AudioContext部分
         var AudioContext = window.AudioContext || window.webkitAudioContext; //Cross browser variant.
@@ -56,11 +58,15 @@
         var audioBufferSourceNode;
         var analyser;
 
+
         var ctx2d = canvas.getContext("2d");
         ctx2d.strokeStyle = "#fff";
         ctx2d.lineWidth = 1;
 
+
         var interval = 40;  // 24fps
+
+        var pointNum = 8;   // 参与拟合的点数
 
         // 移动设备
         var isMobileDev = navigator.userAgent.match(/Mobile/i)!==null ? true : false;
@@ -109,6 +115,7 @@
             var step = Math.round(dataArray.length / 60);
             var arrPos = [];
 
+            ctx2d.clearRect(0, 0, 800, 402);// 清空画板
             for (var i = 0; i < 40; i++) {
                 var energy = (dataArray[step * i] / 256.0) * 100 - 1;
                 // 收集顶点
@@ -117,37 +124,40 @@
                     y: 400 - 4 * energy
                 });
             }
-            // 画折线
-            // for(var i = 0; i < arrPos.length; i++) {
-            //     if (i === 0) {
-            //         ctx2d.beginPath();
-            //         ctx2d.moveTo(arrPos[i].x, arrPos[i].y);
-            //     }
-            //     else {
-            //         ctx2d.lineTo(arrPos[i].x, arrPos[i].y);
-            //     }
-            // }
-            // ctx2d.stroke();
-            //清空画板
-            ctx2d.clearRect(0, 0, canvas.width, canvas.height);
-            // 画曲线
-            ctx2d.beginPath();
-            ctx2d.moveTo(arrPos[0].x, 400);
-            ctx2d.lineTo(arrPos[0].x, 400, arrPos[0].x, arrPos[0].y, 8);
-            for(var i = 1; i < arrPos.length; i++) {
-                ctx2d.arcTo(arrPos[i].x - 20, arrPos[i].y - 20, arrPos[i].x, arrPos[i].y, 8);
+            // 拟合曲线
+            function draw(arr) {
+                ctx2d.beginPath();
+                ctx2d.moveTo(arr[0].x, arr[0].y);
+                for (var i = 1; i < arr.length; i++) {
+                    ctx2d.lineTo(arr[i].x, arr[i].y);
+                }
+                ctx2d.stroke();
             }
-            ctx2d.lineTo(arrPos[i - 1].x, arrPos[i - 1].y, 800, 400);
-            ctx2d.lineTo(arrPos[i - 1].x, 400, 0, 400);
-            // 填充渐变
-            var linear = ctx2d.createLinearGradient(arrPos[0].x, arrPos[0].y, arrPos[0].x, 400);
-            linear.addColorStop(0,'#fff');
-            linear.addColorStop(0.5,'#f0f');
-            linear.addColorStop(1,'#333');
-            ctx2d.fillStyle = linear; //把渐变赋给填充样式
-            ctx2d.fill();
-            // ctx2d.stroke();
+            var lastY = -9999;
+            for (var i = 0; i < arrPos.length; i += pointNum) {
+                var _arr = arrPos.slice(i, i + pointNum + 1);
+                var res = new PolyFitForcast().get(_arr);
 
+                console.log(pointNum);///
+                // 绘制原折线
+                // ctx2d.strokeStyle = "#fff";
+                // draw(_arr);
+                // 拼接断口
+                var deltaY = 0;
+                if (lastY !== -9999) {
+                    deltaY = lastY - res[0].y;
+                    for (var j = 0; j < res.length; j++) {
+                        res[j].y += deltaY;
+                    }
+                }
+                // 绘制新折线
+                ctx2d.strokeStyle = "#f00";
+                draw(res);
+
+                // 记录上一次拟合最后一个点的y坐标
+                lastY = res[res.length - 1].y;
+            }
+            
             setTimeout(arguments.callee, interval);
         }
 
