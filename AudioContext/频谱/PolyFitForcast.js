@@ -199,7 +199,7 @@ function PolyFitForcast() {
         var a = new Array(arrX.length);
         var aa = PolyFit(arrX, arrY, len, a, m);
         var arrRes = [];
-        for(var i = 0; i < len; i++){
+        for(i = 0; i < len; i++){
            arrRes.push({x: arrX[i], y: getY(arrX[i], arrX, aa, m)});
         }
 
@@ -207,39 +207,39 @@ function PolyFitForcast() {
     };
 }
 
-var arr = [{x: 10, y: 10},{x: 20, y: 15},{x: 30, y: 45},{x: 40, y: 60},{x: 50, y: 55},{x: 60, y: 52},{x: 70, y: 50},{x: 80, y: 40},{x: 90, y: 23},{x: 100, y: 15}];
-// 最小二乘法拟合
-var res = new PolyFitForcast().get(arr);
-var canvas = document.createElement('canvas');
-var ctx2d = canvas.getContext('2d');
+// var arr = [{x: 10, y: 10},{x: 20, y: 15},{x: 30, y: 45},{x: 40, y: 60},{x: 50, y: 55},{x: 60, y: 52},{x: 70, y: 50},{x: 80, y: 40},{x: 90, y: 23},{x: 100, y: 15}];
+// // 最小二乘法拟合
+// var res = new PolyFitForcast().get(arr);
+// var canvas = document.createElement('canvas');
+// var ctx2d = canvas.getContext('2d');
 
-ctx2d.lineWidth = 1;
+// ctx2d.lineWidth = 1;
 
-ctx2d.strokeStyle = '#000';
-ctx2d.beginPath();
-ctx2d.moveTo(arr[0].x, arr[0].y);
-ctx2d.lineTo(arr[1].x, arr[1].y);
-ctx2d.lineTo(arr[2].x, arr[2].y);
-ctx2d.lineTo(arr[3].x, arr[3].y);
-ctx2d.lineTo(arr[4].x, arr[4].y);
-ctx2d.lineTo(arr[5].x, arr[5].y);
-ctx2d.lineTo(arr[6].x, arr[6].y);
-ctx2d.lineTo(arr[7].x, arr[7].y);
-ctx2d.lineTo(arr[8].x, arr[8].y);
-ctx2d.lineTo(arr[9].x, arr[9].y);
-ctx2d.stroke();
+// ctx2d.strokeStyle = '#000';
+// ctx2d.beginPath();
+// ctx2d.moveTo(arr[0].x, arr[0].y);
+// ctx2d.lineTo(arr[1].x, arr[1].y);
+// ctx2d.lineTo(arr[2].x, arr[2].y);
+// ctx2d.lineTo(arr[3].x, arr[3].y);
+// ctx2d.lineTo(arr[4].x, arr[4].y);
+// ctx2d.lineTo(arr[5].x, arr[5].y);
+// ctx2d.lineTo(arr[6].x, arr[6].y);
+// ctx2d.lineTo(arr[7].x, arr[7].y);
+// ctx2d.lineTo(arr[8].x, arr[8].y);
+// ctx2d.lineTo(arr[9].x, arr[9].y);
+// ctx2d.stroke();
 
-ctx2d.strokeStyle = '#f00';
-ctx2d.beginPath();
-ctx2d.moveTo(res[0].x, res[0].y);
-ctx2d.lineTo(res[1].x, res[1].y);
-ctx2d.lineTo(res[2].x, res[2].y);
-ctx2d.lineTo(res[3].x, res[3].y);
-ctx2d.lineTo(arr[4].x, arr[4].y);
-ctx2d.lineTo(arr[5].x, arr[5].y);
-ctx2d.lineTo(arr[6].x, arr[6].y);
-ctx2d.lineTo(arr[7].x, arr[7].y);
-ctx2d.lineTo(arr[8].x, arr[8].y);
-ctx2d.lineTo(arr[9].x, arr[9].y);
-ctx2d.stroke();
-document.body.appendChild(canvas);
+// ctx2d.strokeStyle = '#f00';
+// ctx2d.beginPath();
+// ctx2d.moveTo(res[0].x, res[0].y);
+// ctx2d.lineTo(res[1].x, res[1].y);
+// ctx2d.lineTo(res[2].x, res[2].y);
+// ctx2d.lineTo(res[3].x, res[3].y);
+// ctx2d.lineTo(arr[4].x, arr[4].y);
+// ctx2d.lineTo(arr[5].x, arr[5].y);
+// ctx2d.lineTo(arr[6].x, arr[6].y);
+// ctx2d.lineTo(arr[7].x, arr[7].y);
+// ctx2d.lineTo(arr[8].x, arr[8].y);
+// ctx2d.lineTo(arr[9].x, arr[9].y);
+// ctx2d.stroke();
+// document.body.appendChild(canvas);
