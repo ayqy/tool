@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>完美贝塞尔曲线频谱</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <style type="text/css">
+            body {
+                background-color: #000
+            }
+
+            input {
+                color: #ffffff
+            }
+
+            #wrapper {
+                margin-top: 30px;
+                margin-left: 30px;
+            }
+
+            #tip {
+                color: #fff;
+                opacity: 0;
+                transition: opacity 1s;
+                -moz-transition: opacity 1s;
+                -webkit-transition: opacity 1s;
+                -o-transition: opacity 1s;
+            }
+
+            #tip.show {
+                opacity: 1
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <div id="wrapper-inner">
+                <p id="tip">Decoding...</p>
+                <input id="fileChooser" type="file" />
+                <br>
+                <canvas id="visualizer" style="border: 1px solid #444;" width="800px" height="402px">Your browser does not support Canvas tag.</canvas>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript" src="Bezier.js"></script>
+        <script>
+        //-----------------------AudioContext部分
+        var AudioContext = window.AudioContext || window.webkitAudioContext; //Cross browser variant.
+
+        var canvas = document.getElementById('visualizer');
+        var audioContext;
+        var file;
+        var fileContent;
+        var audioBufferSourceNode;
+        var analyser;
+
+        var ctx2d = canvas.getContext("2d");
+        ctx2d.strokeStyle = "#fff";
+        ctx2d.lineWidth = 1;
+
+        var interval = 40;  // 24fps
+
+        // 移动设备
+        var isMobileDev = navigator.userAgent.match(/Mobile/i)!==null ? true : false;
+
+        var loadFile = function() {
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                fileContent = e.target.result;
+                decodecFile();
+            }
+            fileReader.readAsArrayBuffer(file);
+        }
+
+        var decodecFile = function() {
+            audioContext.decodeAudioData(fileContent, function(buffer) {
+                start(buffer);
+            });
+        }
+
+        var start = function(buffer) {
+            if(audioBufferSourceNode) {
+                audioBufferSourceNode.stop();
+            }
+
+            audioBufferSourceNode = audioContext.createBufferSource();
+            audioBufferSourceNode.connect(analyser);
+            analyser.connect(audioContext.destination);
+            audioBufferSourceNode.buffer = buffer;
+            audioBufferSourceNode.start(0);
+            showTip(false);
+            setTimeout(render, interval);
+        }
+
+        var showTip = function(show) {
+            var tip = document.getElementById('tip');
+            if (show) {
+                tip.className = "show";
+            } else {
+                tip.className = "";
+            }
+        }
+
+        var render = function() {
+            var dataArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(dataArray);
+            var step = Math.round(dataArray.length / 60);
+            var arrPos = [];
+
+            for (var i = 0; i < 40; i++) {
+                var energy = (dataArray[step * i] / 256.0) * 100 - 1;
+                // 收集顶点
+                arrPos.push({
+                    x: 20 * i + 2 + 10,
+                    y: 400 - 4 * energy
+                });
+            }
+            arrPos.unshift({x: arrPos[0].x, y: 402});  // 添加底部左端点
+            arrPos.push({x: arrPos[arrPos.length - 1].x, y: 402});  // 添加底部右端点
+            // 画折线
+            ctx2d.strokeStyle = '#fff';
+            for(var i = 0; i < arrPos.length; i++) {
+                if (i === 0) {
+                    ctx2d.beginPath();
+                    ctx2d.moveTo(arrPos[i].x, arrPos[i].y);
+                }
+                else {
+                    ctx2d.lineTo(arrPos[i].x, arrPos[i].y);
+                }
+            }
+            ctx2d.stroke();
+
+
+
+
+
+            // 绘制3次贝塞尔曲线
+            var smooth = 0.75;   // 平滑度
+            ctx2d.strokeStyle = '#f00';
+            for(var i = 1, len = arrPos.length - 2; i < len; i++) {
+                var arrTmp = arrPos.slice(i - 1, i - 1 + 4);
+                // if (arrTmp.length < 4) {
+                //     arrTmp.push(arrPos[arrPos.length - 1]);
+                // }
+                var cPoints = Bezier.getControlPoints(arrTmp, smooth);  // 获取控制点坐标
+                ctx2d.beginPath();
+                // 起始点
+                ctx2d.moveTo(arrPos[i].x, arrPos[i].y);
+                if (typeof arrPos[i + 2] !== 'object') {
+                    arrPos[i + 2] = arrPos[i + 1]; // 添一个点
+                }
+                ctx2d.bezierCurveTo(cPoints[0].x, cPoints[0].y, cPoints[1].x, cPoints[1].y, arrPos[i + 1].x, arrPos[i + 1].y);
+                ctx2d.stroke();
+            }
+
+
+
+
+
+
+
+
+            setTimeout(arguments.callee, interval);
+        }
+
+        window.onload = function() {
+            audioContext = new AudioContext();
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 256;
+
+            var fileChooser = document.getElementById('fileChooser');
+            fileChooser.onchange = function() {
+                if (fileChooser.files[0]) {
+                    file = fileChooser.files[0];
+                    showTip(true);
+                    loadFile();
+                }
+            }
+        }
+        //-----------------------AudioContext部分结束
+        </script>
+    </body>
+</html>

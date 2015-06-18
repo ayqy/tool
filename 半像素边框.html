@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    /* 0.5px 边框，需要元素自身： display: [inline-]block; position: !static; */
+    /* 元素高度或宽度不为偶数，边框位置会有0.5的偏差 */
+    /* 颜色不同可重写 border-color */
+    .half-border:before {
+        content: "";
+        position: absolute;
+        /*不让边框出去*/
+        -webkit-box-sizing: border-box;
+        /*先放大1倍*/
+        width: 200%;
+        height: 200%;
+        border: 1px solid #ededed;
+        left: 0;
+        top: 0;
+        /*缩小一半*/
+        -webkit-transform: scale(0.5);
+        /*设置缩放中心为左上角*/
+        -webkit-transform-origin: 0 0;
+        /*防止伪元素被选中*/
+        pointer-events: none;
+    }
+    .pos_r {
+        position: relative;
+    }
+    .pos_a {
+        position: absolute;
+    }
+    .i {
+        display: inline;
+    }
+    .ib {
+        display: inline-block;
+    }
+    .b {
+        display: block;
+    }
+    .bd {
+        border: 1px solid #ededed;
+    }
+    </style>
+</head>
+<body>
+    <div class="half-border bd">1像素边框，block</div>
+    <br>
+    <div class="half-border b pos_r">
+        半像素边框，block
+    </div>
+    <br>
+    <span class="bd">1像素边框，inline</span>&nbsp;<span class="half-border ib pos_r">半像素边框，inline</span>
+</body>
+</html>
