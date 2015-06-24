@@ -1,0 +1,81 @@
+前端开发分层
+
+css三层结构
+
+-  base: 基本样式
+
+  站点级的，最基础，最通用的样式，不同风格不同内容的站点可以共用base样式
+
+  base是原子的，不可再分，比如兼容性良好的flex, clearfix等等
+
+  reset与base并列，作为基本样式组件，当然，也可以把简单的reset放在base层里
+
+-  common: 通用样式
+
+  模块级的，自定义的样式模块，可以供各个页面复用
+
+  在base层基础上提供更复杂的样式模块，比如日历，popup等等
+
+-  page: 页面样式
+
+  页面级的，不需要复用的样式
+
+  针对具体页面，添加特有的样式，比如具体色值，字体，hack等等
+
+合理的分层能够有效提高样式的复用性，可以通过在高层简单地重写低层某条样式规则来改变最终样式；此外还能提高样式的可维护性，各层分工明确，新增样式对号入座，html中以class组合的方式来实现最终样式
+
+base层和common层应该由很少的人来负责管理维护，不会经常变动，但可以扩展，开发者直接针对UI设计稿完成page层样式，实现视觉效果，编写page层样式时同样可以按照三层结构来组织，例如：
+
+    /* base */
+    body {
+        background-color: #eee;
+    }
+    h1 {
+        border-bottom: 1px solid #ccc;
+    }
+    /* common */
+    .panel {
+        border: 1px solid #ddd;
+    }
+    .line {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /* page */
+    h1 span {
+        border: 1px solid red;
+        border-raduis: 3px;
+    }
+    .panel .line {
+        line-height: 1.5em;
+    }
+
+编写page层样式的*关键是确定common层样式，也就是如何划分模块*，从设计稿中提取出相似的部分，抽象为模块，合理的模块划分需要考虑common层和page层的平衡以及可扩展性，如果common层过于臃肿，page层可能没几行代码，如果common层过于简单，page层可能需要用大量的后代选择器来填充样式。原则是在尽量保证简单的前提下提供更多的可扩展性，以适应可能发生的变化
+
+
+js三层结构
+
+-  base: 基本工具库
+
+  扩展js api，新增更易用的接口
+
+  原生api功能比较弱，可以在base层扩展更多接口，比如getElementsByClassName，trim等等
+
+-  common: 组件库
+
+  提供自定义组件或者封装功能模块，比如日历，ajax，cookie等等
+
+  也可以提供项目中需要经常使用的组件，比如下拉刷新，上拉加载等等
+
+-  page: 页面脚本
+
+  针对具体业务编写的不需要复用的脚本
+
+  通常对应html，即每个html文件对应一个page层的js文件
+
+js分层的作用体现在逐层增强，一步步增强原生api，让page层的开发更便捷。对此有一个形象的比喻：原生js api像一条坑坑洼洼（浏览器兼容性问题）的乡间小路（js原生api底层功能过少），添上base层后相当于把小路填平扩宽，而common层就像是再给小路铺上了一层沥青，之后page层的开发就变得更轻松顺利了
+
+base层和common层唯一的区别就是common层组件的规模更大，二者都要面对兼容性问题，common层在base层之上提供功能更强大的模块，page层中能够跨页面复用的部分也应该添加到common层或者page层中（视规模而定）
+
+实际应用中js的三层结构用的比较少，因为有功能强大的第三方库，如JQuery，YUI，这些类库同时提供了base层和common层功能。此时仍然可以采用三层结构组织page层代码，并把能够复用的部分提取出来作为整个项目的base层和common层，构建好base层和common层之后，第三方类库就成为了和base层并列的基础组件

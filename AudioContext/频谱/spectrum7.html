@@ -106,10 +106,13 @@
         var render = function() {
             var dataArray = new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteFrequencyData(dataArray);
+// console.log('dataArray.length: ' + dataArray.length); // 总是fftSize的一半
             var step = Math.round(dataArray.length / 60);
+// step = 1;
             var arrPos = [];
 
             for (var i = 0; i < 40; i++) {
+// console.log('dataArray['+ step * i + ']: ' + dataArray[step * i]);
                 var energy = (dataArray[step * i] / 256.0) * 100 - 1;
                 // 收集顶点
                 arrPos.push({

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>播放本地音频文件</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <style type="text/css">
+            body {
+                background-color: #000
+            }
+
+            input {
+                color: #ffffff
+            }
+
+            #wrapper {
+                margin-top: 30px;
+                margin-left: 30px;
+            }
+
+            #tip {
+                color: #fff;
+                opacity: 0;
+                transition: opacity 1s;
+                -moz-transition: opacity 1s;
+                -webkit-transition: opacity 1s;
+                -o-transition: opacity 1s;
+            }
+
+            #tip.show {
+                opacity: 1
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <div id="wrapper-inner">
+                <p id="tip">Decoding...</p>
+                <input id="fileChooser" type="file" />
+                <br>
+                <canvas id="visualizer" style="border: 1px solid #444;" width="800px" height="402px">Your browser does not support Canvas tag.</canvas>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript" src="Bezier.js"></script>
+        <script>
+            var fileChooser = document.getElementById('fileChooser');
+            var audioContext = new AudioContext();
+            var analyser = audioContext.createAnalyser();
+
+            var file;
+            var fileContent;
+            var buffer;
+            var audioBufferSourceNode;
+
+            // 选择文件
+            fileChooser.onchange = function() {
+                if (fileChooser.files[0]) {
+                    file = fileChooser.files[0];
+                    
+                    // 读取文件
+                    var fileReader = new FileReader();
+                    fileReader.onload = function(e) {
+                        fileContent = e.target.result;
+                        
+                        // 解码
+                        audioContext.decodeAudioData(fileContent, function(buffer) {
+                            if(audioBufferSourceNode) {
+                                audioBufferSourceNode.stop();
+                            }
+
+                            // 播放
+                            // 创建源节点
+                            audioBufferSourceNode = audioContext.createBufferSource();
+                            // 连接分析节点
+                            audioBufferSourceNode.connect(analyser);
+                            // 连接目标（输出）节点
+                            analyser.connect(audioContext.destination);
+                            // 设置buffer
+                            audioBufferSourceNode.buffer = buffer;
+                            // 播放
+                            audioBufferSourceNode.start(0);
+                        });
+                    }
+                    fileReader.readAsArrayBuffer(file);
+                }
+            }
+        </script>
+    </body>
+</html>
