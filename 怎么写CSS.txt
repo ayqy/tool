@@ -1,0 +1,99 @@
+##1.CSS的class命名原则
+
+建议组合使用camel规则和中划线分隔方式，不推荐使用下划线，因为不便于输入
+
+camel规则用于区别不同单词，*中划线用于表明从属关系*，例如：
+
+    <ul class="xxList">
+      <li></li>
+      <li></li>
+      <li class="xxList-lastItem"></li>
+    </ul>
+
+中划线就像命名空间，用来限定作用域，从这个角度来看，或许可以称为模块化CSS、面向对象的CSS
+
+##2.低优先级原则
+
+避免滥用子选择器、后代选择器，会提高优先级，而且存在冲突隐患。为了保证样式容易被覆盖，要保证选择符优先级尽可能低
+
+面对样式变更时，过高的优先级让人很苦恼，比如：
+
+    .info .infoBody .lastItem span {
+        color: red;
+    }
+
+此时如果想要把lastItem的某个span孩子改为绿色就很费劲了，为了不影响目标span的span兄弟，只能给目标span挂上一个样式，并且添上这一串选择符：
+
+    .info .infoBody .lastItem span.special {
+        color: green;
+    }
+
+否则会因为优先级不够而被red覆盖掉，这种情况下似乎没有办法阻止后代选择符变得更长
+
+如果采用命名空间的方式就会好很多，例如：
+
+    .info-infoBody-lastItem span {
+        color: red;
+    }
+
+    .info-infoBody-lastItem special {
+        color: green;
+    }
+
+让选择器保持低优先级更易于修改，所以CSS Lint甚至不建议使用id选择器，当然id选择器不支持扩展（id是唯一的）也是一个重要因素
+
+##3.避免class命名冲突
+
+多人合作中，为了最大限度地避免冲突，可以给样式添上前缀，例如：
+
+    <!-- by zhangsan -->
+    <ul class="zs-xxList">
+        <li></li>
+        <li></li>
+        <li class="zs-xxList-lastItem"></li>
+    </ul>
+
+    <!-- by lisi -->
+    <ul class="ls-xxList">
+        <li></li>
+        <li></li>
+        <li class="ls-xxList-lastItem"></li>
+    </ul>
+
+##4.可读性与过长的命名
+
+过长的命名，比如"zs-dropMenu-lastItem-img"，势必会增加文件大小，但这样命名带来的可读性方面的好处要比增加文本文件大小划算得多，何况文本文件可以gzip压缩
+
+##5.多用组合
+
+CSS里也存在这样的问题：应该挂上多个class还是挂上一个新的class？
+
+面向对象的设计原则中有一条是：多用组合少用继承。在这里同样适用，虽然继承无从说起。组合的优势在于更灵活，更易扩展，例如：
+
+    .fl {
+        float: left;
+    }
+    .fr {
+        float: right;
+    }
+    .bdRed {
+        border: 1px solid red;
+    }
+
+一般情况，用这样的原子class来组合实现样式更容易扩展（可以添加bdGreen, w950等等），base层和common层就是这样组织的，page层内部也可以这样组织，带来的好处是样式发生变更时候只需要更新class的值，而不是去修改某一条样式规则，当然，有些时候也必须先新增class再应用，而采用只挂一个class的话，每次都不得不先从样式文件中找到某个class再修改某条规则
+
+（bdRed这样的命名可能会被人反对，因为希望class名能够表达额外语义，而不是单纯表明样式，样式发生变更时，bdRed可能实际上表示黑色实线边框，这时候想要保持语义就要把bdRed改为bdBlack并同时修改html。采用组合则不存在这样的问题，因为我们会新增bdBlack，而不是修改bdRed）
+
+*注意*：和OOP一样，可扩展性需要根据具体场景取舍，在不太可能发生变动的部分采用组合除了增加CSS代码长度外没有任何好处
+
+##6.hook
+
+这是*最为重要的一点*，可以把class或id作为hook，hook就是一个悬空（不对应任何样式，也不出现在选择符中）的钩子，以后可以往上面挂东西。hook分为css hook和js hook，都非常好用。
+
+css hook是用来预防变更的，给一个可能发生变更的元素先添上class，不需要应用任何样式，将来变更发生时再填充样式规则即可。其实这也说明了另一个问题：不要省略应有的标签。更少的标签意味着更难扩展，例如：
+
+    <h2>二级标题<span class="btn">展开/收起</span></h2>
+
+如果样式变更要求二级标题有下划线，我们就不得不添上把“二级标题”用一个inline标签包裹起来，再添加样式，而竖直居中等等也可能会受到影响。如果一开始就把“二级标题”用标签包裹起来就不会手忙脚乱了。当然，也没有必要添上一堆css hook，因为有的地方确实不太可能发生样式变更，所以在浪费和节省之间存在有一个度
+
+js hook是为js提供的线索，便于操作样式，一般把id作为js hook，因为原生的<code>getElementById</code>是效率最高的，即便不能直接找到元素，也可以用来缩小检索范围。同样地，把class作为js hook也能提高元素检索效率，避免低效地从右向左扫描后代选择符检索元素
