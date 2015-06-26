@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>微信API 2015-6-17</title>
+    <style id="system" type="text/css">
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+        font-size: 13px;
+        line-height: 18px;
+        color: #737373;
+        margin: 10px 13px 10px 13px;
+    }
+    
+    a {
+        color: #0069d6;
+    }
+    
+    a:hover {
+        color: #0050a3;
+        text-decoration: none;
+    }
+    
+    a img {
+        border: none;
+    }
+    
+    p {
+        margin-bottom: 9px;
+    }
+    
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #404040;
+        line-height: 36px;
+    }
+    
+    h1 {
+        margin-bottom: 18px;
+        font-size: 30px;
+    }
+    
+    h2 {
+        font-size: 24px;
+    }
+    
+    h3 {
+        font-size: 18px;
+    }
+    
+    h4 {
+        font-size: 16px;
+    }
+    
+    h5 {
+        font-size: 14px;
+    }
+    
+    h6 {
+        font-size: 13px;
+    }
+    
+    hr {
+        margin: 0 0 19px;
+        border: 0;
+        border-bottom: 1px solid #ccc;
+    }
+    
+    blockquote {
+        padding: 13px 13px 21px 15px;
+        margin-bottom: 18px;
+        font-family: georgia, serif;
+        font-style: italic;
+    }
+    
+    blockquote:before {
+        content: "C";
+        font-size: 40px;
+        margin-left: -10px;
+        font-family: georgia, serif;
+        color: #eee;
+    }
+    
+    blockquote p {
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 18px;
+        margin-bottom: 0;
+        font-style: italic;
+    }
+    
+    code,
+    pre {
+        font-family: Monaco, Andale Mono, Courier New, monospace;
+    }
+    
+    code {
+        background-color: #fee9cc;
+        color: rgba(0, 0, 0, 0.75);
+        padding: 1px 3px;
+        font-size: 12px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+    
+    pre {
+        display: block;
+        padding: 14px;
+        margin: 0 0 18px;
+        line-height: 16px;
+        font-size: 11px;
+        border: 1px solid #d9d9d9;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+    
+    pre code {
+        background-color: #fff;
+        color: #737373;
+        font-size: 11px;
+        padding: 0;
+    }
+    
+    @media screen and (min-width: 768px) {
+        body {
+            width: 748px;
+            margin: 10px auto;
+        }
+    }
+
+    .highlight {
+        background-color: skyblue;
+    }
+    .notice {
+        background-color: #ff0;
+    }
+    .warn {
+        color: red;
+    }
+    </style>
+    <style id="custom" type="text/css"></style>
+    <style type="text/css"></style>
+</head>
+
+<body marginheight="0">
+    <p class="highlight">[版本1.0.0接口 2015-1-9] [2015-6-17整理]
+    </p>
+    <h5>官方DEMO（用微信扫一扫，打开二维码测试）</h5>
+    <img src="wx.png" alt="">
+    <h5>测试服务器的DEMO，测试结果不同，因为某些功能需要公众号的支持（域名绑定）</h5>
+    <img src="mwx.png" alt="">
+    <h2>一.新增API</h2>
+    <h3>1.接口检测</h3>
+    <p>检测微信版本对JS接口的支持情况，但只能检测新接口（6.0.2版本之后开放的接口）
+    </p>
+    <p>jssdk都是兼容低版本的，不需要第三方自己额外做更多工作，但有的接口是6.0.2新引入的，只有新版才可调用
+    </p>
+    <h3>2.音频</h3>
+    <p>new: 1）开始/停止录音<span class="warn">需要绑定公众号</span> 2）播放/暂停/停止音频 3）上传/下载音频
+    </p>
+    <p class="highlight">highlight: 4）识别音频，返回JSON数据
+    </p>
+    <pre><code>官方推荐用于公众号服务，比如订单查询（用户输入一段语音，该接口解析音频获取关键字信息，第三方服务根据关键字查询订单并返回结果）
+
+识别速度比较慢，wifi环境下，2-4字音频4-8秒返回结果，准确率不是很高</code></pre>
+    <p class="notice">notice: 用户录音会被上传至微信服务器，需要第三方自行下载，格式为amr，转码请查看：<a href="http://segmentfault.com/q/1010000002506317/a-1020000002513789">http://segmentfault.com/q/1010000002506317/a-1020000002513789</a>
+    </p>
+    <p class="warn">音频API是针对录音的，而不是所有音频</p>
+    <p>code:
+    </p>
+    <pre><code>wx.playVoice({
+    localId: '' // 需要播放的音频的本地ID，由stopRecord接口获得
+});</code></pre>
+    <h3>3.卡券</h3>
+    <p>new: 1）批量添加卡券 2）查看卡包中的卡券
+    </p>
+    <p class="notice">notice: 只针对公众号、微店提供服务，卡券一般用途是会员卡（类似于大众点评的）、优惠券
+    </p>
+    <p><span class="warn">公众号微信活动可能用得到，需要后端服务配合实现卡券分发机制</span>
+    </p>
+    <p>比如：分享朋友收集卡券，集齐奖励
+    </p>
+    <h3>4.摇一摇关注</h3>
+    <p>针对公众号提供服务，摇一摇周边超过500的公众号自动激活接口权限，只能在[微信摇周边]中使用
+    </p>
+    <h2>二.增强旧API</h2>
+    <h3>1.分享</h3>
+    <p>old: 腾讯微博、Facebook
+    </p>
+    <p>new: 1）分享到朋友圈 2）分享给朋友 3）分享到QQ
+    </p>
+    <pre><code><span class="warn">需要绑定公众号，且要求已认证</span></code></pre>
+    <p>code:
+    </p>
+    <pre><code>// onMenuShareTimeline      朋友圈
+// onMenuShareAppMessage    朋友
+// onMenuShareQQ            QQ
+// onMenuShareWeibo         腾讯微博
+
+wx.onMenuShareTimeline({
+    title: '', // 分享标题
+    link: '', // 分享链接
+    imgUrl: '', // 分享图标
+    success: function () { 
+        // 用户确认分享后执行的回调函数
+    },
+    cancel: function () { 
+        // 用户取消分享后执行的回调函数
+    }
+});</code></pre>
+    <h3>2.图片</h3>
+    <p>old: 图片预览
+    </p>
+    <p>new: 1）拍照/相册选图<span class="warn">需要绑定公众号</span> 2）上传/下载<span class="warn">需要先调用1)，目前只支持一次上传一张</span>
+    </p>
+    <p class="notice">notice: 图片预览支持缩放，且不需要绑定公众号
+    </p>
+    <h3>3.设备信息</h3>
+    <p>old: 网络状态、获取地理位置<span class="warn">需要用户确认</span>
+    </p>
+    <p>new: 1）用微信内置地图（腾讯地图）打开
+    </p>
+    <h3>4.UI</h3>
+    <p>old: 隐藏右上角按钮、隐藏底部导航栏、关闭当前网页窗口接口
+    </p>
+    <p>new: （隐藏/显示右上角菜单接口）、批量隐藏/显示功能按钮接口、隐藏非基础功能、显示所有功能
+    </p>
+    <h3>5.二维码</h3>
+    <p>old: [x]扫描二维码
+    </p>
+    <p>new: scanQRCode(直接返回结果)和scanQRCode(微信处理结果)
+    </p>
+    <h3>6.微信支付</h3>
+    <p>old: 发起公众号微信支付
+    </p>
+    <p>new: 发起一个微信支付请求
+    </p>
+    <p class="notice">notice: <span class="warn">需要绑定公众号，分为刷卡支付/扫码支付/公众号支付/app支付</span>
+    </p>
+    <h2>三.仍然可用的old特色接口</h2>
+    <p>发邮件
+    </p>
+    <h2>四.视频（不支持）</h2>
+    <p class="notice">微信暂时还没有开放视频能力，朋友圈里的小视频是原生实现的。在Android4.0以上的手机，安装了QQ浏览器后，微信网页里的视频播放才能被X5引擎优化。而目前使用HTML5标准的视频，会在低端手机上遭遇性能问题。
+    </p>
+    <h2>五.旧API</h2>
+    <pre><code>图片预览
+
+查看profile
+
+分享微博[access_denied]
+
+分享facebook[x]
+
+添加联系人[fail_invalid_appid]
+
+扫描二维码[x]
+
+跳转到指定公众账号页面[权限不足]
+
+隐藏右上角按钮
+
+隐藏底部导航栏[x，底部没有导航栏]
+
+获取网络状态
+
+关闭
+
+发起公众号微信支付[fail_invalid_appid]
+
+设置页面状态[x]
+
+发邮件
+
+微信团队打开webView,跳到指定页面[access_denied]
+
+getCanIAPPay[function_not_exist]
+
+发起公众号IAP支付[function_not_exist]
+
+用safari打开指定链接[x]
+
+跳转微信商品页[access_denied]
+
+查看地理位置[access_denied]
+
+朋友圈签到[access_denied]
+
+开通微信信用卡[fail_invalid_appid]
+
+获取地理位置[fail]
+
+获取某app是否安装[access_denied]
+
+公众号编辑收货地址[fail]
+
+公众号获取最近的收货地址[fail]
+
+启动第三方APP[fail_invalid_appid]
+
+跳转微信商品购买界面[access_denied]
+
+添加表情[access_denied]
+
+取消下载某表情[access_denied]
+
+查询是否存在某表情[access_denied]</code></pre>
+    <h2>六.新API</h2>
+    <p>[版本1.0.0接口 2015-1-9]
+    </p>
+    <p>基础接口
+    </p>
+    <pre><code>判断当前客户端是否支持指定JS接口，checkJsApi</code></pre>
+    <p>分享接口
+    </p>
+    <pre><code>获取“分享到朋友圈”按钮点击状态及自定义分享内容接口，onMenuShareTimeline
+
+获取“分享给朋友”按钮点击状态及自定义分享内容接口，onMenuShareAppMessage
+
+获取“分享到QQ”按钮点击状态及自定义分享内容接口，onMenuShareQQ
+
+获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口，onMenuShareWeibo</code></pre>
+    <p>图像接口
+    </p>
+    <pre><code>拍照或从手机相册中选图接口，chooseImage
+
+预览图片接口，previewImage
+
+上传图片接口，uploadImage
+
+下载图片接口，downloadImage</code></pre>
+    <p>音频接口
+    </p>
+    <pre><code>开始录音接口，startRecord
+
+停止录音接口，stopRecord
+
+播放语音接口，playVoice
+
+暂停播放接口，pauseVoice
+
+停止播放接口，stopVoice
+
+上传语音接口，uploadVoice
+
+下载语音接口，downloadVoice</code></pre>
+    <p>智能接口
+    </p>
+    <pre><code>识别音频并返回识别结果接口，translateVoice</code></pre>
+    <p>设备信息接口
+    </p>
+    <pre><code>获取网络状态接口，getNetworkType</code></pre>
+    <p>地理位置接口
+    </p>
+    <pre><code>使用微信内置地图查看位置接口，openLocation
+
+获取地理位置接口，getLocation</code></pre>
+    <p>界面操作接口
+    </p>
+    <pre><code>隐藏右上角菜单接口，hideOptionMenu
+
+显示右上角菜单接口，showOptionMenu
+
+关闭当前网页窗口接口，closeWindow
+
+批量隐藏功能按钮接口，hideMenuItems
+
+批量显示功能按钮接口，showMenuItems
+
+隐藏所有非基础按钮接口，hideAllNonBaseMenuItem
+
+显示所有功能按钮接口，showAllNonBaseMenuItem</code></pre>
+    <p>微信扫一扫
+    </p>
+    <pre><code>调起微信扫一扫接口，scanQRCode(微信处理结果)/scanQRCode(直接返回结果)</code></pre>
+    <p>微信小店接口
+    </p>
+    <pre><code>跳转微信商品页接口，openProductSpecificView</code></pre>
+    <p>微信卡券接口
+    </p>
+    <pre><code>批量添加卡券接口，addCard
+
+调起适用于门店的卡券列表并获取用户选择列表，chooseCard
+
+查看微信卡包中的卡券接口，openCard</code></pre>
+    <p>微信支付接口
+    </p>
+    <pre><code>发起一个微信支付请求，chooseWXPay</code></pre>
+</body>
+
+</html>

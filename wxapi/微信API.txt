@@ -1,0 +1,273 @@
+[版本1.0.0接口 2015-1-9]
+[2015-6-17整理]
+##一.新增API
+
+###1.接口检测
+
+检测微信版本对JS接口的支持情况，但只能检测新接口（6.0.2版本之后开放的接口）
+
+jssdk都是兼容低版本的，不需要第三方自己额外做更多工作，但有的接口是6.0.2新引入的，只有新版才可调用
+
+###2.音频
+
+new: 1）开始/停止录音【需要绑定公众号】 2）播放/暂停/停止音频 3）上传/下载音频
+
+highlight: 4）识别音频，返回JSON数据
+
+    官方推荐用于公众号服务，比如订单查询（用户输入一段语音，该接口解析音频获取关键字信息，第三方服务根据关键字查询订单并返回结果）
+
+    识别速度比较慢，wifi环境下，2-4字音频4-8秒返回结果，准确率不是很高
+
+notice: 用户录音会被上传至微信服务器，需要第三方自行下载，格式为amr，转码请查看：http://segmentfault.com/q/1010000002506317/a-1020000002513789
+
+    【音频API是针对录音的，而不是所有音频】
+
+code:
+
+    wx.playVoice({
+        localId: '' // 需要播放的音频的本地ID，由stopRecord接口获得
+    });
+
+###3.卡券
+
+new: 1）批量添加卡券 2）查看卡包中的卡券 
+
+notice: 只针对公众号、微店提供服务，卡券一般用途是会员卡（类似于大众点评的）、优惠券
+
+【公众号微信活动可能用得到，需要后端服务配合实现卡券分发机制】
+
+比如：分享朋友收集卡券，集齐奖励
+
+###4.摇一摇关注
+
+针对公众号提供服务，摇一摇周边超过500的公众号自动激活接口权限，只能在[微信摇周边]中使用
+
+##二.增强旧API
+
+###1.分享
+
+old: 腾讯微博、Facebook
+
+new: 1）分享到朋友圈 2）分享给朋友 3）分享到QQ
+
+    【需要绑定公众号，且要求已认证】
+
+code: 
+
+    // onMenuShareTimeline      朋友圈
+    // onMenuShareAppMessage    朋友
+    // onMenuShareQQ            QQ
+    // onMenuShareWeibo         腾讯微博
+
+    wx.onMenuShareTimeline({
+        title: '', // 分享标题
+        link: '', // 分享链接
+        imgUrl: '', // 分享图标
+        success: function () { 
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+
+###2.图片
+
+old: 图片预览
+
+new: 1）拍照/相册选图【需要绑定公众号】 2）上传/下载【需要先调用1)，目前只支持一次上传一张】
+
+notice: 图片预览支持缩放，且不需要绑定公众号
+
+###3.设备信息
+
+old: 网络状态、获取地理位置【需要用户确认】
+
+new: 1）用微信内置地图（腾讯地图）打开
+
+###4.UI
+
+old: 隐藏右上角按钮、隐藏底部导航栏、关闭当前网页窗口接口
+
+new: （隐藏/显示右上角菜单接口）、批量隐藏/显示功能按钮接口、隐藏非基础功能、显示所有功能
+
+###5.二维码
+
+old: [x]扫描二维码
+
+new: scanQRCode(直接返回结果)和scanQRCode(微信处理结果)
+
+###6.微信支付
+
+old: 发起公众号微信支付
+
+new: 发起一个微信支付请求
+
+notice: 【需要绑定公众号，分为刷卡支付/扫码支付/公众号支付/app支付】
+
+##三.仍然可用的old特色接口
+
+发邮件
+
+##四.视频
+
+微信暂时还没有开放视频能力，朋友圈里的小视频是原生实现的。在Android4.0以上的手机，安装了QQ浏览器后，微信网页里的视频播放才能被X5引擎优化。而目前使用HTML5标准的视频，会在低端手机上遭遇性能问题。
+
+##五.旧API
+
+    图片预览
+
+    查看profile
+
+    分享微博[access_denied]
+
+    分享facebook[x]
+
+    添加联系人[fail_invalid_appid]
+
+    扫描二维码[x]
+
+    跳转到指定公众账号页面[权限不足]
+
+    隐藏右上角按钮
+
+    隐藏底部导航栏[x，底部没有导航栏]
+
+    获取网络状态
+
+    关闭
+
+    发起公众号微信支付[fail_invalid_appid]
+
+    设置页面状态[x]
+
+    发邮件
+
+    微信团队打开webView,跳到指定页面[access_denied]
+
+    getCanIAPPay[function_not_exist]
+
+    发起公众号IAP支付[function_not_exist]
+
+    用safari打开指定链接[x]
+
+    跳转微信商品页[access_denied]
+
+    查看地理位置[access_denied]
+
+    朋友圈签到[access_denied]
+
+    开通微信信用卡[fail_invalid_appid]
+
+    获取地理位置[fail]
+
+    获取某app是否安装[access_denied]
+
+    公众号编辑收货地址[fail]
+
+    公众号获取最近的收货地址[fail]
+
+    启动第三方APP[fail_invalid_appid]
+
+    跳转微信商品购买界面[access_denied]
+
+    添加表情[access_denied]
+
+    取消下载某表情[access_denied]
+
+    查询是否存在某表情[access_denied]
+
+##六.新API
+
+[版本1.0.0接口 2015-1-9]
+
+基础接口
+
+    判断当前客户端是否支持指定JS接口，checkJsApi
+
+
+分享接口
+
+    获取“分享到朋友圈”按钮点击状态及自定义分享内容接口，onMenuShareTimeline
+
+    获取“分享给朋友”按钮点击状态及自定义分享内容接口，onMenuShareAppMessage
+
+    获取“分享到QQ”按钮点击状态及自定义分享内容接口，onMenuShareQQ
+
+    获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口，onMenuShareWeibo
+
+图像接口
+
+    拍照或从手机相册中选图接口，chooseImage
+
+    预览图片接口，previewImage
+
+    上传图片接口，uploadImage
+
+    下载图片接口，downloadImage
+
+音频接口
+
+    开始录音接口，startRecord
+
+    停止录音接口，stopRecord
+
+    播放语音接口，playVoice
+
+    暂停播放接口，pauseVoice
+
+    停止播放接口，stopVoice
+
+    上传语音接口，uploadVoice
+
+    下载语音接口，downloadVoice
+
+智能接口
+
+    识别音频并返回识别结果接口，translateVoice
+
+设备信息接口
+
+    获取网络状态接口，getNetworkType
+
+地理位置接口
+
+    使用微信内置地图查看位置接口，openLocation
+
+    获取地理位置接口，getLocation
+
+界面操作接口
+
+    隐藏右上角菜单接口，hideOptionMenu
+
+    显示右上角菜单接口，showOptionMenu
+
+    关闭当前网页窗口接口，closeWindow
+
+    批量隐藏功能按钮接口，hideMenuItems
+
+    批量显示功能按钮接口，showMenuItems
+
+    隐藏所有非基础按钮接口，hideAllNonBaseMenuItem
+
+    显示所有功能按钮接口，showAllNonBaseMenuItem
+
+微信扫一扫
+
+    调起微信扫一扫接口，scanQRCode(微信处理结果)/scanQRCode(直接返回结果)
+
+微信小店接口
+
+    跳转微信商品页接口，openProductSpecificView
+
+微信卡券接口
+
+    批量添加卡券接口，addCard
+
+    调起适用于门店的卡券列表并获取用户选择列表，chooseCard
+
+    查看微信卡包中的卡券接口，openCard
+
+微信支付接口
+
+    发起一个微信支付请求，chooseWXPay
