@@ -1,0 +1,24 @@
+TODO: x公交拍拍/新手攻略更新
+      公交拍拍/用户等级升级规则调整
+
+      【周一】问   张佳丽  要酒店的埋点
+
+      微信api能不能直接进页面就播放音乐？JS API还是audio标签，【尽量找例子】
+      最近2个月
+
+
+
+Q: H5 Drag API 兼容性问题 能否拖出屏幕
+   -webkit-mask/-webkit-mask-image/-webkit-mask-box-image 属性测试，应用场景
+
+TODO: 看酒店相关的代码逻辑，注意订房部分
+
+1.  html文件5个
+
+2.  js文件多个
+
+    hotel文件夹
+
+    util/roomInfo.js
+
+    index/bookRoom.js
