@@ -1,0 +1,93 @@
+HTML5拖放（Drag & Drop）
+
+原生js实现拖放需要自行封装事件并做兼容性处理，而且功能比较弱还存在性能问题，h5规范支持的拖放功能强大（支持文件拖放），使用方便
+
+##一.设置属性
+
+draggable="true"
+
+带href属性的a标签和img标签默认可以拖放，其它标签需要设置这个属性
+
+##二.事件
+
+drag : 元素被拖拽时由拖拽元素频繁触发的事件(每隔几百毫秒就会触发一次)
+dragstart : 拖拽时开始时由拖拽元素触发的事件
+dragend : 拖拽结束时触发由拖拽元素的事件
+dragover : 当拖拽元素进入放置区域时由放置元素频繁触发的事件(每隔几百毫秒就会触发一次)
+dragenter : 当拖拽元素进入放置区域时由放置元素触发的事件
+dragleave : 当拖拽元素离开放置区域时由放置元素触发的事件
+drop : 当拖拽元素在放置区域放置时由放置元素触发的事件
+
+drag和dragover是持续触发的
+
+拖放文件到浏览器中时，需要在dragover和drop事件处理器中preventDefault，因为从其他应用软件或是文件中拖东西进来，尤其是图片的时候，默认的行为是浏览器将当前页面重定向到被拖拽元素所指向的资源上，实测*必须在2个事件处理器中都阻止默认行为*
+
+*注意*：触发dragstart事件后，其他元素的mousemove,mouseover,mouseenter,mouseleave,mouseout事件均不会被触发了
+
+事件触发次序：
+
+dragstart -> drag -> dragenter -> dragover ->  dragleave  -> drop -> dragend
+
+事件对象：
+
+DragEvent，继承自 [object MouseEvent] 对象，其实就多了个 {DataTransfer} dataTransfer 属性
+
+事件对象的重要属性：
+
+ effectAllowed 和 dropEffect 最主要的作用是，用于配置拖拽操作过程中鼠标指针的类型以便提示用户后续可执行怎样的操作；其次的作用是，控制 drop 事件的触发与否。当显示禁止的指针样式时，将无法触发目标元素的 drop 事件。
+
+ 注意：*只能在dragstart中设置effectAllowed，只能在dragover中设置*
+
+ 更多信息请查看[HTML5魔法堂：全面理解Drag & Drop API](http://www.cnblogs.com/fsjohnhuang/p/3961066.html#t8)
+
+##三.兼容性
+
+[findmebyip](http://www.findmebyip.com/litmus#html5-web-applications)上说drag是全浏览器兼容的，但实际上，IE虽然是最早实现drag的，但[IE10-]支持度很低，可以忽略不计（仅对 img元素 、 a[href]元素 和 input[type=text]/textarea元素 中被选中的文字有效，且不用设置 draggable="true"，不支持文件拖放）。
+
+##四.传递数据
+
+传递数据需要用到event.dataTransfer对象，该对象提供setData(type, data);和getData(type);方法存取数据。
+
+然后在dragstart事件处理器中<code>setData('text/plain', data)</code>（IE10只支持text/plain），在drop事件处理器中getData('text')即可
+
+*注意*：如果类型不存在会被追加到data列表末尾，如果已存在则会替换掉原有内容。所以，不考虑IE10的话，相当于setData(key, value);
+
+##五.文件拖放
+
+    dropArea.ondragover = function(e) {
+        e.preventDefault();
+    }
+    dropArea.ondrop = function(e) {
+        e.preventDefault();
+        
+        var files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+            // 输出文件信息
+            var str = '';
+            for(var i = 0; i < files.length; i++) {
+                var file = files[i];
+
+                // 在线预览图片也需要先把图片上传到服务器，因为无法获取客户端文件url
+
+                // 上传文件直接xhr发送file对象即可
+                // var formData = new FormData();
+                // formData.append('myfile', file);
+                // xhr.send(formData);
+                console.log(file);
+            }
+
+            console.log('receive a file');
+        }
+    }
+
+
+
+
+###参考资料
+
+-  [HTML5魔法堂：全面理解Drag & Drop API](http://www.cnblogs.com/fsjohnhuang/p/3961066.html)：非常全面
+
+-  [JS魔法堂：IE5~9的Drag&Drop API](http://www.cnblogs.com/fsjohnhuang/p/3980563.html)：[IE10-]支持的拖放
+
+-  [HTML5 drag & drop 拖拽与拖放简介](http://www.zhangxinxu.com/wordpress/2011/02/html5-drag-drop-%E6%8B%96%E6%8B%BD%E4%B8%8E%E6%8B%96%E6%94%BE%E7%AE%80%E4%BB%8B/)
+
