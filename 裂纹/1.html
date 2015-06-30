@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>碎裂效果1</title>
+	<style>
+	body {
+		background-color: #000;
+	}
+	#canvas {
+		display: block;
+		width: 800px;
+		height: 600px;
+		margin: 30px auto;
+		border: 1px solid #111;
+	}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="800px" height="600px">不支持canvas</canvas>
+
+	<script>
+	var body = document.body;
+
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+
+	
+	// 获取[min, max]的随机数
+	function rand(min, max) {
+	    return Math.round(Math.random() * (max - min) + min);
+	}
+
+	/**
+	 * 从第n圈扩展出第n+1圈
+	 * @param  {Array} arrPos 点数组
+	 * @param  {Integer} nth    第几圈
+	 * @param  {Integer} len    扩展范围
+	 * @return nothing
+	 */
+	function drawNextCircle(arrPos, nth, len) {
+		arrPos[nth + 1] = [];
+		for (var i = 0; i < arrPos[nth].length; i++) {
+			var p = {};
+			center = arrPos[nth][i];
+			// 判断上下左右，保持方向不变
+			if (center.dir === 1) {
+				p.x = rand(center.x - len, center.x);
+				p.y = rand(center.y - len, center.y);
+			}
+			else if (center.dir === 2) {
+				p.x = rand(center.x, center.x + len);
+				p.y = rand(center.y - len, center.y);
+			}
+			else if (center.dir === 3) {
+				p.x = rand(center.x - len, center.x);
+				p.y = rand(center.y, center.y + len);
+			}
+			else {
+				p.x = rand(center.x, center.x + len);
+				p.y = rand(center.y, center.y + len);
+			}
+			
+			// 连线
+			ctx.beginPath();
+			ctx.moveTo(center.x, center.y);
+			ctx.lineTo(p.x, p.y);
+			ctx.stroke();
+
+			// 判断相对位置，左上 右上 左下 右下 ~ 1234
+			if (p.x <= center.x && p.y <= center.y) {
+				p.dir = 1;
+			}
+			else if (p.x >= center.x && p.y <= center.y) {
+				p.dir = 2;
+			}
+			else if (p.x <= center.x && p.y >= center.y) {
+				p.dir = 3;
+			}
+			else {
+				p.dir = 4;
+			}
+			// 记录
+			arrPos[nth + 1][i] = p;
+		}
+	}
+
+	function draw(arrPos, circleNum, radius, delta) {
+		for (var i = 1; i < circleNum; i++) {
+			radius += delta;
+			drawNextCircle(arrPos, i, radius);
+		} 
+	}
+
+	// 点击canvas显示裂纹
+	canvas.onclick = function(e) {
+		// 显示裂纹
+		var arrPos = [];	// 记录所有点
+		// 第一圈
+		// 随机中心点
+		var center = {};
+		center.x = rand(canvas.width * 0.25, canvas.width * 0.75);
+		center.y = rand(canvas.height * 0.25, canvas.height * 0.75);
+
+		ctx.strokeStyle = '#fafafa';
+		ctx.lineWidth = 2;
+		ctx.beginPath();
+		ctx.arc(center.x, center.y, 1, 0, Math.PI * 2, true);
+		ctx.stroke();
+		// 记录
+		arrPos[0] = [];
+		arrPos[0][0] = center;
+
+		// 在中心点周围随机取点并连接， 
+		var num = 5;
+		var radius = 30;
+		arrPos[1] = [];	// 第一圈
+		for (var i = 0; i < num; i++) {
+			var p = {};
+			p.x = rand(center.x - radius, center.x + radius);
+			p.y = rand(center.y - radius, center.y + radius);
+			// 连线
+			ctx.beginPath();
+			ctx.moveTo(center.x, center.y);
+			ctx.lineTo(p.x, p.y);
+			ctx.stroke();
+
+			
+			// 判断相对位置，左上 右上 左下 右下 ~ 1234
+			if (p.x <= center.x && p.y <= center.y) {
+				p.dir = 1;
+			}
+			else if (p.x >= center.x && p.y <= center.y) {
+				p.dir = 2;
+			}
+			else if (p.x <= center.x && p.y >= center.y) {
+				p.dir = 3;
+			}
+			else {
+				p.dir = 4;
+			}
+			// 记录
+			arrPos[1][i] = p;
+		}
+
+		// 向外扩展
+		draw(arrPos, 7, radius, 45);
+
+
+
+
+		e.stopPropagation();
+	}
+	// 点击canvas外清除裂纹
+	body.onclick = function(e) {
+		if (e.target.nodeName !== 'CANVAS') {
+			// 清除裂纹
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+		}
+	}
+	</script>
+</body>
+</html>
