@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>碎裂效果2</title>
+	<style>
+	body {
+		background-color: #000;
+	}
+	#canvas {
+		display: block;
+		width: 800px;
+		height: 600px;
+		margin: 30px auto;
+		border: 1px solid #111;
+	}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="800px" height="600px">不支持canvas</canvas>
+
+	<script>
+	var body = document.body;
+
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+
+	
+	// 获取[min, max]的随机数
+	function rand(min, max) {
+	    return Math.round(Math.random() * (max - min) + min);
+	}
+
+	/**
+	 * 从第n圈扩展出第n+1圈
+	 * @param  {Array} arrPos 点数组
+	 * @param  {Integer} nth    第几圈
+	 * @param  {Integer} len    扩展范围
+	 * @return nothing
+	 */
+	function drawNextCircle(arrPos, nth, len) {
+		arrPos[nth + 1] = [];
+		for (var i = 0; i < arrPos[nth].length; i++) {
+			var p = {};
+			center = arrPos[nth][i];
+			// 判断上下左右，保持方向不变
+			if (center.dir === 1) {
+				p.x = rand(center.x - len, center.x);
+				p.y = rand(center.y - len, center.y);
+			}
+			else if (center.dir === 2) {
+				p.x = rand(center.x, center.x + len);
+				p.y = rand(center.y - len, center.y);
+			}
+			else if (center.dir === 3) {
+				p.x = rand(center.x - len, center.x);
+				p.y = rand(center.y, center.y + len);
+			}
+			else {
+				p.x = rand(center.x, center.x + len);
+				p.y = rand(center.y, center.y + len);
+			}
+			
+			// 连线
+			ctx.beginPath();
+			ctx.moveTo(center.x, center.y);
+			ctx.lineTo(p.x, p.y);
+			ctx.stroke();
+
+			// 判断相对位置，左上 右上 左下 右下 ~ 1234
+			if (p.x <= center.x && p.y <= center.y) {
+				p.dir = 1;
+			}
+			else if (p.x >= center.x && p.y <= center.y) {
+				p.dir = 2;
+			}
+			else if (p.x <= center.x && p.y >= center.y) {
+				p.dir = 3;
+			}
+			else {
+				p.dir = 4;
+			}
+			// 记录
+			arrPos[nth + 1][i] = p;
+		}
+	}
+
+	/**
+	 * 绘制裂纹
+	 * @param  {Array} arrPos    关键点数组，按圈存放
+	 * @param  {Integer} circleNum 圈数
+	 * @param  {Integer} radius    第一圈的范围
+	 * @param  {Array} arrDelta  接下来每一圈范围的增量
+	 * @return nothing
+	 */
+	function draw(arrPos, circleNum, radius, arrDelta) {
+		var delay = 100;
+		var i = 1;
+		(function() {
+			if (i >= circleNum) {
+				return;
+			}
+			radius += arrDelta[i - 1];
+			drawNextCircle(arrPos, i++, radius);
+
+			setTimeout(arguments.callee, delay);
+		})();
+	}
+
+	// 点击canvas显示裂纹
+	canvas.onclick = function(e) {
+		// 显示裂纹
+		var arrPos = [];	// 记录所有点
+		// 第一圈
+		// 随机中心点
+		var center = {};
+		center.x = rand(canvas.width * 0.25, canvas.width * 0.75);
+		center.y = rand(canvas.height * 0.25, canvas.height * 0.75);
+
+		ctx.strokeStyle = '#fafafa';
+		ctx.lineWidth = 2;
+		ctx.beginPath();
+		ctx.arc(center.x, center.y, 1, 0, Math.PI * 2, true);
+		ctx.stroke();
+		// 记录
+		arrPos[0] = [];
+		arrPos[0][0] = center;
+
+		// 在中心点周围随机取点并连接
+		var num = 5;
+		var rotate = 2 * Math.PI / num;
+		var radius = 20;
+		var lastPos = null;	// 上一个点
+		arrPos[1] = [];	// 第一圈
+		for (var i = 0; i < num; i++) {
+			if (lastPos === null) {	// 第一个点随机选
+				var p = {};
+				// 第一个点到中心点的距离决定第一圈的实际范围，不能过小，此处取r/4 ~ r
+				// 意味着从右下方找第一个点
+				p.x = rand(center.x + radius / 4, center.x + radius);
+				p.y = rand(center.y + radius / 4, center.y + radius);
+			}
+			else {	// 后续点旋转均匀分布
+				var p = {};
+				// 以原点为圆心
+				var x0 = lastPos.x - center.x, y0 = lastPos.y - center.y;
+				// 求旋转后的点的坐标
+				var x1 = x0 * Math.cos(rotate) - y0 * Math.sin(rotate);
+				var y1 = x0 * Math.sin(rotate) + y0 * Math.cos(rotate);
+// console.log(x1+', ' + y1);///
+				// 得到两点式直线方程
+				// var f = function(x) {
+				// 	return (x - x2) * (y1 - y2) / (x1 - x2) + y2;
+				// }
+				// 在x1, y1周围取一点，三目表示随机正负号，把原点转换回来
+				// p.x = x1 + center.x;
+				// p.y = y1 + center.y;
+				p.x = (rand(0, 1) === 0 ? 1 : -1) * rand(0, radius / 5) + x1 + center.x;
+				p.y = (rand(0, 1) === 0 ? 1 : -1) * rand(0, radius / 5) + y1 + center.y;
+			}
+			
+			// 连线
+			ctx.beginPath();
+			ctx.moveTo(center.x, center.y);
+			ctx.lineTo(p.x, p.y);
+			ctx.stroke();
+
+			
+			// 判断相对位置，左上 右上 左下 右下 ~ 1234
+			if (p.x <= center.x && p.y <= center.y) {
+				p.dir = 1;
+			}
+			else if (p.x >= center.x && p.y <= center.y) {
+				p.dir = 2;
+			}
+			else if (p.x <= center.x && p.y >= center.y) {
+				p.dir = 3;
+			}
+			else {
+				p.dir = 4;
+			}
+
+			// 记录
+			arrPos[1][i] = p;
+			lastPos = p;
+// console.log(p.x, p.y);///
+		}
+
+		// 向外扩展
+		var arrDelta = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105];
+		draw(arrPos, 10, radius, arrDelta);
+
+
+
+
+		e.stopPropagation();
+	}
+	// 点击canvas外清除裂纹
+	body.onclick = function(e) {
+		if (e.target.nodeName !== 'CANVAS') {
+			// 清除裂纹
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+		}
+	}
+	</script>
+</body>
+</html>

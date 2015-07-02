@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag and Drop</title>
+    <script src="http://www.ayqy.net/script/jquery.min.js"></script>
+    <style>
+    div {
+        width: 400px;
+        height: 200px;
+        margin: 20px;
+        background-color: #ccc;
+    }
+    </style>
+</head>
+<body>
+    <div id="dropArea3">文件放置区域</div>
+    <form action="http://localhost:82/drag&drop/fileUpload.php" method="POST" enctype="multipart/form-data">
+        <input type="file" name="myfile" id="">
+        <input type="submit" value="上传文件">
+    </form>
+
+    <script>
+    // 可拖放元素
+    var area3 = document.getElementById('dropArea3');
+
+
+    // 文件放置区域
+    area3.ondragover = function(e) {
+        e.preventDefault();
+    }
+    area3.ondrop = function(e) {
+        e.preventDefault();
+        
+        var files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+            // 输出文件信息
+            var str = '';
+            for(var i = 0; i < files.length; i++) {
+                var file = files[i];
+
+                // 在线预览图片也需要先把图片上传到服务器，因为无法获取客户端文件url
+
+                // 上传文件直接xhr发送file对象即可
+                var formData = new FormData();
+                formData.append('myfile', file);
+                // JQ方式
+                // $.ajax({
+                //     type : 'POST',
+                //     url: 'http://localhost:82/drag&drop/fileUpload.php',
+                //     processData: false,
+                //     contentType: false,
+                //     data: formData,
+                //     success: function(res){
+                //         console.log('success');
+                //         console.log(res);
+                //     },
+                //     error: function(res) {
+                //         console.log('error');
+                //     }
+                // });
+                
+
+                // 原生JS方式
+                var xhr = new XMLHttpRequest();    
+                xhr.open("POST", "http://localhost:82/drag&drop/fileUpload.php", true);
+                /* 千万不能设置，会导致$_FILES收不到数据 */
+                // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+                xhr.send(formData);
+                xhr.onload = function(e) {
+                    if (this.status == 200) {
+                        console.log(this.responseText);
+                    }
+                };
+
+                console.log(file);
+            }
+
+            console.log('receive a file');
+        }
+    }
+    </script>
+</body>
+</html>

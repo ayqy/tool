@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>雪花效果</title>
+	<style>
+	body {
+		background-color: #000;
+	}
+	#canvas {
+		display: block;
+		width: 800px;
+		height: 600px;
+		margin: 30px auto;
+		border: 1px solid #111;
+	}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="800px" height="600px">不支持canvas</canvas>
+
+	<script>
+	var body = document.body;
+
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+
+	(function() {
+		ctx.font="36px Monospace";
+		// 创建渐变
+		var gradient=ctx.createLinearGradient(0, canvas.height / 5 - 36, 0, canvas.height / 5);
+		gradient.addColorStop("0", "#000");
+		gradient.addColorStop("0.3", "#222");
+		gradient.addColorStop("1.0", "#fff");
+		// 用渐变填色
+		ctx.strokeStyle = gradient;
+		ctx.strokeText('点我下雪', canvas.width / 5, canvas.height / 5);
+	})();
+
+	
+	// 获取[min, max]的随机数
+	function rand(min, max) {
+	    return Math.round(Math.random() * (max - min) + min);
+	}
+
+	function drawSnowFlake() {
+		// 随机中心点
+		var center = {};
+		center.x = rand(0, canvas.width);
+		center.y = rand(0, canvas.height);
+
+		// canvas
+		ctx.strokeStyle = '#fafafa';
+		ctx.lineWidth = 2;
+		ctx.beginPath();
+		ctx.arc(center.x, center.y, 1, 0, Math.PI * 2, true);
+		ctx.stroke();
+
+		// 在中心点周围随机取点并连接
+		var num = 6;	// 雪花是6角形
+		var rotate = 2 * Math.PI / num;
+		var radius = 30;
+		var lastPos = null;	// 上一个点
+		for (var i = 0; i < num; i++) {
+			if (lastPos === null) {	// 第一个点随机选
+				var p = {};
+				// 第一个点到中心点的距离决定雪花的实际半径
+				p.x = rand(center.x - radius, center.x + radius);
+				p.y = rand(center.y - radius, center.y + radius);
+
+				// 提供枝桠需要的数据 x1, y1
+				var x1 = p.x - center.x;
+				var y1 = p.y - center.y;
+			}
+			else {	// 后续点旋转均匀分布
+				var p = {};
+				// 以原点为圆心
+				var x0 = lastPos.x - center.x, y0 = lastPos.y - center.y;
+				// 求旋转后的点的坐标
+				var x1 = x0 * Math.cos(rotate) - y0 * Math.sin(rotate);
+				var y1 = x0 * Math.sin(rotate) + y0 * Math.cos(rotate);
+
+				// 得到两点式直线方程
+				// var f = function(x) {
+				// 	return (x - x2) * (y1 - y2) / (x1 - x2) + y2;
+				// }
+				
+				// 在x1, y1周围取一点，三目表示随机正负号，把原点转换回来
+				// p.x = x1 + center.x;
+				// p.y = y1 + center.y;
+
+				// 加上r/15的细微偏差
+				p.x = (rand(0, 1) === 0 ? 1 : -1) * rand(0, radius / 15) + x1 + center.x;
+				p.y = (rand(0, 1) === 0 ? 1 : -1) * rand(0, radius / 15) + y1 + center.y;
+			}
+			
+			// 连线得到放射状骨架
+			ctx.beginPath();
+			ctx.moveTo(center.x, center.y);
+			ctx.lineTo(p.x, p.y);
+			ctx.stroke();
+
+			// 从2/3处分出枝桠
+			var c = {};
+			var p1 = {};
+			var p2 = {};
+			c.x = x1 * 2 / 3 + center.x;
+			c.y = y1 * 2 / 3 + center.y;
+
+			// 以中点为圆心
+			// 求终点旋转后的坐标
+			var x0_ = p.x - c.x, y0_ = p.y - c.y;
+			// 求旋转后的点的坐标，旋转角不变
+			var x1_ = x0_ * Math.cos(rotate) - y0_ * Math.sin(rotate);
+			var y1_ = x0_ * Math.sin(rotate) + y0_ * Math.cos(rotate);
+			var x1__ = x0_ * Math.cos(-1 * rotate) - y0_ * Math.sin(-1 * rotate);
+			var y1__ = x0_ * Math.sin(-1 * rotate) + y0_ * Math.cos(-1 * rotate);
+			// 加上r/20的细微偏差
+			p1.x = (rand(0, 1) === 0 ? 1 : -1) * rand(0, radius / 20) + x1_ + c.x;
+			p1.y = (rand(0, 1) === 0 ? 1 : -1) * rand(0, radius / 20) + y1_ + c.y;
+			p2.x = (rand(0, 1) === 0 ? 1 : -1) * rand(0, radius / 20) + x1__ + c.x;
+			p2.y = (rand(0, 1) === 0 ? 1 : -1) * rand(0, radius / 20) + y1__ + c.y;
+			// 连线得到枝桠
+			ctx.beginPath();
+			ctx.moveTo(c.x, c.y);
+			ctx.lineTo(p1.x, p1.y);
+			ctx.moveTo(c.x, c.y);
+			ctx.lineTo(p2.x, p2.y);
+			ctx.stroke();
+
+			// 记录上一个点
+			lastPos = p;
+		}
+	}
+
+	// 点击canvas显示
+	canvas.onclick = function(e) {
+		drawSnowFlake();
+
+		e.stopPropagation();
+	}
+	// 点击canvas外清除
+	body.onclick = function(e) {
+		if (e.target.nodeName !== 'CANVAS') {
+			// 清除
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+		}
+	}
+	</script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+@font-face {
+  font-family: 'entypo';
+  src: url('../font/entypo.eot?92456848');
+  src: url('../font/entypo.eot?92456848#iefix') format('embedded-opentype'),
+       url('../font/entypo.woff?92456848') format('woff'),
+       url('../font/entypo.ttf?92456848') format('truetype'),
+       url('../font/entypo.svg?92456848#entypo') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'entypo';
+    src: url('../font/entypo.svg?92456848#entypo') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "entypo";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-note:before { content: '\fd00'; } /* 'ﴀ' */
+.icon-note-beamed:before { content: '\fd01'; } /* 'ﴁ' */
+.icon-music-1:before { content: '\fd02'; } /* 'ﴂ' */
+.icon-search-2:before { content: '\fd03'; } /* 'ﴃ' */
+.icon-flashlight:before { content: '\fd04'; } /* 'ﴄ' */
+.icon-mail-1:before { content: '\fd05'; } /* 'ﴅ' */
+.icon-heart-1:before { content: '\fd06'; } /* 'ﴆ' */
+.icon-heart-empty:before { content: '\fd07'; } /* 'ﴇ' */
+.icon-star:before { content: '\fd08'; } /* 'ﴈ' */
+.icon-star-empty:before { content: '\fd09'; } /* 'ﴉ' */
+.icon-user-1:before { content: '\fd0a'; } /* 'ﴊ' */
+.icon-users-1:before { content: '\fd0b'; } /* 'ﴋ' */
+.icon-user-add:before { content: '\fd0c'; } /* 'ﴌ' */
+.icon-video-1:before { content: '\fd0d'; } /* 'ﴍ' */
+.icon-picture:before { content: '\fd0e'; } /* 'ﴎ' */
+.icon-camera:before { content: '\fd0f'; } /* 'ﴏ' */
+.icon-layout:before { content: '\fd10'; } /* 'ﴐ' */
+.icon-menu:before { content: '\fd11'; } /* 'ﴑ' */
+.icon-check-1:before { content: '\fd12'; } /* 'ﴒ' */
+.icon-cancel:before { content: '\fd13'; } /* 'ﴓ' */
+.icon-cancel-circled-1:before { content: '\fd14'; } /* 'ﴔ' */
+.icon-cancel-squared:before { content: '\fd15'; } /* 'ﴕ' */
+.icon-plus:before { content: '\fd16'; } /* 'ﴖ' */
+.icon-plus-circled-1:before { content: '\fd17'; } /* 'ﴗ' */
+.icon-plus-squared-1:before { content: '\fd18'; } /* 'ﴘ' */
+.icon-minus:before { content: '\fd19'; } /* 'ﴙ' */
+.icon-minus-circled-1:before { content: '\fd1a'; } /* 'ﴚ' */
+.icon-minus-squared-1:before { content: '\fd1b'; } /* 'ﴛ' */
+.icon-help-1:before { content: '\fd1c'; } /* 'ﴜ' */
+.icon-help-circled:before { content: '\fd1d'; } /* 'ﴝ' */
+.icon-info-1:before { content: '\fd1e'; } /* 'ﴞ' */
+.icon-info-circled-1:before { content: '\fd1f'; } /* 'ﴟ' */
+.icon-back:before { content: '\fd20'; } /* 'ﴠ' */
+.icon-home-1:before { content: '\fd21'; } /* 'ﴡ' */
+.icon-link-1:before { content: '\fd22'; } /* 'ﴢ' */
+.icon-attach-1:before { content: '\fd23'; } /* 'ﴣ' */
+.icon-lock:before { content: '\fd24'; } /* 'ﴤ' */
+.icon-lock-open-1:before { content: '\fd25'; } /* 'ﴥ' */
+.icon-eye-1:before { content: '\fd26'; } /* 'ﴦ' */
+.icon-tag-1:before { content: '\fd27'; } /* 'ﴧ' */
+.icon-bookmark-1:before { content: '\fd28'; } /* 'ﴨ' */
+.icon-bookmarks:before { content: '\fd29'; } /* 'ﴩ' */
+.icon-flag-1:before { content: '\fd2a'; } /* 'ﴪ' */
+.icon-thumbs-up-1:before { content: '\fd2b'; } /* 'ﴫ' */
+.icon-thumbs-down-1:before { content: '\fd2c'; } /* 'ﴬ' */
+.icon-download-1:before { content: '\fd2d'; } /* 'ﴭ' */
+.icon-upload-1:before { content: '\fd2e'; } /* 'ﴮ' */
+.icon-upload-cloud-1:before { content: '\fd2f'; } /* 'ﴯ' */
+.icon-reply-2:before { content: '\fd30'; } /* 'ﴰ' */
+.icon-reply-all-1:before { content: '\fd31'; } /* 'ﴱ' */
+.icon-forward-1:before { content: '\fd32'; } /* 'ﴲ' */
+.icon-quote:before { content: '\fd33'; } /* 'ﴳ' */
+.icon-code-1:before { content: '\fd34'; } /* 'ﴴ' */
+.icon-export-2:before { content: '\fd35'; } /* 'ﴵ' */
+.icon-pencil-1:before { content: '\fd36'; } /* 'ﴶ' */
+.icon-feather:before { content: '\fd37'; } /* 'ﴷ' */
+.icon-print-1:before { content: '\fd38'; } /* 'ﴸ' */
+.icon-retweet-1:before { content: '\fd39'; } /* 'ﴹ' */
+.icon-keyboard-1:before { content: '\fd3a'; } /* 'ﴺ' */
+.icon-comment:before { content: '\fd3b'; } /* 'ﴻ' */
+.icon-chat-1:before { content: '\fd3c'; } /* 'ﴼ' */
+.icon-bell-1:before { content: '\fd3d'; } /* 'ﴽ' */
+.icon-attention-1:before { content: '\fd3e'; } /* '﴾' */
+.icon-alert:before { content: '\fd3f'; } /* '﴿' */
+.icon-vcard:before { content: '\fd40'; } /* '﵀' */
+.icon-address:before { content: '\fd41'; } /* '﵁' */
+.icon-location-1:before { content: '\fd42'; } /* '﵂' */
+.icon-map:before { content: '\fd43'; } /* '﵃' */
+.icon-direction-1:before { content: '\fd44'; } /* '﵄' */
+.icon-compass-1:before { content: '\fd45'; } /* '﵅' */
+.icon-cup:before { content: '\fd46'; } /* '﵆' */
+.icon-trash:before { content: '\fd47'; } /* '﵇' */
+.icon-doc-1:before { content: '\fd48'; } /* '﵈' */
+.icon-docs-1:before { content: '\fd49'; } /* '﵉' */
+.icon-doc-landscape:before { content: '\fd4a'; } /* '﵊' */
+.icon-doc-text-1:before { content: '\fd4b'; } /* '﵋' */
+.icon-doc-text-inv-1:before { content: '\fd4c'; } /* '﵌' */
+.icon-newspaper:before { content: '\fd4d'; } /* '﵍' */
+.icon-book-open:before { content: '\fd4e'; } /* '﵎' */
+.icon-book-1:before { content: '\fd4f'; } /* '﵏' */
+.icon-folder-1:before { content: '\fd50'; } /* 'ﵐ' */
+.icon-archive:before { content: '\fd51'; } /* 'ﵑ' */
+.icon-box-1:before { content: '\fd52'; } /* 'ﵒ' */
+.icon-rss-1:before { content: '\fd53'; } /* 'ﵓ' */
+.icon-phone-1:before { content: '\fd54'; } /* 'ﵔ' */
+.icon-cog:before { content: '\fd55'; } /* 'ﵕ' */
+.icon-tools:before { content: '\fd56'; } /* 'ﵖ' */
+.icon-share-1:before { content: '\fd57'; } /* 'ﵗ' */
+.icon-shareable:before { content: '\fd58'; } /* 'ﵘ' */
+.icon-basket-1:before { content: '\fd59'; } /* 'ﵙ' */
+.icon-bag:before { content: '\fd5a'; } /* 'ﵚ' */
+.icon-calendar-1:before { content: '\fd5b'; } /* 'ﵛ' */
+.icon-login-1:before { content: '\fd5c'; } /* 'ﵜ' */
+.icon-logout-1:before { content: '\fd5d'; } /* 'ﵝ' */
+.icon-mic:before { content: '\fd5e'; } /* 'ﵞ' */
+.icon-mute-1:before { content: '\fd5f'; } /* 'ﵟ' */
+.icon-sound:before { content: '\fd60'; } /* 'ﵠ' */
+.icon-volume:before { content: '\fd61'; } /* 'ﵡ' */
+.icon-clock:before { content: '\fd62'; } /* 'ﵢ' */
+.icon-hourglass:before { content: '\fd63'; } /* 'ﵣ' */
+.icon-lamp:before { content: '\fd64'; } /* 'ﵤ' */
+.icon-light-down:before { content: '\fd65'; } /* 'ﵥ' */
+.icon-light-up:before { content: '\fd66'; } /* 'ﵦ' */
+.icon-adjust:before { content: '\fd67'; } /* 'ﵧ' */
+.icon-block-2:before { content: '\fd68'; } /* 'ﵨ' */
+.icon-resize-full-2:before { content: '\fd69'; } /* 'ﵩ' */
+.icon-resize-small-1:before { content: '\fd6a'; } /* 'ﵪ' */
+.icon-popup:before { content: '\fd6b'; } /* 'ﵫ' */
+.icon-publish:before { content: '\fd6c'; } /* 'ﵬ' */
+.icon-window:before { content: '\fd6d'; } /* 'ﵭ' */
+.icon-arrow-combo:before { content: '\fd6e'; } /* 'ﵮ' */
+.icon-down-circled-1:before { content: '\fd6f'; } /* 'ﵯ' */
+.icon-left-circled-1:before { content: '\fd70'; } /* 'ﵰ' */
+.icon-right-circled-1:before { content: '\fd71'; } /* 'ﵱ' */
+.icon-up-circled-1:before { content: '\fd72'; } /* 'ﵲ' */
+.icon-down-open-1:before { content: '\fd73'; } /* 'ﵳ' */
+.icon-left-open-2:before { content: '\fd74'; } /* 'ﵴ' */
+.icon-right-open-2:before { content: '\fd75'; } /* 'ﵵ' */
+.icon-up-open-1:before { content: '\fd76'; } /* 'ﵶ' */
+.icon-down-open-mini:before { content: '\fd77'; } /* 'ﵷ' */
+.icon-left-open-mini:before { content: '\fd78'; } /* 'ﵸ' */
+.icon-right-open-mini:before { content: '\fd79'; } /* 'ﵹ' */
+.icon-up-open-mini:before { content: '\fd7a'; } /* 'ﵺ' */
+.icon-down-open-big:before { content: '\fd7b'; } /* 'ﵻ' */
+.icon-left-open-big:before { content: '\fd7c'; } /* 'ﵼ' */
+.icon-right-open-big:before { content: '\fd7d'; } /* 'ﵽ' */
+.icon-up-open-big:before { content: '\fd7e'; } /* 'ﵾ' */
+.icon-down-3:before { content: '\fd7f'; } /* 'ﵿ' */
+.icon-left-3:before { content: '\fd80'; } /* 'ﶀ' */
+.icon-right-3:before { content: '\fd81'; } /* 'ﶁ' */
+.icon-up-3:before { content: '\fd82'; } /* 'ﶂ' */
+.icon-down-dir-1:before { content: '\fd83'; } /* 'ﶃ' */
+.icon-left-dir-1:before { content: '\fd84'; } /* 'ﶄ' */
+.icon-right-dir-1:before { content: '\fd85'; } /* 'ﶅ' */
+.icon-up-dir-1:before { content: '\fd86'; } /* 'ﶆ' */
+.icon-down-bold:before { content: '\fd87'; } /* 'ﶇ' */
+.icon-left-bold:before { content: '\fd88'; } /* 'ﶈ' */
+.icon-right-bold:before { content: '\fd89'; } /* 'ﶉ' */
+.icon-up-bold:before { content: '\fd8a'; } /* 'ﶊ' */
+.icon-down-thin:before { content: '\fd8b'; } /* 'ﶋ' */
+.icon-left-thin:before { content: '\fd8c'; } /* 'ﶌ' */
+.icon-right-thin:before { content: '\fd8d'; } /* 'ﶍ' */
+.icon-up-thin:before { content: '\fd8e'; } /* 'ﶎ' */
+.icon-ccw:before { content: '\fd8f'; } /* 'ﶏ' */
+.icon-cw-1:before { content: '\fd90'; } /* '﶐' */
+.icon-arrows-ccw:before { content: '\fd91'; } /* '﶑' */
+.icon-level-down-1:before { content: '\fd92'; } /* 'ﶒ' */
+.icon-level-up-1:before { content: '\fd93'; } /* 'ﶓ' */
+.icon-shuffle-1:before { content: '\fd94'; } /* 'ﶔ' */
+.icon-loop:before { content: '\fd95'; } /* 'ﶕ' */
+.icon-switch:before { content: '\fd96'; } /* 'ﶖ' */
+.icon-play:before { content: '\fd97'; } /* 'ﶗ' */
+.icon-stop-1:before { content: '\fd98'; } /* 'ﶘ' */
+.icon-pause-2:before { content: '\fd99'; } /* 'ﶙ' */
+.icon-record:before { content: '\fd9a'; } /* 'ﶚ' */
+.icon-to-end-1:before { content: '\fd9b'; } /* 'ﶛ' */
+.icon-to-start-1:before { content: '\fd9c'; } /* 'ﶜ' */
+.icon-fast-forward:before { content: '\fd9d'; } /* 'ﶝ' */
+.icon-fast-backward:before { content: '\fd9e'; } /* 'ﶞ' */
+.icon-progress-0:before { content: '\fd9f'; } /* 'ﶟ' */
+.icon-progress-1:before { content: '\fda0'; } /* 'ﶠ' */
+.icon-progress-2:before { content: '\fda1'; } /* 'ﶡ' */
+.icon-progress-3:before { content: '\fda2'; } /* 'ﶢ' */
+.icon-target-1:before { content: '\fda3'; } /* 'ﶣ' */
+.icon-palette:before { content: '\fda4'; } /* 'ﶤ' */
+.icon-list-1:before { content: '\fda5'; } /* 'ﶥ' */
+.icon-list-add:before { content: '\fda6'; } /* 'ﶦ' */
+.icon-signal-1:before { content: '\fda7'; } /* 'ﶧ' */
+.icon-trophy:before { content: '\fda8'; } /* 'ﶨ' */
+.icon-battery:before { content: '\fda9'; } /* 'ﶩ' */
+.icon-back-in-time:before { content: '\fdaa'; } /* 'ﶪ' */
+.icon-monitor:before { content: '\fdab'; } /* 'ﶫ' */
+.icon-mobile-2:before { content: '\fdac'; } /* 'ﶬ' */
+.icon-network:before { content: '\fdad'; } /* 'ﶭ' */
+.icon-cd:before { content: '\fdae'; } /* 'ﶮ' */
+.icon-inbox-1:before { content: '\fdaf'; } /* 'ﶯ' */
+.icon-install:before { content: '\fdb0'; } /* 'ﶰ' */
+.icon-globe-1:before { content: '\fdb1'; } /* 'ﶱ' */
+.icon-cloud-1:before { content: '\fdb2'; } /* 'ﶲ' */
+.icon-cloud-thunder:before { content: '\fdb3'; } /* 'ﶳ' */
+.icon-flash-1:before { content: '\fdb4'; } /* 'ﶴ' */
+.icon-moon-1:before { content: '\fdb5'; } /* 'ﶵ' */
+.icon-flight-1:before { content: '\fdb6'; } /* 'ﶶ' */
+.icon-paper-plane:before { content: '\fdb7'; } /* 'ﶷ' */
+.icon-leaf-1:before { content: '\fdb8'; } /* 'ﶸ' */
+.icon-lifebuoy-1:before { content: '\fdb9'; } /* 'ﶹ' */
+.icon-mouse:before { content: '\fdba'; } /* 'ﶺ' */
+.icon-briefcase-1:before { content: '\fdbb'; } /* 'ﶻ' */
+.icon-suitcase-1:before { content: '\fdbc'; } /* 'ﶼ' */
+.icon-dot:before { content: '\fdbd'; } /* 'ﶽ' */
+.icon-dot-2:before { content: '\fdbe'; } /* 'ﶾ' */
+.icon-dot-3:before { content: '\fdbf'; } /* 'ﶿ' */
+.icon-brush:before { content: '\fdc0'; } /* 'ﷀ' */
+.icon-magnet-1:before { content: '\fdc1'; } /* 'ﷁ' */
+.icon-infinity:before { content: '\fdc2'; } /* 'ﷂ' */
+.icon-erase:before { content: '\fdc3'; } /* 'ﷃ' */
+.icon-chart-pie:before { content: '\fdc4'; } /* 'ﷄ' */
+.icon-chart-line:before { content: '\fdc5'; } /* 'ﷅ' */
+.icon-chart-bar:before { content: '\fdc6'; } /* 'ﷆ' */
+.icon-chart-area:before { content: '\fdc7'; } /* 'ﷇ' */
+.icon-tape:before { content: '\fdc8'; } /* '﷈' */
+.icon-graduation-cap-1:before { content: '\fdc9'; } /* '﷉' */
+.icon-language-1:before { content: '\fdca'; } /* '﷊' */
+.icon-ticket-1:before { content: '\fdcb'; } /* '﷋' */
+.icon-water:before { content: '\fdcc'; } /* '﷌' */
+.icon-droplet:before { content: '\fdcd'; } /* '﷍' */
+.icon-air:before { content: '\fdce'; } /* '﷎' */
+.icon-credit-card-1:before { content: '\fdcf'; } /* '﷏' */
+.icon-floppy-1:before { content: '\fe00'; } /* '︀' */
+.icon-clipboard:before { content: '\fe01'; } /* '︁' */
+.icon-megaphone-1:before { content: '\fe02'; } /* '︂' */
+.icon-database-1:before { content: '\fe03'; } /* '︃' */
+.icon-drive:before { content: '\fe04'; } /* '︄' */
+.icon-bucket:before { content: '\fe05'; } /* '︅' */
+.icon-thermometer:before { content: '\fe06'; } /* '︆' */
+.icon-key-1:before { content: '\fe07'; } /* '︇' */
+.icon-flow-cascade:before { content: '\fe08'; } /* '︈' */
+.icon-flow-branch:before { content: '\fe09'; } /* '︉' */
+.icon-flow-tree:before { content: '\fe0a'; } /* '︊' */
+.icon-flow-line:before { content: '\fe0b'; } /* '︋' */
+.icon-flow-parallel:before { content: '\fe0c'; } /* '︌' */
+.icon-rocket-1:before { content: '\fe0d'; } /* '︍' */
+.icon-gauge-1:before { content: '\fe0e'; } /* '︎' */
+.icon-traffic-cone:before { content: '\fe0f'; } /* '️' */
+.icon-cc:before { content: '\fe10'; } /* '︐' */
+.icon-cc-by:before { content: '\fe11'; } /* '︑' */
+.icon-cc-nc:before { content: '\fe12'; } /* '︒' */
+.icon-cc-nc-eu:before { content: '\fe13'; } /* '︓' */
+.icon-cc-nc-jp:before { content: '\fe14'; } /* '︔' */
+.icon-cc-sa:before { content: '\fe15'; } /* '︕' */
+.icon-cc-nd:before { content: '\fe16'; } /* '︖' */
+.icon-cc-pd:before { content: '\fe17'; } /* '︗' */
+.icon-cc-zero:before { content: '\fe18'; } /* '︘' */
+.icon-cc-share:before { content: '\fe19'; } /* '︙' */
+.icon-cc-remix:before { content: '\fe1a'; } /* '︚' */
+.icon-github-1:before { content: '\fe1b'; } /* '︛' */
+.icon-github-circled-1:before { content: '\fe1c'; } /* '︜' */
+.icon-flickr-1:before { content: '\fe1d'; } /* '︝' */
+.icon-flickr-circled:before { content: '\fe1e'; } /* '︞' */
+.icon-vimeo:before { content: '\fe1f'; } /* '︟' */
+.icon-vimeo-circled:before { content: '\fe20'; } /* '︠' */
+.icon-twitter-1:before { content: '\fe21'; } /* '︡' */
+.icon-twitter-circled:before { content: '\fe22'; } /* '︢' */
+.icon-facebook-1:before { content: '\fe23'; } /* '︣' */
+.icon-facebook-circled:before { content: '\fe24'; } /* '︤' */
+.icon-facebook-squared-1:before { content: '\fe25'; } /* '︥' */
+.icon-gplus-1:before { content: '\fe26'; } /* '︦' */
+.icon-gplus-circled:before { content: '\fe27'; } /* '︧' */
+.icon-pinterest:before { content: '\fe28'; } /* '︨' */
+.icon-pinterest-circled-1:before { content: '\fe29'; } /* '︩' */
+.icon-tumblr-1:before { content: '\fe2a'; } /* '︪' */
+.icon-tumblr-circled:before { content: '\fe2b'; } /* '︫' */
+.icon-linkedin-1:before { content: '\fe2c'; } /* '︬' */
+.icon-linkedin-circled:before { content: '\fe2d'; } /* '︭' */
+.icon-dribbble-1:before { content: '\fe2e'; } /* '︮' */
+.icon-dribbble-circled:before { content: '\fe2f'; } /* '︯' */
+.icon-stumbleupon-1:before { content: '\fe6c'; } /* '﹬' */
+.icon-stumbleupon-circled-1:before { content: '\fe6d'; } /* '﹭' */
+.icon-lastfm:before { content: '\fe6e'; } /* '﹮' */
+.icon-lastfm-circled:before { content: '\fe6f'; } /* '﹯' */
+.icon-rdio:before { content: '\fe70'; } /* 'ﹰ' */
+.icon-rdio-circled:before { content: '\fe71'; } /* 'ﹱ' */
+.icon-spotify-1:before { content: '\fe72'; } /* 'ﹲ' */
+.icon-spotify-circled:before { content: '\fe73'; } /* 'ﹳ' */
+.icon-qq-1:before { content: '\fe74'; } /* 'ﹴ' */
+.icon-instagram:before { content: '\fe75'; } /* '﹵' */
+.icon-dropbox-1:before { content: '\fe76'; } /* 'ﹶ' */
+.icon-evernote:before { content: '\fe77'; } /* 'ﹷ' */
+.icon-flattr:before { content: '\fe78'; } /* 'ﹸ' */
+.icon-skype-1:before { content: '\fe79'; } /* 'ﹹ' */
+.icon-skype-circled:before { content: '\fe7a'; } /* 'ﹺ' */
+.icon-renren-1:before { content: '\fe7b'; } /* 'ﹻ' */
+.icon-sina-weibo:before { content: '\fe7c'; } /* 'ﹼ' */
+.icon-paypal:before { content: '\fe7d'; } /* 'ﹽ' */
+.icon-picasa:before { content: '\fe7e'; } /* 'ﹾ' */
+.icon-soundcloud:before { content: '\fe7f'; } /* 'ﹿ' */
+.icon-mixi:before { content: '\fe80'; } /* 'ﺀ' */
+.icon-behance-1:before { content: '\fe81'; } /* 'ﺁ' */
+.icon-google-circles:before { content: '\fe82'; } /* 'ﺂ' */
+.icon-vkontakte-1:before { content: '\fe83'; } /* 'ﺃ' */
+.icon-smashing:before { content: '\fe84'; } /* 'ﺄ' */
+.icon-sweden:before { content: '\fe85'; } /* 'ﺅ' */
+.icon-db-shape:before { content: '\fe86'; } /* 'ﺆ' */
+.icon-logo-db:before { content: '\fe87'; } /* 'ﺇ' */
