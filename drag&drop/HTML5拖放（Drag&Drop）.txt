@@ -90,4 +90,3 @@ DragEvent，继承自 [object MouseEvent] 对象，其实就多了个 {DataTrans
 -  [JS魔法堂：IE5~9的Drag&Drop API](http://www.cnblogs.com/fsjohnhuang/p/3980563.html)：[IE10-]支持的拖放
 
 -  [HTML5 drag & drop 拖拽与拖放简介](http://www.zhangxinxu.com/wordpress/2011/02/html5-drag-drop-%E6%8B%96%E6%8B%BD%E4%B8%8E%E6%8B%96%E6%94%BE%E7%AE%80%E4%BB%8B/)
-

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag and Drop</title>
+    <style>
+    div {
+        width: 100px;
+        height: 50px;
+        margin: 20px;
+        background-color: #ccc;
+    }
+    </style>
+</head>
+<body>
+    <div id="dragItem" draggable="true">可拖放元素</div>
+    <div id="dropArea1">放置数据区域</div>
+    <div id="dropArea2">放置元素区域</div>
+    <div id="dropArea3">文件放置区域</div>
+    <div id="outPanel"></div>
+
+    <script>
+    // 可拖放元素
+    var item = document.getElementById('dragItem');
+    var area1 = document.getElementById('dropArea1');
+    var area2 = document.getElementById('dropArea2');
+    var area3 = document.getElementById('dropArea3');
+    var outPanel = document.getElementById('outPanel');
+
+    item.ondragstart = function(e) {
+        e.dataTransfer.setData('key', 'data');
+
+        console.log('start');
+    }
+    item.ondrag = function(e) {
+        e.target.style.backgroundColor = 'red';
+    }
+    item.ondragend = function(e) {
+        e.target.style.backgroundColor = '';
+    }
+
+
+    // 放置数据区域
+    area1.ondragover = function(e) {
+        e.preventDefault();
+
+        console.log('drag over');
+    }
+    area1.ondragenter = function(e) {
+        e.target.style.backgroundColor = 'yellow';
+
+        console.log('enter');
+    }
+    area1.ondragleave = function(e) {
+        e.target.style.backgroundColor = '';
+
+        console.log('leave');
+    }
+    area1.ondrop = function(e) {
+        e.target.style.backgroundColor = 'green';
+        e.target.innerHTML += e.dataTransfer.getData('key');
+
+        console.log('droped');
+    }
+
+
+    // 放置元素区域
+    area2.ondragover = function(e) {
+        e.preventDefault();
+
+        console.log('drag over');
+    }
+    area2.ondragenter = function(e) {
+        e.target.style.backgroundColor = 'yellow';
+
+        console.log('enter');
+    }
+    area2.ondragleave = function(e) {
+        e.target.style.backgroundColor = '';
+
+        console.log('leave');
+    }
+    area2.ondrop = function(e) {
+        e.target.style.backgroundColor = 'green';
+        e.target.appendChild('');
+
+        console.log('droped');
+    }
+
+
+
+    // 文件放置区域
+    area3.ondragover = function(e) {
+        e.preventDefault();
+    }
+    area3.ondrop = function(e) {
+        e.preventDefault();
+        
+        var files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+            // 输出文件信息
+            var str = '';
+            for(var i = 0; i < files.length; i++) {
+                var file = files[i];
+
+                outPanel.innerHTML = file.name;
+
+                // 在线预览图片也需要先把图片上传到服务器，因为无法获取客户端文件url
+
+                // 上传文件直接xhr发送file对象即可
+                // var formData = new FormData();
+                // formData.append('myfile', file);
+                // xhr.send(formData);
+                console.log(file);
+            }
+
+            console.log('receive a file');
+        }
+    }
+    </script>
+</body>
+</html>

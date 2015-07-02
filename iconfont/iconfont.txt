@@ -1,0 +1,155 @@
+#iconfont
+
+##一.iconfont的优缺点
+
+###优点
+
+1.  矢量性
+
+  屏幕适配（缩放）
+
+2.  字体性
+
+  样式控制（颜色，阴影，甚至浮雕）
+
+3.  文件小
+
+  一般20-50KB，比图片小很多，例如typicons库有308个icon，字体文件大小为59KB（woff） ~ 147KB（svg）
+
+  图标文件一般1.5KB/个（Sprite只会让总大小更大）
+
+4.  不需要Sprite，易于修改
+
+  省去了使用Sprite的麻烦，很容易修改更换
+
+###缺点
+
+1.  颜色限制
+
+  iconfont只能是纯色或者渐变色，复杂图标无法使用该技术（虽然也有方法可以实现多色iconfont，但兼容性，成本都无法接受）
+
+2.  FOUT（Flash of Unstyled Text）问题
+
+  浏览器先用默认字体渲染，待字体文件下载完毕后再对文字内容进行部分渲染，文字就会出现*不可避免*的闪烁
+
+3.  IE会阻塞页面渲染
+
+  如果在 @font-face 声明之前有script标签的话，IE将不会渲染任何东西，直到字体文件完成下载
+
+4.  性能
+
+  IE问题比较多，IE和FF下@fontface会阻塞window.onload，IE下用不用都会加载，字体加载出错（长时间未返回结果）时，IE会等待10分钟（期间白屏），其它浏览器会用默认字体渲染或者暂时不显示内容，在等待下载期间忙指示器会一直被触发（状态栏、进度条、图标、鼠标指针）
+
+##二.制作生成
+
+1.  [步骤可选]PS, 从png导出路径
+
+2.  AI，填色，闭合路径，存为svg
+
+3.  在线字体生成器
+
+    -  [http://www.iconfont.cn/icons/uploadShow](http://www.iconfont.cn/icons/uploadShow)
+
+    -  [http://fontello.com/](http://fontello.com/)
+
+##三.管理维护
+
+上传至在线平台，自动生成列表视图，方便管理，例如[http://www.iconfont.cn/showProject?pid=26177](http://www.iconfont.cn/showProject?pid=26177)
+
+##四.字体格式与兼容性
+
+###字体格式
+
+-  [woff](http://caniuse.com/#search=woff)：W3C推荐格式，体积最小，兼容性差
+
+  Android4.4+，IE9+
+
+-  [ttf](http://caniuse.com/#search=ttf)：Win和Mac默认字体格式
+
+  Android4.1+，IE9+部分支持
+
+-  [eot](http://caniuse.com/#search=eot)：微软提出的，允许@fontface嵌入OpenType字体
+
+  Android不支持，IOS不支持，IE不支持
+
+-  [svg](http://caniuse.com/#search=svg)：兼容性好，体积大
+
+  Android4.1+部分支持，IE9+
+
+###字体文件大小
+
+20个icon，字体文件大小分别为：
+
+-  woff：7K
+
+-  ttf：11K
+
+-  eot：11K
+
+-  svg：14K
+
+###兼容性
+
+-  IE：从IE4开始支持eot格式，IE9开始支持woff
+
+-  webkit/safari：支持TrueType/OpenType(.ttf)，OpenType PS(.otf)，*iOS4.2+支持.ttf，iOS 4.2以下只支持SVG字体*， Safari5.1+ 开始支持woff格式
+
+-  Chrome：除webkit支持的以外，从Chrome 6开始，开始支持woff格式
+
+-  Firefox：支持.ttf和.otf，从Firefox 3.6开始支持woff格式
+
+-  Opera：支持.ttf、.otf、.svg。 Opera 11开始支持woff
+
+-  *iPad, iPhone and Android 3.0+ 支持SVG fonts*
+
+  [此处](http://purplebamboo.github.io/2014/01/09/iconfont/)与caniuse结论有差异
+
+##五.性能优化原则
+
+-  将你的@font-face定义在所有的script标签前
+
+-  如果你有许多字体文件，考虑将它们分散到几个域名下
+
+-  不要包含没有使用的 @font-face声明——IE将不分它使用与否，通通加载
+
+-  Gzip字体文件，同时给它们一个未来的过期头部声明
+
+-  考虑字体文件的后加载（放在body结束标签前），起码对于IE（IE留10分钟下载字体，在此期间，页面阻塞）
+
+关于@fontface性能问题的详细信息请查看[【翻译】@font-face与性能](http://www.cnblogs.com/demix/archive/2009/11/28/1612715.html)
+
+##六.注意事项
+
+###1.FF不加载异域字体
+
+放到同域或设置服务器头
+
+###2.safair和chrome下字体被加粗
+
+把半像素锯齿渲染成了1px，设置css规则：<code>-webkit-font-smoothing: antialiased;</code>
+
+###3.PC的Chrome下严重锯齿
+
+对边缘模糊处理即可，设置css规则：<code>-webkit-text-stroke-width: 0.2px;</code>
+
+##七.结论
+
+1.  iconfont优点 > 缺点，复用性与维护性上的便利很诱人
+
+2.  生成字体库的主要工作量在于png转svg
+
+  如果UI肯配合就很容易了，而且字体库建好后对UI也有好处，做设计稿更方面，有[PS插件](http://tgideas.qq.com/webplat/info/news_version3/804/808/810/m579/201407/269118.shtml)可以直接使用iconfont，不用切出icon
+
+  （亲测不支持cc，cs6，对插件质量保持怀疑，*如果插件不可用，UI设计稿图标与iconfont的对应是个小麻烦*）
+
+3.  字体库管理不是问题
+
+  [http://www.iconfont.cn/users/project](http://www.iconfont.cn/users/project)非常方便
+
+4.  兼容性不是问题
+
+  4种格式都放上，兼容性足够了
+
+5.  性能不是很好
+
+  但和图片Sprite相比足够好了
