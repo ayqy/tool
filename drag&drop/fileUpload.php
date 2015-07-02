@@ -1,4 +1,5 @@
 <?php
+// 从$_FILES中取，而不是$_POST
 $file = $_FILES['myfile'];
 
 

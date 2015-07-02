@@ -44,6 +44,7 @@
                 // 上传文件直接xhr发送file对象即可
                 var formData = new FormData();
                 formData.append('myfile', file);
+                // JQ方式
                 // $.ajax({
                 //     type : 'POST',
                 //     url: 'http://localhost:82/drag&drop/fileUpload.php',
@@ -60,21 +61,7 @@
                 // });
                 
 
-
-
-
-                // var xhr = new XMLHttpRequest();
-                // xhr.open('post', 'http://localhost:82/drag&drop/fileUpload.php', true);
-                // // 必须在open之后
-                // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-                // xhr.send(formData);
-                // xhr.onload = function(e) {
-                //     if (xhr.status == 200) {
-                //         alert(xhr.responseText);
-                //     }
-                // };
-                
-
+                // 原生JS方式
                 var xhr = new XMLHttpRequest();    
                 xhr.open("POST", "http://localhost:82/drag&drop/fileUpload.php", true);
                 /* 千万不能设置，会导致$_FILES收不到数据 */
