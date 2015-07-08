@@ -1,0 +1,85 @@
+JavaScript设计模式1_构造器模式
+
+摘要：
+
+构造器模式是《JavaScript设计模式》一书中介绍的第一个模式，内容很单薄，对书有些失望。不过没关系，我们可以参考别的东西丰富这块内容
+
+###写在前面
+
+在开始之前我们先关注一下这个模式的名字：Constructor（构造器）模式，GoF的23个设计模式中没有这一个，名字字面上最相似应该是Builder（生成器）模式。但Builder的实际含义与书中介绍的并不一样：
+
+>  生成器模式（Builder）：用来封装组合结构（树形结构）的构造过程，与迭代器模式类似，都隐藏了组合结构的内部实现，只提供一组用于创建组合结构的接口
+
+（引自[黯羽轻扬：设计模式总结](http://ayqy.net/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%EF%BC%88%E3%80%8Ahead-first%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%EF%BC%89/)）
+
+所以，Constructor应该是指一种为了弥补JavaScript没有提供基于class的继承而提出的设计模式，那就没有什么神秘的了
+
+##一.Constructor（构造器）模式
+
+从书中的实例来看，构造器模式是用来实现属性共享的。所谓“构造器模式”，其实只是一个基本常识：把私有属性定义在构造函数中，把公有属性定义在原型对象上，代码如下：
+
+    function Fun(arg) {
+        this.arg = arg;
+
+        // 私有属性
+        var attr = 1;
+        function fun() {
+            // ...
+        }
+    }
+    // 公有属性（在原型对象上定义函数属性是为了函数在各个实例间能够共享，减少内存占用）
+    Fun.prototype.fun = function() {
+        // ...
+    }
+    console.log(new Fun(1).fun === new Fun(2).fun); // true
+
+这样做确实有一定优点（减少内存占用），但存在很大问题（比如原型引用属性在实例间共享），作者没有继续展开，仅仅给一句话的常识贴上“设计模式”的标签就匆匆结束了。
+
+关于JavaScript的继承，笔者之前做过详细的解释，此处不再赘述，请查看[黯羽轻扬：重新理解JS的6种继承方式](http://ayqy.net/blog/%E9%87%8D%E6%96%B0%E7%90%86%E8%A7%A3JS%E7%9A%846%E7%A7%8D%E7%BB%A7%E6%89%BF%E6%96%B9%E5%BC%8F/)
+
+##二.最佳继承方式
+
+重新梳理一遍JavaScript的继承方式，直接看代码，代码自己会说话：
+
+    /* 父类 */
+    function Super(arg) {
+        this.arg = arg;
+        // 私有属性
+        var attr = 1;
+        function fun() {
+            // ...
+        }
+    }
+    // 公有属性（在原型对象上定义函数属性是为了函数在各个实例间能够共享，减少内存消耗）
+    Super.prototype.fun = function() {
+        // ...
+    }
+    /* 子类 */
+    function Sub(arg, newArg) {
+        // 继承父类实例属性
+        Super.call(this, arg);
+        // 初始化子类实例属性
+        this.newArg = newArg;
+        // ...
+    }
+    // 缺点：无法向父类构造函数传参
+    // Sub.prototype = new Super();
+    function F() {} // 空函数，借来生孩子（beget）
+    F.prototype = Super.prototype;
+    var proto = new F();    // 得到“纯洁”的孩子
+    Sub.prototype = proto;  // 继承父类原型属性
+    // test
+    var sub = new Sub(1, 2);
+    // 输出父类属性
+    console.log(sub.arg);   // 1
+    console.log(new Sub(3, 4).fun === new Sub(5, 6).fun);   // true
+
+上面的实现还存在一点瑕疵，缺少了<code>proto.constructor = Sub;</code>这一行，导致<code>sub.constructor</code>是指向Super的，实际上我们希望它指向Sub，添上缺少的那行就好了
+
+##三.一点废话
+
+3个月前的面试中被JS的继承问住了，之后重新理解了6中继承方式，到现在3个月过去了，印象很深刻（直接写出了上面的代码，虽然存在一点瑕疵。。）。由此可见，花时间去理解一个东西是很有用的，否则现在肯定就被“Constructor（构造器）模式”的大帽子唬住了
+
+参考资料：
+
+-  [黯羽轻扬：重新理解JS的6种继承方式](http://ayqy.net/blog/%E9%87%8D%E6%96%B0%E7%90%86%E8%A7%A3JS%E7%9A%846%E7%A7%8D%E7%BB%A7%E6%89%BF%E6%96%B9%E5%BC%8F/)
