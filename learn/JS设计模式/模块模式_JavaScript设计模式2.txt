@@ -1,0 +1,247 @@
+模块模式_JavaScript设计模式2
+
+摘要：
+
+所谓Module（模块）模式，其实是一种针对JS的封装思想，很多语言提供了访问控制机制（public, private等等），但JS没有，所以才有了模块模式
+
+###写在前面
+
+其实此处的模块模式就是道格拉斯提出的Module模式，完全一样，但作者对主流JS库（框架）的模块管理做了分析，算是亮点
+
+###一.模块模式
+
+JS没有class的概念，自然也就没有了基于类的封装一说，class最大的优点可能就是*模块（命名空间）管理与访问控制*，这些JS都没有。但利用JS函数作用域的特点可实现访问控制（封装），会说话的代码如下：
+
+    var module = (function() {
+        // 私有属性
+        var attr1 = 1;
+        function fun1() {
+            // ...
+        }
+
+        // 返回匿名对象，当然，也可以返回不匿名的对象
+        return {
+            // 公有属性
+            attr2: attr1,
+            fun2: fun1
+        }
+    })();   // IIFE, 匿名函数立即执行
+
+从外部只能访问公有属性`attr2`和`fun2`，私有属性`attr1`和`fun1`是被限制访问的（undefined），这样看来算是封装良好了。但问题是`module`是一个单例，无法复用，如果想要复用，还需要做一点小变动：
+
+    function Module() {
+        // 私有属性
+        var attr1 = 1;
+        function fun1() {
+            // ...
+        }
+
+        // 公有属性
+        this.attr2 = attr1;
+        this.fun2 = fun1;
+    }
+    var module1 = new Module();
+    var module2 = new Module();
+
+从访问控制（封装）的角度来看，两种方式都是可以的，第一种方式的缺点是单例的限制，还存在初始化无法传参等问题，第二种方式支持复用，同时也存在多个实例的开销，具体使用应根据场景来定
+
+P.S.关于道格拉斯的Module模式的更多信息，请查看[黯羽轻扬：JS学习笔记3_函数表达式](http://ayqy.net/blog/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03_%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F/)
+
+##二.Module模式变化
+
+###1.引入混入
+
+    (function(m, arg){
+        // ...
+    })(Module, arg);
+
+这其实和模块模式没什么关系，重点也不是作者强调的“别名”，而是“模块文件化”中的一种重要方法，AMD、CMD中都是单模块对应单文件，这种方式提供了一种扩充位于其他文件中的模块的方法。（“引入混入”？就当没看见好了。。）
+
+上面的方式存在一点问题，就是要求模块必须严格按顺序加载（必须先加载Module对象定义），可以用下面这种方式解除限制：
+
+    (function(m, arg){
+        // ...
+    })(Module || {}, arg);
+
+用这种方式可以实现模块异步加载，但依赖其它模块的模块肯定是不适用的
+
+###2.引出
+
+    (function() {
+        // 创建
+        var obj = {};
+        // 增强
+        obj.attr = 1;
+        // 返回
+        return obj;
+    })();
+
+没什么特别的地方，值得一提的是道格拉斯的模块模式思想：创建 -> 增强 -> 返回，至于“引出”，我也不知道作者想说什么。。
+
+##三.JS库（框架）的模块管理
+
+###1.Dojo模块
+
+    obj.setObject('module.submod.submod', (function() {
+        // 私有属性
+        // var
+        // function
+
+        return {
+            // 公有属性
+            // attr: val
+        };
+    })();
+
+很特别的模块定义方式，`setObject(str, obj)`，其实还可以有更方便的方式：
+
+    String.prototype.ns = function (obj) {
+        return setObject(this.toString(), obj);
+    };
+
+有些时候充分利用JS提供的灵活性将非常方便（不用过分担心扩展原型带来的问题，ns可能冲突，那换成regns、regNS呢。。）
+
+###2.ExtJS模块
+
+    Ext.namespace('module');
+
+    module.submod = (function() {
+        // 私有属性
+        // var
+        // function
+
+        return {
+            // 公有属性
+            // attr: val
+        };
+    })();
+
+和基本的模块模式很像，很容易实现
+
+###3.YUI模块
+
+    Y.namespace('module.submod') = (function() {
+        // 私有属性
+        // var
+        // function
+
+        return {
+            // 公有属性
+            // attr: val
+        };
+    })();
+
+实现方式都差不多，这样实现支持链式调用：`Y.namespace('module.submod').attr = val;`
+
+###4.JQuery模块
+
+    function regLib(mod) {
+        $(function() {
+            if (mod.init) {
+                mod.init();
+            }
+        });
+
+        return mod;
+    }
+    var module = regLib((function() {
+        // 私有属性
+        // var
+        // function
+
+        return {
+            // 公有属性
+            // attr: val
+            init: function() {
+                // ...
+            }
+        };
+    })());
+
+利用`regLib`函数来实现加载新模块时自动把`mod.init()`放在DOMready事件处理器中，也算不上特色。其实JQuery提供的插件机制就是模块管理，此处没有使用插件机制，但提供了一种JQuery中以非插件方式管理自定义模块的方法。JQuery插件机制如下：
+
+    ;(function ($) {
+        // 私有属性
+        // var
+        // function
+
+        $.fn.myPlugin = {
+            // 公有属性
+            // attr: val
+            version: 1.0
+        };
+    })(jQuery);
+
+没什么本质的区别，都是套路
+
+##四.Revealing Module（揭示模块）模式
+
+与前面提到的模块模式的唯一区别是要求公有属性是私有属性的引用，其实第一例代码已经这样做了。仅仅因为这一点就把它作为一个新模式可能有些不值得，所以这部分内容就挤在这里了。
+
+模块内部可以非常灵活的处理，可以选择直接公开匿名函数的引用，私有属性的引用，或者是基本值。没必要为了满足什么“揭示模块模式”，而放弃这种灵活性。
+
+##五.高级模块模式
+
+P.S.这部分内容是笔者补充的，幸亏书上内容不多，才让笔者有机会找到这篇文章：[深入理解JavaScript 模块模式](http://www.oschina.net/translate/javascript-module-pattern-in-depth)
+
+###1.浅拷贝
+
+上面提到的所有实现方式都是直接扩展模块对象的，如果想要在原模块对象基础上创造一个独立的模块，就需要浅/深拷贝了，比如：
+
+    var MODULE_TWO = (function (old) {
+        var my = {},
+            key;
+         
+        for (key in old) {
+            if (old.hasOwnProperty(key)) {
+                my[key] = old[key];
+            }
+        }
+         
+        var super_moduleMethod = old.moduleMethod;
+        my.moduleMethod = function () {
+            // override method on the clone, access to super through super_moduleMethod
+        };
+         
+        return my;
+    }(MODULE));
+
+上面的示例是浅拷贝，引用类型的属性还是共享的，想要彻底独立出来，必须进行深拷贝
+
+###2.跨文件私有状态
+
+这是一种很特别的方法，类似于[黯羽轻扬：《JavaScript语言精粹》之函数化](http://www.ayqy.net/blog/%E3%80%8Ajavascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9%E3%80%8B%E4%B9%8B%E5%87%BD%E6%95%B0%E5%8C%96/)中提到的“函数化的思想”，在此基础上增加了访问控制。示例代码如下：
+
+    var MODULE = (function (my) {
+        var _private = my._private = my._private || {},
+
+            // 模块加载前，开启对_private的访问，以实现扩充部分对私有内容的操作
+            _unseal = my._unseal = my._unseal || function () {
+                my._private = _private;
+                my._seal = _seal;
+                my._unseal = _unseal;
+            },
+
+            // 模块加载后，调用以移除对_private的访问权限
+            _seal = my._seal = my._seal || function () {
+                delete my._private;
+                delete my._seal;
+                delete my._unseal;
+            };
+         
+        // permanent access to _private, _seal, and _unseal
+         
+        return my;
+    }(MODULE || {}));
+
+一个模块被分成几个文件时，在模块加载前调用`_unseal`获取对私有属性的访问权限，模块加载完成后调用`_seal`删掉访问权限，而`_private`就是《JavaScript语言精粹》函数化部分中的`my`容器
+
+###参考资料
+
+-  《JavaScript设计模式》
+
+-  [深入理解JavaScript 模块模式](http://www.oschina.net/translate/javascript-module-pattern-in-depth)：提到了几种高级模块模式，很不错
+
+-  [黯羽轻扬：JS学习笔记3_函数表达式](http://ayqy.net/blog/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03_%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F/)
+
+-  [黯羽轻扬：《JavaScript语言精粹》之函数化](http://www.ayqy.net/blog/%E3%80%8Ajavascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9%E3%80%8B%E4%B9%8B%E5%87%BD%E6%95%B0%E5%8C%96/)
