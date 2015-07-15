@@ -1,0 +1,122 @@
+中介者模式_JavaScript设计模式5
+
+摘要：
+
+中介者模式与发布/订阅模式非常像，算是对发布/订阅模式的进一步增强（层级结构），同时也增加了一些限制（必须通过中介交互），本文详细介绍JavaScript实现的中介者模式
+
+##一.中介者模式
+
+中介，也就是第三方，本来是双方直接交互，引入中介之后，所有交互都必须通过第三方来完成
+
+比如本来是对讲机直接通信，现在改用邮件了，由邮件服务器负责转发。对应到模块交互上就是本来的网状结构现在变成星状结构了，各个模块之间的依赖被降低了，统一依赖中心点（中介者），同时中心点也因此获得了更多的控制权限，比如可以群发、可以冒泡通知等等
+
+所有模块之间的交互必须通过中介者进行，模块彼此并不熟悉，只要把消息发布给中介者，中介自然就会通知需要知情（订阅了相应主题）的人。系统以这样的机制运行，中介者是控制核心
+
+##二.中介者模式的具体实现
+
+###1.最简单的中介者模式
+
+    var mediator = (function() {
+        var topics = {},
+            subUid = -1;
+
+        var publish = function(topic, args) {
+            if (!topics[topic]) {
+                return false;
+            }
+
+            var subscribers = topics[topic],
+                len = subscribers ? subscribers.length : 0;
+            while (len--) {
+                subscribers[len].func(topic, args);
+            }
+
+            return true;
+        };
+
+        var subscribe = function(topic, func) {
+            if (!topics[topic]) {
+                topics[topic] = [];
+            }
+
+            var token = (++subUid).toString();
+            topics[topic].push({
+                token: token,
+                func: func
+            });
+
+            return token;
+        };
+
+        return {
+            publish: publish,
+            subscribe: subscribe,
+            // 好像确实没有比installTo更合适的名字
+            installTo: function(obj) {
+                obj.publish = publish;
+                obj.subscribe = subscribe;
+            }
+        }
+    }());
+
+    
+    // 具体应用
+    var mod1 = {
+        run: function(arg) {
+            console.log('mod1 received ' + arg);
+        }
+    };
+    var mod2 = {};
+    var topic = 'myTopic';
+    mediator.installTo(mod1);
+    mediator.installTo(mod2);
+    // mod1订阅消息
+    mod1.subscribe(topic, function(t, arg) {
+        mod1.run(arg);
+    });
+    // mod2发布消息
+    mod2.publish(topic, 'data');
+
+乍看和前面介绍的[发布/订阅模式]没什么区别，例子中体现的一个区别是任何模块都可以发布消息，而发布/订阅模式中观察者只能被动接收消息，具体差异下面展开详细介绍
+
+###2.功能强大的中介者模式
+
+<http://thejacklawson.com/Mediator.js/index.html>提供了一个功能强大的实现，支持topic命名空间、消息冒泡、优先级等等
+
+源码（带注释）见<http://thejacklawson.com/Mediator.js/mediator.html>，或者[github](https://github.com/ajacksified/Mediator.js)
+
+##三.中介者模式与发布/订阅模式
+
+（当然，发布/订阅模式源自观察者模式，中介者模式算是孙子辈的。）
+
+从实现上来看，中介者模式和发布/订阅模式非常相似，甚至不仔细看就发现不了差异。主要区别如下：
+
+1.  通信方式
+
+  中介者模式中每个模块都可以发布消息（中介者本身也可以发布消息），而发布/订阅模式中观察者只能被动的等待消息
+
+2.  模块依赖结构
+
+  中介者模式是星状结构，中介者是一个*“控制点”*，而发布/订阅模式中，发布订阅机制本身是一个*“控制层”*，意味着高层可以通过控制层操作下层模块（虽然高层也可以通过中介者控制下层模块，但这不是星状结构的本意）
+
+3.  信息发布方式
+
+  由多对多变成了多对一，所有模块都只能和中介者直接对话
+
+缺点：
+
+1.  单一故障点
+
+  这是中介者模式最大的缺点，发布/订阅模式也存在这个缺点，但中介者模式表现得更加锐利（结合“控制点”和“控制层”理解）
+
+2.  性能下降
+
+  模块间必须通过第三方才能交互，相比直接交互肯定存在性能下降，是设计模式共有的副作用
+
+3.  逻辑实现难度增加
+
+  松散耦合导致系统难以控制，很难通过仅仅关注广播来确定一个系统如何做出反应，必须把完整逻辑拆分到各个Topic下，增加了实现上的复杂度
+
+###参考资料
+
+-  《JavaScript设计模式》

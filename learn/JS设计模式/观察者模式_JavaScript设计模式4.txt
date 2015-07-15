@@ -1,0 +1,226 @@
+观察者模式_JavaScript设计模式4
+
+摘要：
+
+最经典的观察者模式应用就是事件机制了，本文详细介绍用JS如何实现观察者模式和与之类似的发布订阅模式
+
+##一.Observer（观察者）模式
+
+>  利用观察者模式可以轻易地建立对象之间“一对多”的依赖关系；
+>  利用观察者模式的机制可以很容易的实现这种依赖关系的动态维护
+（引自[黯羽轻扬：设计模式之观察者模式（Observer Pattern）](http://www.ayqy.net/blog/设计模式之观察者模式（Observer-Pattern）)）
+
+观察者模式解耦了主题和观察者，主题不清楚观察者的细节，只知道所有观察者都有`update`接口；观察者对主题知道的更少，只能被动等待主题更新；各观察者之间根本看不到彼此，更不知道没有没有关注同一主题了
+
+松耦合意味着灵活性（弹性），只要保证实现既定接口，就可以独立修改主题、观察者，而不会影响二者的交互关系
+
+##二.经典观察者模式
+
+观察者模式概念比较简单，经典实现需要增加一级抽象（Observ、Subject的接口定义），JS实现的简单观察者模式如下：
+
+    /* 经典观察者模式
+     * Observer、Subject
+     * 也可以增加1级抽象，不过JS继承太麻烦，此处从简
+     * 手动维护List
+     */
+
+    // Subject
+    function Subject(name) {
+        this.name = name;
+        this.list = [];
+    }
+    // 关注
+    Subject.prototype.regist = function(obj) {
+        this.list.push(obj);
+    };
+    // 取消关注
+    Subject.prototype.unregist = function(obj) {
+        var list = this.list;
+
+        for(var i = 0, len = list.length; i < len; i++) {
+            if (list[i] === obj) {
+                list.splice(i, 1);
+            }
+        }
+    };
+    // 通知所有粉丝
+    Subject.prototype.notify = function() {
+        var list = this.list;
+
+        for(var i = 0, len = list.length; i < len; i++) {
+            list[i].update({data: this.name});
+        }
+    };
+
+    // Observer
+    function Observer(id) {
+        this.id = id;
+        // 供Subject调用的更新方法
+        this.update = function(dataObj) {
+            // ...
+            console.log(this.id + ' received ' + dataObj.data + '\'s update');
+        };
+    }
+
+    // test
+    var subject = new Subject('My Topic');
+    var observer1 =  new Observer(1);
+    var observer2 =  new Observer(2);
+    var observer3 =  new Observer(3);
+
+    subject.regist(observer1);
+    subject.regist(observer2);
+    subject.notify();   // 主题更新，通知所有观察者
+
+    subject.regist(observer3);  // 新加入observer3
+    subject.notify();
+
+    // observer1不玩了
+    subject.unregist(observer1);
+    subject.notify();
+
+运行结果如下：
+
+![](观察者模式.png)
+
+P.S.如果对1级抽象感兴趣，可以参考[黯羽轻扬：重新理解JS的6种继承方式](http://www.ayqy.net/blog/重新理解JS的6种继承方式/)自行实现1级抽象
+
+##三.Publish/Subscribe（发布/订阅）模式
+
+观察者模式分离了主题和观察者，交互关系是嵌在二者内部的（必须实现既定接口），如果把交互关系再解耦出来的话，那就叫发布订阅模式
+
+发布订阅模式在主题和观察者之间新增了一层事件机制，由事件机制为双方提供接口，维持交互关系，多这样一层的好处是可以引入事件队列、事件冒泡（不止DOM中可以有哦~）等等更多的控制
+
+到这里就已经差不多把解耦进行到底了，带来巨大灵活性的同时，也存在一些不可避免的缺点，比如如果有一个观察者崩溃了，因为解耦的关系，这个消息无法传递出去，主题不知道，周围的观察者也不知道，其它依赖于这个观察者的模块也不会知道。（虽然理论上通过增强事件管理机制可以对这种情况加以控制，但这会使事件层变得越来越复杂，结构也越来越臃肿）
+
+##四.自定义事件机制实现发布/订阅模式
+
+*注意*是“事件机制”，而不是“事件”，因为自定义事件是DOM API，只能绑定在DOM元素上，具体请查看[Document.createEvent() - Web API Interfaces | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent#Notes)
+
+所以必须自定义“事件机制”，实现的具体细节请查看[黯羽轻扬：JS学习笔记11_高级技巧](http://www.ayqy.net/blog/JS学习笔记11_高级技巧/)底部
+
+DOM3级API支持创建自定义事件，具体如下：
+
+    // 创建自定义事件对象
+    var event = document.createEvent('CustomEvent');
+    // 初始化事件
+    event.initCustomEvent('myeve', true, true);
+    // initCustomEvent接口定义如下
+    /*
+    void initCustomEvent(
+        in DOMString type,
+        in boolean canBubble,
+        in boolean cancelable,
+        in any detail
+    );
+    */
+
+`document.createEvent`和`initCustomEvent`都已经过时了，现在可以直接用构造函数创建自定义事件（例子请查看[JavaScript CustomEvent](http://davidwalsh.name/customevent)）对象。当然目前（2015-7-13）过时的东西兼容性是最好的，详情见[Document.createEvent() - Web API Interfaces | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent)
+
+如果需要兼容[IE8-]，就必须采取一些别的手段，此处不展开，请查看[JavaScript 自定义事件](http://kayosite.com/javascript-custom-event.html)
+
+P.S.如果项目引入了主流JS库（框架），那么一般都支持自定义事件，但也都是与DOM元素绑定的，非DOM元素对象的事件机制要自行实现，有一个极简版的发布/订阅实现，可以参考之[addyosmani/pubsubz](https://github.com/addyosmani/pubsubz)，代码很精巧，值得一看
+
+##五.观察者模式的具体应用
+
+观察者模式很重要的一个应用场景是Ajax请求的回调逻辑，主题是Ajax请求返回的数据，观察者是回调函数中的各个逻辑块（list能够保证执行顺序），只需要在回调函数中notify所有观察者即可，示例代码如下：
+
+    // 发布/订阅模式的实现来自: https://github.com/addyosmani/pubsubz
+    (function(window) {
+        var topics = {},
+            subUid = -1,
+            pubsubz = {};
+
+        pubsubz.publish = function(topic, args) {
+            if (!topics[topic]) {
+                return false;
+            }
+
+            var subscribers = topics[topic],
+                len = subscribers ? subscribers.length : 0;
+            while (len--) {
+                subscribers[len].func(topic, args);
+            }
+
+            return true;
+        };
+
+        pubsubz.subscribe = function(topic, func) {
+            if (!topics[topic]) {
+                topics[topic] = [];
+            }
+
+            var token = (++subUid).toString();
+            topics[topic].push({
+                token: token,
+                func: func
+            });
+
+            return token;
+        };
+
+        pubsubz.unsubscribe = function(token) {
+            for (var m in topics) {
+                if (topics[m]) {
+                    for (var i = 0, j = topics[m].length; i < j; i++) {
+                        if (topics[m][i].token === token) {
+                            topics[m].splice(i, 1);
+                            return token;
+                        }
+                    }
+                }
+            }
+            return false;
+        };
+
+        window.pubsubz = pubsubz;
+    }(this));
+
+    
+    // 具体应用
+    var psz = pubsubz;
+    var eventName = 'DataUpdate';
+
+    var obs1 = psz.subscribe(eventName, function(data) {
+        console.log('obs1 received ' + data);
+        console.log('清除无效数据');
+    });
+    var obs2 = psz.subscribe(eventName, function(data) {
+        console.log('obs2 received ' + data);
+        console.log('显示新数据');
+    });
+    var obs3 = psz.subscribe(eventName, function(data) {
+        console.log('obs3 received ' + data);
+        console.log('更新图标列表');
+    });
+
+    // 模拟ajax
+    function ajax(url, callback) {
+        // 50ms后执行回调（假设已经拿到了数据）
+        setTimeout(function(data) {
+            data = 'data';  // 模拟数据
+
+            callback(data);
+        }, 50);
+    }
+
+    ajax('emptyUrl', function(data) {
+        psz.publish(eventName, data);
+    });
+
+    // 运行结果如下：
+    // obs3 received DataUpdate
+    // 更新图标列表
+    // obs2 received DataUpdate
+    // 显示新数据
+    // obs1 received DataUpdate
+    // 清除无效数据
+    // （逆序是因为pubsubz.publish采用了递减迭代）
+
+当然，这样做也会带来一定的问题，比如逻辑分散在各个观察者上，会导致编码难度增加（类似于事件驱动的缺点），使用时需要根据具体场景权衡
+
+###参考资料
+
+-  《JavaScript设计模式》
+
+-  相关博文若干
