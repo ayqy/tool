@@ -1,0 +1,68 @@
+handleEvent与addEventListener
+
+摘要：
+
+书里没有写，但大家都这么用
+
+##一.handleEvent是什么东西
+
+    addEventListener(strEventType, func, false/true);
+
+这应该是最常见的添加事件处理器的方式吧，其实第二个参数也可以是一个具有`handleEvent`属性的对象，例如：
+
+    var obj = {
+        // ...
+        handleEvent: function() {
+            // ...
+            console.log('event fired');
+        }
+    }
+    document.body.addEventListener('click', obj, false);
+
+[DOM2级事件](http://www.w3.org/TR/DOM-Level-2-Events/events.html)定义了`add/removeEventListener, dispatchEvent, stopPropagation, preventDefault, initEvent, createEvent`等方法，而 的第二个参数类型是`EventListener`，在[EventListener接口的定义](http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-EventListener)中可以看到要求实现`handleEvent`方法
+
+换言之，实现`Eventlistener`有两种方式：
+
+-  `function`对象默认实现了`Eventlistener`接口
+
+-  给对象实现`handleEvent`方法
+
+更多信息请查看[DOM3级event listener](http://www.w3.org/TR/DOM-Level-3-Events/#dfn-event-listener)
+
+##二.用handleEvent的优缺点
+
+###1.this的指向
+
+以`addEventListener('click', obj, false);`方式添加事件处理器后，事件处理函数`obj.handleEvent`中的this自然是指向obj的
+
+以`addEventListener(strEventType, func, false/true);`方式添加事件处理器后，事件处理函数`func`中的this是指向事件处理器的宿主元素（说白了就是`ele.addEventListener`中的ele），例如：
+
+    var ele = document.getElementById('test');
+    function handler(e) {
+        console.log(this === ele);  // true
+    }
+    ele.addEventListener('click', handler, false);
+
+用`addEventListener('click', obj, false);`好处是可以直接使用obj对象的私有属性，可以对比来看：
+
+    var obj = {
+        // ...
+        attr: 1,
+        handleEvent: function() {
+            // ...
+            console.log(this.attr); // undefined，因为事件触发后，this是指向宿主元素body的，而body没有attr属性
+        }
+    }
+    document.body.addEventListener('click', obj.handleEvent, false);
+
+###2.动态改变事件处理器
+
+可以动态地改变事件处理器，例如：`obj.handleEvent = obj.handler2;`或者`obj.handleEvent = fun;`，非常方便，不用先`remove再add`
+
+###3.缺点
+
+缺点不在兼容性上（DOM2级事件IE9+支持，换句话说，能用addEventListener的地方就能用obj.handleEvent），而是可读性方面的。笔者自认为看过不少关于JS的书籍，但一直没有见过这种用法，所以，写出来别人看不看得明白是个问题
+
+###参考资料
+
+-  [addEventListener之handleEvent](http://www.tuicool.com/articles/uIfeM3V)：原文404了，只好贴上转载版
