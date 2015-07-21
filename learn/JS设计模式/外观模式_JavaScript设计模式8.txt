@@ -1,0 +1,103 @@
+外观模式_JavaScript设计模式8
+
+摘要：
+
+外观模式，与前面介绍过的命令模式很相像，本文详细介绍JavaScript实现的外观模式
+
+##一.外观模式
+
+对底层组件接口进行二次封装（三手、四手的也算二手），提供更易用的高层接口，这是外观模式的核心思想。
+
+外观，很容易联想到化妆，不过这里不是为了好看，而只是图好用。
+
+##二.具体实现
+
+    var mod1 = {
+        fun1: function() {
+            // ...
+        },
+        fun2: function() {
+            // ...
+        }
+        // ...
+    }
+    var mod2 = {
+        fun1: function() {
+            // ...
+        },
+        fun2: function() {
+            // ...
+        }
+        // ...
+    }
+    // ...
+    
+    // facade
+    var facade = {
+        c: true,
+
+        newFun1: function() {
+            mod1.fun2();
+            if (this.c) {
+                mod1.fun1();
+            }
+            // ...
+        },
+        newFun2: function() {
+            mod2.fun1();
+            mod2.fun2();
+            mod1.fun1();
+            if (this.c) {
+                mod1.fun2();
+            }
+            // ...
+        }
+        // ...
+    }
+
+    // invoke facade
+    facade.newFun1();
+    // invoke mods
+    // mod1.fun2();
+    // if (c) {
+    //     mod1.fun1();
+    // }
+    // ...
+
+对低层模块的接口进行进一步抽象，封装出简单易用的外观，封装是没有尽头的，从模块内部到模块间，到子系统间，再到系统本身，只要愿意接着做，可以添上n层封装，甚至可以用外观模式解决方法名过长的问题，例如：
+
+    var d = {
+        byId: function(strId) {
+            return document.getElementById(strId);
+        },
+        byClass: function(strClass) {
+            return document.getElementsByClassName(strClass);
+        },
+        byTag: function(strTag) {
+            return document.getElementsByName(strTag);
+        }
+        // ...
+    }
+
+    // test
+    d.byId('test').innerHTML = 'test facade';
+
+##三.外观模式的优缺点
+
+###优点
+
+书上有一句比较贴切的话：
+
+>  不需要关注实现细节，而且更容易使用
+
+###缺点
+
+多层封装意味着长调用链，存在性能成本，如果对性能要求很高，自然是封装层数越少越好，越靠近底层执行效率越高，使用外观模式时，可能需要考虑是否值得二次封装（性能成本是否可以接受）
+
+至于JQuery的$比原生JS实现慢多少，答案是：其实没有你想象的那么慢
+
+关于外观模式的更多信息，请查看[黯羽轻扬：设计模式之外观模式（Facade Pattern）](http://www.ayqy.net/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%EF%BC%88facade-pattern%EF%BC%89/)
+
+###参考资料
+
+-  《JavaScript设计模式》
