@@ -1,0 +1,99 @@
+原型模式_JavaScript设计模式6
+
+摘要：
+
+原型模式，也就是道格拉斯的生孩子（beget）方法，以现有对象为原型，创建新对象，类似于继承，但更像复制。本文详细介绍JavaScript实现的原型模式
+
+##一.原型模式
+
+>  以现有的对象为原型，通过clone得到新的对象（以简化新对象的创建过程）
+
+（引自[黯羽轻扬：设计模式总结（《Head First设计模式》学习总结）](http://www.ayqy.net/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%EF%BC%88%E3%80%8Ahead-first%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%EF%BC%89/)）
+
+和继承很像，把原型模式继续增强就是继承了。原型模式只关心属性复制，而继承除了实现属性复制外还要保证父/子类型的层级关系
+
+##二.具体实现
+
+###1.基本原理
+
+    // 生孩子函数
+    function beget(obj) {
+        var F = function() {};
+        F.prototype = obj;
+        return new F();
+    }
+
+    // test
+    var obj = {
+        attr: 1,
+
+        fun: function() {
+            console.log(this.attr);
+        }
+    }
+    var cp_obj = beget(obj);
+    cp_obj.fun();   // 1
+
+核心就是`beget`函数，把传入的对象塞进空构造函数原型里，创建对象并返回，仅此而已
+
+有一个明显的缺点：来自原型对象（在此例中是`obj`）的属性可能会被不小心覆盖掉
+
+P.S.原型对象`obj`可以是以任何方式创建的对象，在此例中是对象字面量，当然也可以是new出来的，可以是beget出来的等等
+
+###2.简单增强
+
+ES5支持`Object.create`函数获取浅拷贝的对象，可以直接把`beget`换成：
+
+    Object.create(obj);
+
+结果完全一样，因为`Object.create`内部实现就是受到道格拉斯原型模式的启发，此外`Object.create`还可以有第二个参数，用来定义属性：
+
+    Object.create(obj, {
+        attr: {
+            value: 2,
+            writable: false,        // 默认值
+            configurable: false,    // 默认值
+            enumerable: true
+        }
+    });
+
+其实就是把`Object.create`和`Object.defineProperty`合在一起了，例如：
+
+    // test
+    var obj = {
+        attr: 1,
+
+        fun: function() {
+            console.log(this.attr);
+        }
+    }
+    var cp_obj = Object.create(obj, {
+        attr2: {
+            value: 2,
+            writable: false,        // 默认值
+            configurable: false,    // 默认值
+            enumerable: true
+        }
+    });
+    cp_obj.fun();   // 1
+    console.log(cp_obj.attr2);  // 2
+    cp_obj.attr2 = 3;
+    console.log(cp_obj.attr2);  // 2，不可写
+
+当然，`Object.defineProperty`也是ES5才支持，所以配合使用算是一种增强（访问控制）
+
+##三.原型模式的好处
+
+书上有一句很不错的话：
+
+>  使用Prototype模式的其中一个好处是，我们获得的是JavaScript其本身所具有的原型优势，而不是试图模仿其他语言的特性。
+
+用Java实现的原型模式看起来很怪异，因为就原型模式本身而言，Java中的`Object.clone`就可以满足需要了，其它任何形式的实现都显得多余，而JavaScript最初没有提供`clone`原生实现（ES5的`Object.create`算是弥补了这个缺陷），所以需要原型模式，ES5投入生产之后就不需要手动实现什么原型模式了
+
+更多关于原型模式的介绍请查看[23种设计模式（5）：原型模式](http://blog.csdn.net/zhengzhb/article/details/7393528)
+
+###参考资料
+
+-  《JavaScript设计模式》
+
+-  [23种设计模式（5）：原型模式](http://blog.csdn.net/zhengzhb/article/details/7393528)
