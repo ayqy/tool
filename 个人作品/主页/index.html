@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>黯羽轻扬-每天积累一点点</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="Keywords" content="黯羽轻扬网,黯羽轻扬,码皇博客,前端开发,web前端,黯羽,ayqy,前端学习路线,html5,css3,javascript">
+<meta name="Description" content="穿过厚厚的心墙，这是一块叫做心灵花园的地方，一缕缕歌声在上空荡漾，一只只精灵曼舞轻扬，一朵朵梦想正在悄然绽放。">
+<!-- css file -->
+<link type="text/css" rel="stylesheet" href="style/cssreset-min.css" />
+<link id="css_file" type="text/css" rel="stylesheet" href="style/main.css" />
+<link type="text/css" rel="stylesheet" href="style/jquery-ui.css" />
+<!-- js file -->
+<script type="text/javascript" src="script/jquery.min.js"></script>
+<script type="text/javascript" src="script/main.js"></script>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e72477b21e89876522f55f494b2f1488";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+  <!-- header -->
+  <div class="header" style="width:100%;">
+    <div class="wrapper">
+      <div class="logo">
+        <h1>黯羽轻扬</h1>
+      </div>
+      <div class="navbar">
+        <ul class="nav">
+          <li class="active"><a href="#index" title="黯羽轻扬">主页</a></li>
+          <li><a href="blog/" title="码皇练功房">博客</a></li>
+          <li><a href="essay/index.html" title="夜空下的梦烬">随笔</a></li>
+          <li><a href="film/index.html" title="悬疑电影世界">映画館</a></li>
+          <li><a href="music/index.html" title="这里有一个声音">音乐盒</a></li>
+          <li><a href="feedback/index.html" title="哪里不好改哪里">意见反馈</a></li>
+          <li><a href="about/index.html" title="本站档案">关于ayqy</a></li>
+        </ul>
+      </div>
+      <div class="searchbar">
+        <form method="get" action="http://www.ayqy.net/blog/">
+          <label for="searchbox">站内搜索:</label>
+          <input id="searchbox" class="search" name="s" type="text" placeholder="嗯。我看到过你的小熊。" />
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- content -->
+  <div class="content">
+    <div class="wrapper">
+      <div class="lsidebar">
+        <!-- 日历 -->
+        <div id="datepicker" title="Listen, time is running and we are dying."></div>
+        <!-- 左侧导航栏 -->
+        <ul id="menu">
+          <li class="menu-item"><a href="blog/心得感悟/">心得感悟</a></li>
+          <li class="menu-item"><a href="blog/系列专题/">系列专题</a></li>
+          <li class="menu-item"><a href="blog/解决方案/">解决方案</a></li>
+          <li class="menu-item"><a href="blog/">码皇练功房</a></li>
+          <li class="menu-item"><a href="book/index.html">程序员书籍推荐</a></li>
+          <li class="menu-item"><a href="blog/小玩具/">小玩具</a></li>
+          <li class="menu-item"><a href="http://ayqy.cnblogs.com">ayqy在博客园</a></li>
+        </ul>
+        <div id="friend_link" class="mypanel">
+          <h6>友情链接</h6>
+          <div class="links">
+          <a href="http://ued.taobao.org/blog/">淘宝UED官方博客</a>
+          <a href="http://www.cnblogs.com/">博客园</a>
+          <a href="http://www.imooc.com/">慕课网</a>
+          </div>
+        </div>
+      </div>
+      <!-- 主要内容 -->
+      <div class="main-content">
+        <!-- 各个展示块 -->
+        <!-- 图片动画切换 -->
+        <div id="Imageroll" class="mypanel"> <a id="imgWrap"> <img src="image/roll/1.jpg" alt="码皇练功房" style="display: none;"> <img src="image/roll/2.jpg" alt="系列专题" style="display: none;"> <img src="image/roll/3.jpg" alt="程序员书籍推荐" style="display: none;"> <img src="image/roll/4.jpg" alt="夜空下的梦烬" style="display: none;"> <img src="image/roll/5.jpg" alt="其它" style="display: none;"> </a>
+          <div> <a href="blog" style="opacity: 0.7;"><em>码皇练功房</em><em>瞅瞅ayqy在忙什么</em></a> <a href="blog/系列专题/" style="opacity: 0.7;"><em>系列专题</em><em>ayqy精心整理</em></a> <a href="book/index.html" style="opacity: 0.7;"><em>程序员书籍推荐</em><em>选好书，事半功倍</em></a> <a href="essay/index.html" style="opacity: 0.7;"><em>夜空下的梦烬</em><em>生活不只是coding</em></a> <a href="#other" class="last" style="opacity: 0.7;"><em>其它</em><em>还没想好</em></a> </div>
+        </div>
+        <div id="pb1" class="pblock pnew mypanel">
+          <div class="pblock-body">
+            <ul>
+              <li> <span></span>
+                <p><br />
+                  <br />
+                  刚出炉的新鲜博文，热乎~</p>
+              </li>
+              <li><a href="blog/handleEvent与addEventListener/">handleEvent与addEventListener</a></li>
+              <li><a href="blog/中介者模式_JavaScript设计模式5/">中介者模式_JavaScript设计模式5</a></li>
+              <li><a href="blog/观察者模式_JavaScript设计模式4/">观察者模式_JavaScript设计模式4</a></li>
+              <li><a href="blog/单例模式_JavaScript设计模式3/">单例模式_JavaScript设计模式3</a></li>
+              <li><a href="blog/模块模式_JavaScript设计模式2/">模块模式_JavaScript设计模式2</a></li>
+            </ul>
+          </div>
+          <div class="pblock-footer"><h2>最近更新</h2></div>
+        </div>
+        <div id="pb2" class="pblock pright mypanel">
+          <div class="pblock-body">
+            <ul>
+              <li> <span></span>
+                <p><br />
+                  一句两句说不清的话题，也许写出来就明白了呢</p>
+              </li>
+              <li><a href="blog/《javascript高级程序设计》学习笔记12篇/">JS学习笔记12篇</a></li>
+              <li><a href="blog/前端优化：雅虎35条/">前端优化：雅虎35条</a></li>
+              <li><a href="blog/正则表达式学习笔记/">正则表达式学习笔记</a></li>
+              <li><a href="blog/css选择器分类总结/">CSS选择器分类总结</a></li>
+              <li><a href="blog/设计模式总结（《head-first设计模式》学习总结）/">设计模式总结</a></li>
+            </ul>
+          </div>
+          <div class="pblock-footer"><h2>系列专题</h2></div>
+        </div>
+        <div id="pb3" class="pblock pcenter mypanel">
+          <div class="pblock-body">
+            <ul>
+              <li> <span></span>
+                <p><br />
+                  <br />
+                  ayqy精心整理，真诚推荐</p>
+              </li>
+              <li><a href="blog/JS编程常识/">JS编程常识</a></li>
+              <li><a href="blog/移动端页面设计的10个常识/">移动端页面设计的10个常识</a></li>
+              <li><a href="blog/重新理解JS的6种继承方式/">重新理解JS的6种继承方式</a></li>
+              <li><a href="blog/js原生事件处理（跨浏览器）/">JS原生事件处理（跨浏览器）</a></li>
+              <li><a href="blog/排序算法之堆排序（heapsort）解析/">排序算法之堆排序（Heapsort）解析</a></li>
+            </ul>
+          </div>
+          <div class="pblock-footer"><h2>推荐博文</h2></div>
+        </div>
+        <div id="pb4" class="pblock pright mypanel">
+          <div class="pblock-body">
+            <ul>
+              <li> <span></span>
+                <p><br />
+                  <br />
+                  滴水穿石，厚积薄发</p>
+              </li>
+              <li><a href="blog/html5触摸事件/">HTML5触摸事件</a></li>
+              <li><a href="blog/迪杰斯特拉算法解析/">迪杰斯特拉算法解析</a></li>
+              <li><a href="blog/色彩的特征/">色彩的特征</a></li>
+              <li><a href="blog/android蓝牙联机Demo解析/">Android蓝牙联机Demo解析</a></li>
+              <li><a href="blog/js代码指导原则/">JS代码指导原则</a></li>
+            </ul>
+          </div>
+          <div class="pblock-footer"><h2>码皇练功房</h2></div>
+        </div>
+        <div id="pb5" class="pblock pleft mypanel">
+          <div class="pblock-body">
+            <ul>
+              <li> <span></span>
+                <p> 书籍选择至关重要，一本破书不仅会浪费你的时间，甚至还会磨掉你的兴趣</p>
+              </li>
+              <li><a href="blog/黑客与画家/">黑客与画家</a></li>
+              <li><a href="blog/程序员成长的烦恼/">程序员成长的的烦恼</a></li>
+              <li><a href="blog/《JavaScript高级程序设计》学习笔记12篇/">JavaScript高级程序设计</a></li>
+              <li><a href="blog/设计模式总结（《Head-First设计模式》学习总结）/">Head First设计模式</a></li>
+              <li><a href="blog/正则表达式学习笔记/">精通正则表达式</a></li>
+            </ul>
+          </div>
+          <div class="pblock-footer"><h2>程序员书籍推荐</h2></div>
+        </div>
+        <div id="pb6" class="pblock pcenter mypanel">
+          <div class="pblock-body">
+            <ul>
+              <li> <span></span>
+                <p><br />
+                  不知从何时起，我的笔就再也写不出轻灵的文字了，一字一句总是那么的沉重……</p>
+              </li>
+              <li><a href="essay/casual/Fortress_Besieged.html">读围城，学吃葡萄</a></li>
+              <li><a href="essay/soul/record/time.html">记时间</a></li>
+              <li><a href="essay/promoted/talk_about_honesty.html">论诚意</a></li>
+              <li><a href="essay/soul/record/worry_about_sth.html">唯恐树欲静而风不止，</a></li>
+              <li><a href="essay/soul/record/my_father.html">我的平凡父亲</a></li>
+            </ul>
+          </div>
+          <div class="pblock-footer"><h2>夜空下的梦烬</h2></div>
+        </div>
+      <div style="clear:both"></div>
+    </div>
+  </div>
+    <!-- footer -->
+    <div class="footer">
+      <div><a href="about/index.html">关于本站</a><a href="feedback/index.html">意见反馈</a><a href="http://www.miitbeian.gov.cn/">陕ICP备15000045号</a>©2015 <a href="http://www.ayqy.net/">黯羽轻扬</a> 保留所有权利</div>
+    </div>
+</div>
+</body>
+</html>

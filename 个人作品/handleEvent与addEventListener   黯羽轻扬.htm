@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://www.ayqy.net/blog/handleEvent%E4%B8%8EaddEventListener/ -->
+<html lang="zh-CN"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>handleEvent与addEventListener | 黯羽轻扬</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://www.ayqy.net/cms/wordpress/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="http://www.ayqy.net/cms/wordpress/wp-content/themes/twentytwelve/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+
+<!-- All in One SEO Pack 2.2.7 by Michael Torbert of Semper Fi Web Design[311,353] -->
+<meta name="description" itemprop="description" content="书里没有写，但大家都这么用">
+
+<link rel="canonical" href="http://www.ayqy.net/blog/handleevent%e4%b8%8eaddeventlistener/">
+<!-- /all in one seo pack -->
+<link rel="alternate" type="application/rss+xml" title="黯羽轻扬 » Feed" href="http://www.ayqy.net/blog/feed/">
+<link rel="alternate" type="application/rss+xml" title="黯羽轻扬 » 评论Feed" href="http://www.ayqy.net/blog/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="黯羽轻扬 » handleEvent与addEventListener评论Feed" href="http://www.ayqy.net/blog/handleevent%e4%b8%8eaddeventlistener/feed/">
+<link rel="stylesheet" id="twentytwelve-fonts-css" href="./handleEvent与addEventListener   黯羽轻扬_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="twentytwelve-style-css" href="./handleEvent与addEventListener   黯羽轻扬_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentytwelve-ie-css'  href='http://www.ayqy.net/cms/wordpress/wp-content/themes/twentytwelve/css/ie.css?ver=20121010' type='text/css' media='all' />
+<![endif]-->
+<script src="./handleEvent与addEventListener   黯羽轻扬_files/hm.js"></script><script type="text/javascript" src="./handleEvent与addEventListener   黯羽轻扬_files/jquery.js"></script><style type="text/css"></style>
+<script type="text/javascript" src="./handleEvent与addEventListener   黯羽轻扬_files/jquery-migrate.min.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.ayqy.net/cms/wordpress/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.ayqy.net/cms/wordpress/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="中介者模式_JavaScript设计模式5" href="http://www.ayqy.net/blog/%e4%b8%ad%e4%bb%8b%e8%80%85%e6%a8%a1%e5%bc%8f_javascript%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f5/">
+<meta name="generator" content="WordPress 4.1.5">
+<link rel="shortlink" href="http://www.ayqy.net/blog/?p=667">
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a6c712e3782b49e09d41ca0268db450f";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+
+<body class="single single-post postid-667 single-format-standard logged-in custom-font-enabled single-author">
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+		<hgroup>
+			<h1 class="site-title"><a href="http://ayqy.net/" title="黯羽轻扬" rel="home">黯羽轻扬</a></h1>
+			<h2 class="site-description"></h2>
+		</hgroup>
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<button class="menu-toggle">菜单</button>
+			<a class="assistive-text" href="http://www.ayqy.net/blog/handleEvent%E4%B8%8EaddEventListener/#content" title="跳至内容">跳至内容</a>
+			<div class="nav-menu"><ul><li><a href="http://www.ayqy.net/blog/">首页</a></li><li class="page_item page-item-85"><a href="http://www.ayqy.net/blog/%e5%bf%83%e5%be%97%e6%84%9f%e6%82%9f/">心得感悟</a></li><li class="page_item page-item-87"><a href="http://www.ayqy.net/blog/%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88/">解决方案</a></li><li class="page_item page-item-89"><a href="http://www.ayqy.net/blog/%e7%b3%bb%e5%88%97%e4%b8%93%e9%a2%98/">系列专题</a></li><li class="page_item page-item-91"><a href="http://www.ayqy.net/blog/%e5%b0%8f%e7%8e%a9%e5%85%b7/">小玩具</a></li></ul></div>
+		</nav><!-- #site-navigation -->
+
+			</header><!-- #masthead -->
+
+	<div id="main" class="wrapper">
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
+
+			
+				
+	<article id="post-667" class="post-667 post type-post status-publish format-standard hentry category-js">
+				<header class="entry-header">
+			
+						<h1 class="entry-title">handleEvent与addEventListener</h1>
+										<div class="comments-link">
+					<a href="http://www.ayqy.net/blog/handleevent%e4%b8%8eaddeventlistener/#respond" title="Comment on handleEvent与addEventListener"><span class="leave-reply">发表回复</span></a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+<h2>一.handleEvent是什么东西</h2>
+
+<pre><code>addEventListener(strEventType, func, false/true);
+</code></pre>
+
+<p>这应该是最常见的添加事件处理器的方式吧，其实第二个参数也可以是一个具有<code>handleEvent</code>属性的对象，例如：</p>
+
+<pre><code>var obj = {
+    // ...
+    handleEvent: function() {
+        // ...
+        console.log('event fired');
+    }
+}
+document.body.addEventListener('click', obj, false);
+</code></pre>
+
+<p><a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html">DOM2级事件</a>定义了<code>add/removeEventListener, dispatchEvent, stopPropagation, preventDefault, initEvent, createEvent</code>等方法，而<code>add/removeEventListener</code>的第二个参数类型是<code>EventListener</code>，在<a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-EventListener">EventListener接口的定义</a>中可以看到要求实现<code>handleEvent</code>方法</p>
+
+<p>换言之，实现<code>Eventlistener</code>有两种方式：</p>
+
+<ul>
+<li><p><code>function</code>对象默认实现了<code>Eventlistener</code>接口</p></li>
+<li><p>给对象实现<code>handleEvent</code>方法</p></li>
+</ul>
+
+<p>更多信息请查看<a href="http://www.w3.org/TR/DOM-Level-3-Events/#dfn-event-listener">DOM3级event listener</a></p>
+
+<h2>二.用handleEvent的优缺点</h2>
+
+<h3>1.this的指向</h3>
+
+<p>以<code>addEventListener('click', obj, false);</code>方式添加事件处理器后，事件处理函数<code>obj.handleEvent</code>中的this自然是指向obj的</p>
+
+<p>以<code>addEventListener(strEventType, func, false/true);</code>方式添加事件处理器后，事件处理函数<code>func</code>中的this是指向事件处理器的宿主元素（说白了就是<code>ele.addEventListener</code>中的ele），例如：</p>
+
+<pre><code>var ele = document.getElementById('test');
+function handler(e) {
+    console.log(this === ele);  // true
+}
+ele.addEventListener('click', handler, false);
+</code></pre>
+
+<p>用<code>addEventListener('click', obj, false);</code>好处是可以直接使用obj对象的私有属性，可以对比来看：</p>
+
+<pre><code>var obj = {
+    // ...
+    attr: 1,
+    handleEvent: function() {
+        // ...
+        console.log(this.attr); // undefined，因为事件触发后，this是指向宿主元素body的，而body没有attr属性
+    }
+}
+document.body.addEventListener('click', obj.handleEvent, false);
+</code></pre>
+
+<h3>2.动态改变事件处理器</h3>
+
+<p>可以动态地改变事件处理器，例如：<code>obj.handleEvent = obj.handler2;</code>或者<code>obj.handleEvent = fun;</code>，非常方便，不用先<code>remove再add</code></p>
+
+<h3>3.缺点</h3>
+
+<p>缺点不在兼容性上（DOM2级事件IE9+支持，换句话说，能用addEventListener的地方就能用obj.handleEvent），而是可读性方面的。笔者自认为看过不少关于JS的书籍，但一直没有见过这种用法，所以，写出来别人看不看得明白是个问题</p>
+
+<h3>参考资料</h3>
+
+<ul>
+<li><a href="http://www.tuicool.com/articles/uIfeM3V">addEventListener之handleEvent</a>：原文404了，只好贴上转载版</li>
+</ul>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			发布于<a href="http://www.ayqy.net/blog/handleevent%e4%b8%8eaddeventlistener/" title="22:32" rel="bookmark"><time class="entry-date" datetime="2015-07-20T22:32:35+08:00">2015-07-20</time></a> 分类：<a href="http://www.ayqy.net/blog/category/js/" rel="category tag">JS</a> <span class="by-author">作者：<span class="author vcard"><a class="url fn n" href="http://www.ayqy.net/blog/author/admin_ayqy/" title="查看所有由ayqy发布的文章" rel="author">ayqy</a></span> </span>
+12 阅读
+			<span class="edit-link"><a class="post-edit-link" href="http://www.ayqy.net/cms/wordpress/wp-admin/post.php?post=667&action=edit">编辑</a></span>					</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+				<nav class="nav-single">
+					<h3 class="assistive-text">文章导航</h3>
+					<span class="nav-previous"><a href="http://www.ayqy.net/blog/%e4%b8%ad%e4%bb%8b%e8%80%85%e6%a8%a1%e5%bc%8f_javascript%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f5/" rel="prev"><span class="meta-nav">←</span> 中介者模式_JavaScript设计模式5</a></span>
+					<span class="nav-next"></span>
+				</nav><!-- .nav-single -->
+
+				
+<div id="comments" class="comments-area">
+
+	
+	
+									<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://www.ayqy.net/blog/handleEvent%E4%B8%8EaddEventListener/#respond" style="display:none;">取消回复</a></small></h3>
+									<form action="http://www.ayqy.net/cms/wordpress/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="logged-in-as">以<a href="http://www.ayqy.net/cms/wordpress/wp-admin/profile.php">ayqy</a>的身份登录。<a href="http://www.ayqy.net/cms/wordpress/wp-login.php?action=logout&redirect_to=http%3A%2F%2Fwww.ayqy.net%2Fblog%2Fhandleevent%25e4%25b8%258eaddeventlistener%2F&_wpnonce=3ecbaf0da7" title="登出此帐户">登出？</a></p>																			<p class="comment-form-comment"><label for="comment">评论</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-describedby="form-allowed-tags" aria-required="true"></textarea></p>						<p class="form-allowed-tags" id="form-allowed-tags">您可以使用这些<abbr title="HyperText Markup Language">HTML</abbr>标签和属性： <code>&lt;a href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" class="submit" value="发表评论">
+							<input type="hidden" name="comment_post_ID" value="667" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+						</p>
+						<input type="hidden" id="_wp_unfiltered_html_comment_disabled" name="_wp_unfiltered_html_comment" value="a4d8355d2a"><script>(function(){if(window===window.parent){document.getElementById('_wp_unfiltered_html_comment_disabled').name='_wp_unfiltered_html_comment';}})();</script>
+					</form>
+							</div><!-- #respond -->
+			
+</div><!-- #comments .comments-area -->
+			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+			<div id="secondary" class="widget-area" role="complementary">
+			<aside id="search-2" class="widget widget_search"><form role="search" method="get" id="searchform" class="searchform" action="http://www.ayqy.net/blog/">
+				<div>
+					<label class="screen-reader-text" for="s">搜索：</label>
+					<input type="text" value="" name="s" id="s">
+					<input type="submit" id="searchsubmit" value="搜索">
+				</div>
+			</form></aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h3 class="widget-title">近期文章</h3>		<ul>
+					<li>
+				<a href="http://www.ayqy.net/blog/handleevent%e4%b8%8eaddeventlistener/">handleEvent与addEventListener</a>
+						</li>
+					<li>
+				<a href="http://www.ayqy.net/blog/%e4%b8%ad%e4%bb%8b%e8%80%85%e6%a8%a1%e5%bc%8f_javascript%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f5/">中介者模式_JavaScript设计模式5</a>
+						</li>
+					<li>
+				<a href="http://www.ayqy.net/blog/%e8%a7%82%e5%af%9f%e8%80%85%e6%a8%a1%e5%bc%8f_javascript%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f4/">观察者模式_JavaScript设计模式4</a>
+						</li>
+					<li>
+				<a href="http://www.ayqy.net/blog/%e5%8d%95%e4%be%8b%e6%a8%a1%e5%bc%8f_javascript%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f3/">单例模式_JavaScript设计模式3</a>
+						</li>
+					<li>
+				<a href="http://www.ayqy.net/blog/%e6%a8%a1%e5%9d%97%e6%a8%a1%e5%bc%8f_javascript%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f2/">模块模式_JavaScript设计模式2</a>
+						</li>
+					<li>
+				<a href="http://www.ayqy.net/blog/%e6%9e%84%e9%80%a0%e5%99%a8%e6%a8%a1%e5%bc%8f_javascript%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f1/">构造器模式_JavaScript设计模式1</a>
+						</li>
+					<li>
+				<a href="http://www.ayqy.net/blog/%e5%93%8d%e5%ba%94%e6%97%b6%e9%97%b4%e7%9a%843%e4%b8%aa%e9%87%8d%e8%a6%81%e7%95%8c%e9%99%90/">响应时间的3个重要界限</a>
+						</li>
+					<li>
+				<a href="http://www.ayqy.net/blog/%e6%96%87%e4%bb%b6%e6%8b%96%e6%94%be%e4%b8%8a%e4%bc%a0/">文件拖放上传</a>
+						</li>
+					<li>
+				<a href="http://www.ayqy.net/blog/%e5%bd%b1%e5%93%8d%e5%8a%9b/">影响力</a>
+						</li>
+					<li>
+				<a href="http://www.ayqy.net/blog/html5%e6%8b%96%e6%94%be%ef%bc%88drag-drop%ef%bc%89/">HTML5拖放（Drag &amp; Drop）</a>
+						</li>
+				</ul>
+		</aside><aside id="recent-comments-2" class="widget widget_recent_comments"><h3 class="widget-title">近期评论</h3><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link"><a href="http://www.ayqy.net/" rel="external nofollow" class="url">ayqy</a></span>发表在《<a href="http://www.ayqy.net/blog/%e5%a6%82%e4%bd%95%e5%90%91%e5%89%8d%e8%be%88%e8%af%b7%e6%95%99%e9%97%ae%e9%a2%98%ef%bc%9f/#comment-15">如何向前辈请教问题？</a>》</li><li class="recentcomments"><span class="comment-author-link">李富荣</span>发表在《<a href="http://www.ayqy.net/blog/%e5%a6%82%e4%bd%95%e5%90%91%e5%89%8d%e8%be%88%e8%af%b7%e6%95%99%e9%97%ae%e9%a2%98%ef%bc%9f/#comment-14">如何向前辈请教问题？</a>》</li><li class="recentcomments"><span class="comment-author-link">不锈钢网</span>发表在《<a href="http://www.ayqy.net/blog/sublime-text2%e6%8f%92%e4%bb%b6%e9%85%8d%e7%bd%ae/#comment-8">Sublime Text2插件配置</a>》</li><li class="recentcomments"><span class="comment-author-link">ayqy</span>发表在《<a href="http://www.ayqy.net/blog/web%e5%89%8d%e7%ab%af%e5%bc%80%e5%8f%91%e7%bb%86%e5%be%ae%e5%b8%b8%e8%af%86/#comment-6">Web前端开发细微常识</a>》</li><li class="recentcomments"><span class="comment-author-link">前端优化：雅虎35条 | 粉笔君</span>发表在《<a href="http://www.ayqy.net/blog/%e5%89%8d%e7%ab%af%e4%bc%98%e5%8c%96%ef%bc%9a%e9%9b%85%e8%99%8e35%e6%9d%a1/#comment-3">前端优化：雅虎35条</a>》</li></ul></aside><aside id="archives-2" class="widget widget_archive"><h3 class="widget-title">文章归档</h3>		<ul>
+	<li><a href="http://www.ayqy.net/blog/2015/07/">2015年七月</a>&nbsp;(10)</li>
+	<li><a href="http://www.ayqy.net/blog/2015/06/">2015年六月</a>&nbsp;(15)</li>
+	<li><a href="http://www.ayqy.net/blog/2015/05/">2015年五月</a>&nbsp;(13)</li>
+	<li><a href="http://www.ayqy.net/blog/2015/04/">2015年四月</a>&nbsp;(17)</li>
+	<li><a href="http://www.ayqy.net/blog/2015/03/">2015年三月</a>&nbsp;(41)</li>
+		</ul>
+</aside><aside id="categories-2" class="widget widget_categories"><h3 class="widget-title">分类目录</h3>		<ul>
+	<li class="cat-item cat-item-71"><a href="http://www.ayqy.net/blog/category/algorithm/">Algorithm</a> (7)
+</li>
+	<li class="cat-item cat-item-49"><a href="http://www.ayqy.net/blog/category/android/">Android</a> (4)
+</li>
+	<li class="cat-item cat-item-47"><a href="http://www.ayqy.net/blog/category/css/">CSS</a> (12)
+</li>
+	<li class="cat-item cat-item-6"><a href="http://www.ayqy.net/blog/category/programming/design_pattern/">Design_Pattern</a> (21)
+</li>
+	<li class="cat-item cat-item-147"><a href="http://www.ayqy.net/blog/category/programming/front-end/">Front-End</a> (5)
+</li>
+	<li class="cat-item cat-item-2"><a href="http://www.ayqy.net/blog/category/html/">HTML</a> (7)
+</li>
+	<li class="cat-item cat-item-133"><a href="http://www.ayqy.net/blog/category/http/">HTTP</a> (2)
+</li>
+	<li class="cat-item cat-item-48"><a href="http://www.ayqy.net/blog/category/js/">JS</a> (30)
+</li>
+	<li class="cat-item cat-item-51"><a href="http://www.ayqy.net/blog/category/%e5%bf%83%e5%be%97%e6%84%9f%e6%82%9f/">Mind</a> (10)
+</li>
+	<li class="cat-item cat-item-44"><a href="http://www.ayqy.net/blog/category/programming/regex/">Regular_Expression</a> (1)
+</li>
+	<li class="cat-item cat-item-52"><a href="http://www.ayqy.net/blog/category/%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88/">Solution</a> (9)
+</li>
+	<li class="cat-item cat-item-125"><a href="http://www.ayqy.net/blog/category/tool/">Tool</a> (7)
+</li>
+	<li class="cat-item cat-item-50"><a href="http://www.ayqy.net/blog/category/%e7%b3%bb%e5%88%97%e4%b8%93%e9%a2%98/">Topic</a> (4)
+</li>
+	<li class="cat-item cat-item-53"><a href="http://www.ayqy.net/blog/category/%e5%b0%8f%e7%8e%a9%e5%85%b7/">Toy</a> (2)
+</li>
+		</ul>
+</aside><aside id="meta-2" class="widget widget_meta"><h3 class="widget-title">功能</h3>			<ul>
+			<li><a href="http://www.ayqy.net/cms/wordpress/wp-admin/">管理站点</a></li>			<li><a href="http://www.ayqy.net/cms/wordpress/wp-login.php?action=logout&_wpnonce=3ecbaf0da7">登出</a></li>
+			<li><a href="http://www.ayqy.net/blog/feed/">文章<abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://www.ayqy.net/blog/comments/feed/">评论<abbr title="Really Simple Syndication">RSS</abbr></a></li>
+<li><a href="https://cn.wordpress.org/" title="基于WordPress，一个优美、先进的个人信息发布平台。">WordPress.org</a></li>			</ul>
+</aside>		</div><!-- #secondary -->
+		</div><!-- #main .wrapper -->
+	<footer id="colophon" role="contentinfo">
+		<div class="site-info">
+						<a href="http://cn.wordpress.org/" title="优雅的个人发布平台">Powered by WordPress</a>
+		</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<script type="text/javascript" src="./handleEvent与addEventListener   黯羽轻扬_files/comment-reply.min.js"></script>
+<script type="text/javascript" src="./handleEvent与addEventListener   黯羽轻扬_files/navigation.js"></script>
+
+<div id="cli_dialog"></div></body></html>
