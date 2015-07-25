@@ -1,0 +1,63 @@
+border-image的使用技巧
+
+摘要
+
+border-image是CSS3属性，四个值切出九宫格不难理解，但存在一些小技巧与注意事项
+
+##一.兼容性
+
+效果好不好都不要紧，第一重要的是兼容性，结论：如果不用考虑IE浏览器的话，可以放心使用`border-image`。具体请查看[caniuse](http://caniuse.com/#search=border-image)
+
+低版本的Android和IOS Safari都需要加供应商前缀才能生效，Opera也需要添上前缀，所以为了最佳兼容性，需要添上除`-ms-`以外的所有前缀（IE11/IE Mobile 11直接直接标准规范，[11-]完全不支持）
+
+##二.具体语法
+
+常用的写法：
+
+    border-image：url("bd.png") 10 20 30 40 repeat;
+    border-width: 10px 20px 30px 40px;
+
+注意：10 20 30 40是切分的位置，而且*不能加px、em*等单位，只能是数值（单位默认是px）或者百分比。示例代码表示距上边10px，距右边20px，距下边30px，距左边40px处都有切割线，四刀切出九宫格。这四个参数可以缩写成1、2或者3个，规则和`border-width`一样，属性名是`border-image-slice`
+
+如果重复性是默认的stretch，切出九宫格后规则是四角不变，其他格子内容都拉伸
+
+repeat参数也比较特别，因为*不存在`no-repeat`*，只有repeat（重复）、round（平铺）和stretch（拉伸）。默认值是*stretch（拉伸）*。注意平铺和重复的区别：
+
+>  这么比方吧，您从万科地产买了个99.5m*99.5m的毛坯房，地面要贴瓷砖，都是1m*1m的正方形瓷砖。如果是“平铺”，对不起，这1m边长的瓷砖不行，要处理！怎么处理法？很简单，每个瓷砖压成0.995m*0.995m的，这样就可以了，所以，平铺就是以完整的单元铺满整个区域。如果是重复，就直接把这1m*1m的瓷砖从一个角落一个一个的放置，放到头放不下了怎么办？直接把瓷砖从中间“咔”掉，于是最后会在房子的边角看到很多半截的瓷砖。
+
+（引自[CSS3 border-image详解、应用及jQuery插件 «  张鑫旭-鑫空间-鑫生活](http://www.zhangxinxu.com/wordpress/2010/01/css3-border-image%E8%AF%A6%E8%A7%A3%E3%80%81%E5%BA%94%E7%94%A8%E5%8F%8Ajquery%E6%8F%92%E4%BB%B6/)）
+
+##三.小技巧
+
+###1.保证`border-width`和`borer-image-slice`值相同
+
+能够避免多次缩放带来的图像失真
+
+###2.如何保证两端不缩放
+
+有些时候需要保证两端不缩放，比如tab页标签，保证左右两端不缩放，只把中间部分拉长，解决方案如下：
+
+1.  先设置`border-image-slice`的top/bottom值等于图片高度，bottom/top值为0，这样九宫格就少了2行（中间行和底部/顶部行）。剩余的一行恰好是顶部行/底部行，左右两端就不会缩放了
+
+2.  再设置`border-width`的值与`border-image-slice`相同
+
+3.  子元素相对于父元素绝对定位，并设置负`margin`（把子元素放在父元素的边框上）
+
+    因为父元素边框已经占用了子元素的位置，必须给子元素设置`position: absolute;`让它脱离标准文档流，不占空间
+
+###3.如何填充中心格
+
+标准`border-image`实现中，中心格不会被填充，而`-webkit-`实现中心格会被填充，所以需要这样做才能保证中心格被填充：
+
+    -moz-border-image: url("../img/btn-half.png") fill 36 20 0 20;
+    -o-border-image: url("../img/btn-half.png") 36 20 0 20;
+    -webkit-border-image: url("../img/btn-half.png") 36 20 0 20;
+    border-image: url("../img/btn-half.png") fill 36 20 0 20;
+
+Opera和Chrome的理解一致，而Mozilla符合标准实现
+
+###参考资料
+
+-  [CSS3 border-image 不同浏览器的表现记录](http://blog.csdn.net/jjbob77/article/details/8263073)评论部分
+
+-  

@@ -1,0 +1,166 @@
+工厂模式_JavaScript设计模式9
+
+摘要：
+
+工厂模式，顾名思义，是用来创建对象的，负责封装复杂的对象创建过程，提供简单的功能入口。本文详细介绍JavaScript实现的工厂模式
+
+##零.鸭子类型（API契约）
+
+开始之前先看点有意思的东西，[鸭子类型](http://baike.baidu.com/link?url=Yma0O09VXIEbIL5RwzABuyokWXspvvLaz-X_TpVnOTVvsR8XjinCfojBgTYuCtfP0QrX8pOu9l0b5SIjd9raH_)简单的说就是“行为决定类型”。
+
+不同于Java等有强制编译时类型检查的语言，JavaScript是动态类型的，支持鸭子类型。例如：
+
+    function getDinner(chief) {
+        chief.cook('DINNER');
+    }
+
+    var littleBoy = {
+        cook: function() {
+            // ...
+        }
+    }
+    var dog = {
+        wang: {
+            // ...
+        }
+    }
+    var dinner1 = getDinner(littleBoy);
+    // var dinner2 = getDinner(dog);    // Uncaught TypeError: chief.cook is not a function
+
+我们定义了一个getDinner方法，参数要求是chief，相当于在语义上约束了类型Chief，该类型的定义是只要有cook方法的都算。从上面的测试结果可以看出：类型检查是发生在运行时（Runtime）的，如果类型不符就抛出Error。嗯，“行为决定类型”没错吧？
+
+##一.工厂模式
+
+    function LittleDog() {
+        // ...
+    }
+    function LovelyDog() {
+        // ...
+    }
+    function BeautifulDog() {
+        // ...
+    }
+
+    function DogFactory() {}
+
+    DogFactory.prototype.type = LittleDog;  // 默认创建LittleDog
+
+    DogFactory.prototype.getDog = function(spec) {
+        spec = spec || {};
+
+        if (spec.type === 'LovelyDog') {
+            this.type = LovelyDog;
+        }
+        else if (spec.type === 'BeautifulDog') {
+            this.type = BeautifulDog;
+        }
+
+        return new this.type(spec);
+    }
+
+    // test
+    var dogFactory = new DogFactory();
+    var dog1 = dogFactory.getDog(); // 创建默认的littledog
+    var dog2 = dogFactory.getDog({
+        type: 'LovelyDog',
+        attr: 'val' // 其他初始化数据，由spec传递给具体构造器
+    });
+
+上面的实现就是JavaScript版的工厂模式，把工厂的所有属性都放在了原型对象上，在`getDog`内部覆盖原型对象上的`type`，有点单例模式的味道。
+
+##二.工厂模式的优缺点
+
+###1.优点
+
+1.  降低了创建对象过程的复杂性
+
+  工厂屏蔽了对象与当前环境的联系，调用工厂创建对象是不需要考虑当前环境
+
+2.  易于管理相似的小型对象或者组件
+
+  对象/组件之间只有些微差异时，使用工厂模式直接生产对象是比继承更好的选择
+
+3.  便于生产“鸭子类型”的对象
+
+  比如定义了一个鸭子类型Chief，可以用工厂方法来生产该类型的对象（在工厂方法里给对象添上cook方法即可），而不需要为了定义类型而定义类型
+
+###2.缺点
+
+1.  存在额外的开销
+
+  工厂模式的本质是对一组相关构造函数的二次封装，因此会带来额外的开销（多了一层）
+
+2.  不利于单元测试
+
+  对象创建的过程被藏在了工厂后面，如果对象创建过程非常复杂的话，可能会给单元测试带来问题
+
+##三.抽象工厂模式
+
+用JavaScript也可以实现抽象工厂模式，而且实现起来要比Java简单一些，示例代码如下：
+
+    var factory = (function() {
+        // 存储车辆类型
+        var types = {};
+
+        return {
+            getVechicle: function(type, customizations) {
+                var Vechicle = types[type];
+                return (Vechicle) ? new Vechicle(customizations) : null;
+            },
+
+            registerVechicle: function(type, Vechicle) {
+                var proto = Vechicle.prototype;
+
+                // 只注册实现车辆契约的类
+                if (proto.drive && proto.breakDown) {
+                    types[type] = Vechicle;
+                }
+            }
+        }
+    })();
+
+抽象工厂提供`registerXXX`接口统一管理构造方法，并在内部用“API契约”约束类型。注册过构造方法后调用`getVechicle`创建对象即可，例如：
+
+    // 构造方法（简单起见，直接返回参数对象）
+    function Car(arg) {
+        return arg;
+    }
+    Car.prototype.drive = function() {};
+    Car.prototype.breakDown = function() {};
+    function Truck(arg) {
+        return arg;
+    }
+    Truck.prototype = Car.prototype;
+
+    // 用法
+    factory.registerVechicle('car', Car);
+    factory.registerVechicle('truck', Truck);
+
+    // 基于抽象车辆类型实例化一个新car对象
+    var car = factory.getVechicle('car', {
+        color: 'lime green',
+        state: 'like new'
+    });
+
+    // 同理，实例化一个新truck对象
+    var truck = factory.getVechicle('truck', {
+        wheelSize: 'medium',
+        color: 'neon yellow'
+    });
+
+    console.log(car);
+    console.log(truck);
+
+对比工厂模式的第一个例子，这里其实只是把构造函数和工厂分离开了（把`if(type === 'xxx')`从`factory.create`里拿出来了），可以灵活地注册构造函数
+
+和经典的抽象工厂模式的意义有很大差别，最多只能算是对工厂模式的一种增强（优化），但这都没关系，毕竟不是为了追求使用设计模式而使用，只要能达到*适度解耦*的目的就好
+
+关于抽象工厂模式的更多信息，请查看参考资料部分引用的2篇博文
+
+###参考资料
+
+-  《JavaScript设计模式》
+
+-  [23种设计模式（3）：抽象工厂模式](http://blog.csdn.net/zhengzhb/article/details/7359385)
+
+-  [设计模式之工厂模式（Factory Pattern）](http://www.ayqy.net/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%EF%BC%88factory-pattern%EF%BC%89/)
