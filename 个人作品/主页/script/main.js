@@ -100,7 +100,7 @@ function(){
 		  this.onreadystatechange = null;
         }
         else{
-          //do nothing 
+          //do nothing
         }
       }
     }
