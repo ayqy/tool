@@ -54,10 +54,10 @@ repeat参数也比较特别，因为*不存在`no-repeat`*，只有repeat（重�
     -webkit-border-image: url("../img/btn-half.png") 36 20 0 20;
     border-image: url("../img/btn-half.png") fill 36 20 0 20;
 
-Opera和Chrome的理解一致，而Mozilla符合标准实现
+Opera和Chrome的理解一致但与标准规范不同，而Mozilla符合标准实现
 
 ###参考资料
 
 -  [CSS3 border-image 不同浏览器的表现记录](http://blog.csdn.net/jjbob77/article/details/8263073)评论部分
 
--  
+-  [CSS3 border-image详解、应用及jQuery插件](http://www.zhangxinxu.com/wordpress/2010/01/css3-border-image%E8%AF%A6%E8%A7%A3%E3%80%81%E5%BA%94%E7%94%A8%E5%8F%8Ajquery%E6%8F%92%E4%BB%B6/)
