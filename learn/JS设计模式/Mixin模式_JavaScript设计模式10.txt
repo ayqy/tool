@@ -1,0 +1,81 @@
+Mixin模式_JavaScript设计模式10
+
+摘要
+
+Mixin模式可以实现多重继承，可以把Mixin对象当做一个个零件仓库，可以直接把零件仓库里的零件给现有对象装上，能够方便地复用代码、增强现有对象。本文详细介绍JavaScript实现的Mixin模式
+
+##一.Mixin模式与代码复用
+
+最常用的代码复用方式是继承，子类会获得父类的所有属性，所以可能会继承到多余的属性。一种解决方案是把父类的属性拆分到多个接口类中，子类从这些接口类中“自取”需要继承的属性即可，但Java中的接口是完全抽象的（不包含实现），无法实现代码复用。采用组合能缓解这个问题，但不能从根本上解决它，组合需要持有各个依赖对象的引用，在此基础上再次封装并提供接口，增加了复杂性
+
+如果只想复用现有对象的一些属性，Mixin模式无疑是最好的选择，因为完全不需要牵扯复杂的类层次关系。在现有继承机制上，我们希望能够实现*部分继承（只从父类获取需要的一部分属性）与多重继承（可以从多个父类获得属性）*，Mixin模式就做了这个事情
+
+##二.Mixin模式的实现
+
+Mixin模式的实现其实就是一种属性复制，示例代码如下：
+
+    // 零件仓库1
+    function Moveable() {}
+    Moveable.prototype.walk = function() {
+        console.log('walked slowly');
+    }
+    Moveable.prototype.run = function() {
+        console.log('ran quickly');
+    }
+    Moveable.prototype.jump = function() {
+        // ...
+    }
+    // 零件仓库2
+    function Souled() {}
+    Souled.prototype.smile = function(age) {
+        console.log('smiled as ' + age + ' year\'s old kid');
+    }
+    // 零件仓库3
+
+    // mixin
+    function augment(sub, sup) {
+        // 继承所有属性
+        if (arguments.length === 2) {
+            for(var attr in sup.prototype) {
+                sub.prototype[attr] = sup.prototype[attr];
+            }
+        }
+        // 继承部分属性
+        else if(arguments.length > 2) {
+            for (var i = 2; i < arguments.length; i++) {
+                sub.prototype[arguments[i]] = sup.prototype[arguments[i]];
+            }
+        }
+        else {
+            // do nothing
+        }
+    }
+    
+    // 需要增强的类
+    function Robot(name) {
+        this.name = name;
+    }
+
+    // 增强
+    augment(Robot, Moveable, 'walk', 'run');    // 从Moveable继承walk和run
+    augment(Robot, Souled);                     // 继承Souled的全部属性
+
+    // test
+    var robot = new Robot('little boy');
+    robot.walk();       // walked slowly
+    robot.run();        // ran quickly
+    robot.smile(12);    // smiled as 12 year's old kid
+
+很容易就实现了部分继承和多重继承，解除了经典继承机制的束缚，使得代码复用更加灵活
+
+一些JS库提供了Mixin的实现，例如`Underscore`的`_.extend`方法、`JQuery`的`extend`方法、YUI的`mix/augment/extend/merge`方法等等
+
+##三.Mixin模式的缺点
+
+Mixin是一种很灵活的代码复用方式，但把功能注入原型对象会导致原型污染和函数来源方面的不确定性，在大型系统中可能是一个严重的问题。可以通过详细的文档来解决函数来源不确定的问题，但原型污染是不可避免的
+
+###参考资料
+
+-  《JavaScript设计模式》
+
+-  [掺合模式（Mixin）](http://www.cnblogs.com/snandy/archive/2013/05/24/3086663.html)
